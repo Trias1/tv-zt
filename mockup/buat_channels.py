@@ -67,7 +67,9 @@ def daerah(nasional):
     for c in parse_m3u(path):
         name = re.sub(r"\s*\[[^\]]*\]|\s*\(\d{3,4}[pi]\)", "", c["name"]).strip()
         low = name.lower()
-        if low in lihat or any(low.startswith(n) or n.startswith(low) for n in pakai) or low.startswith("mdtv") \
+        # Hanya duplikat yang namanya persis sama dengan channel nasional yang dibuang
+        # (dulu memakai "diawali", sehingga TVRI Jawa Tengah/Jogja/Bali, dll. ikut terbuang).
+        if low in lihat or low in pakai or low.startswith("mdtv") \
                 or "inisemar" in c["url"]:
             continue
         lihat.add(low)

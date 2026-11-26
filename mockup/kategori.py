@@ -33,7 +33,7 @@ ANIME_JP = re.compile(r"^retrocrush$|^pluto tv anime$|^boruto", re.I)
 BARAT = {"US", "GB", "CA", "AU", "NZ", "IE"}
 BUKAN_BARAT = re.compile(r"\bFM\b|sexy|pamir|jalwa|\bMBC\b", re.I)  # radio FM, channel non-barat, dan yang berbau dewasa
 LATIN = re.compile(r"latin|latino|reggaeton|salsa|m[uú]sica|bachata|cumbia|mariachi|ranchera|banda\b|tropical|norte[nñ]", re.I)
-MUSIK_ID = re.compile(r"music|musik|dangdut|karaoke|lagu|\bsmtv\b", re.I)
+MUSIK_ID = re.compile(r"music|musik|dangdut|karaoke|lagu|campursari|keroncong|\bsmtv\b|suara surabaya", re.I)
 MEREK_MUSIK = re.compile(r"\bMTV|\bVH1\b|vevo|stingray|clubbing|trace|deluxe|mezzo|qwest|\bCMT\b|\bkiss\b|hits|pop|rock|jazz|country|dance|"
                          r"\bedm\b|billboard|r&b|hip ?hop|80s|90s|00s|retro", re.I)
 ROHANI = re.compile(r"gospel|praise|worship|christ|church|jesus|faith|hymn|3abn|\bgod\b|holy|bible|catholic|evangel|messian|"
@@ -116,7 +116,8 @@ def susun(negara):
                           ("Musik Barat", barat)):
             for n, c, k in semua:
                 key = kunci(c["name"])
-                if key in sudah or RADIO.search(c["name"]) or rohani(c, k) or not ok(n, c, k):
+                # radio bervideo Indonesia (mis. Suara Surabaya) tetap boleh di Musik Indonesia
+                if key in sudah or (RADIO.search(c["name"]) and n["code"] != "ID") or rohani(c, k) or not ok(n, c, k):
                     continue
                 sudah.add(key)
                 items.append([n["code"], c["no"], label])
