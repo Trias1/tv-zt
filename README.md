@@ -1,5 +1,7 @@
 # TV ZT — IPTV gratis untuk STB Android TV bekas (ZTE B860H)
 
+🇬🇧 [English summary](#english-summary) · 🇮🇩 Bahasa Indonesia (di bawah)
+
 Proyek oprek STB bekas IndiHome **ZTE B860H V5** (Android TV 10, RAM 2 GB) jadi TV internet yang bersih dan enak dipakai keluarga:
 
 - **TV ZT** — aplikasi IPTV buatan sendiri (Java WebView + HTML/hls.js) untuk ribuan channel gratis dari [iptv-org](https://github.com/iptv-org/iptv).
@@ -111,6 +113,28 @@ Pembaruan rutin channel nasional: `iptv\update-playlist.ps1` (tambahkan `-Audit`
 - TV ZT **tidak menyimpan atau menyiarkan ulang video**; aplikasi hanya memutar link publik dari iptv-org. Sebagian link adalah siaran ulang tidak resmi dan bisa mati sewaktu-waktu — gunakan dengan bijak.
 - Jangan menonaktifkan semua launcher bawaan di box ZTE (bisa memicu reset pabrik); cukup arahkan tombol Home ke launcher baru.
 - Dibuat dengan bantuan Claude (Anthropic).
+
+## English summary
+
+**TV ZT** is a free, open-source IPTV app for Android TV set-top boxes, built and tested on a second-hand **ZTE B860H V5** (Android 10, 2 GB RAM) from Indonesian ISP IndiHome. The app UI is in Indonesian.
+
+**Features**
+- ~9,700 live channels from ~170 countries, sourced from [iptv-org](https://github.com/iptv-org/iptv); dead links are removed by an automated deep audit (playlist → variant → video segment)
+- Indonesian national TV with an **EPG** (programme guide) and "now playing" list
+- Dashboard and navbar categories: Indonesia, a curated "Indovision" package, Islam (live Makkah & Madinah), Anime, Kids, Movies, News & Sports, Music, Lo-fi, and all countries by region
+- **Automatic Indonesian translation of subtitles** for foreign channels that send text subtitles (WebVTT / CEA-608), marked **SUB ID**
+- Channel logos, splash screen, full D-pad remote navigation, ▲▼ channel zapping like a regular TV
+- **Signal scan**: re-check selected groups directly from the box; dead channels are hidden for 3 days, recovered ones come back
+- Your own .m3u playlists (from a URL or file), as a new card or merged into a country
+- Tuned for a 2 GB box: lazy-loaded long lists, heavy animations disabled on-device, playback fully stopped on the dashboard
+
+**Install** — download `TV-ZT-v1.0.apk` from [Releases](https://github.com/Trias1/tv-zt/releases/latest) and sideload it (e.g. *Send Files to TV* + a file manager, or `adb install -r TV-ZT-v1.0.apk`). Android 7.0+.
+
+**Build** — Python 3 (+ Pillow), JDK 17+, Android SDK: run `python siapkan.py` and `gradlew assembleRelease` inside `tvzt/`. Channel data scripts live in `iptv/` and `mockup/`.
+
+**Tech** — Java WebView shell (`tvzt/`) with per-channel Referer/User-Agent injection, native splash and signal checker; UI in a single HTML file (`mockup/tv-kita.html`) using hls.js 1.6 (incl. H.265 in MPEG-TS); data pipeline in Python.
+
+**Notes** — TV ZT does not host or re-broadcast any video; it only plays public links listed by iptv-org, some of which are unofficial restreams and may go offline. Built with help from Claude (Anthropic).
 
 ## Lisensi
 
