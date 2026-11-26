@@ -651,7 +651,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
     const base = BASE.map((n) => ({ ...n, channels: n.channels.slice() }));
     const cards = [];
     for (const pl of PL) {
-      const chs = pl.channels.map((c, i) => ({ ...c, no: i + 1 }));
+      const chs = pl.channels.map((c, i) => ({ ...c, no: i + 1, u: 1 }));  // u = dari playlist saya (logo dicari sendiri)
       if (pl.mode === "merge") {
         const t = base.find((n) => n.code === pl.target) || base[0];
         const start = Math.max(1000, ...t.channels.map((c) => c.no)) + 1;
@@ -839,6 +839,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
         const g = /group-title="([^"]*)"/.exec(l);
         cur = { name: l.split(",").slice(1).join(",").replace(/\s*\[[^\]]*\]|\s*\(\d{3,4}[pi]\)/g, "").trim(), no: no ? +no[1] : out.length + 1 };
         if (g && g[1]) cur.group = g[1];
+        const lg = /tvg-logo="(https?:\/\/[^"]+)"/.exec(l); if (lg) cur.logo = lg[1];
       } else if (l.startsWith("#EXTVLCOPT:http-referrer=")) { if (cur) cur.referer = l.split("=").slice(1).join("="); }
       else if (l.startsWith("#EXTVLCOPT:http-user-agent=")) { if (cur) cur.ua = l.split("=").slice(1).join("="); }
       else if (l && !l.startsWith("#") && cur) { cur.url = l; out.push(cur); cur = null; }
@@ -1118,9 +1119,26 @@ html.app .screen, html.app .screen * { animation: none !important; }
   /* Logo channel dari logos.js (dimuat setelah Dashboard tampil; tanpa logo → nomor & nama seperti biasa). */
   const AWAL = { "i:": "https://i.imgur.com/", "w:": "https://upload.wikimedia.org/wikipedia/", "p:": "https://images.pluto.tv/" };
   /* "#" di depan = logo gelap & transparan → perlu alas terang (ditentukan iptv/check_logos.py). */
+  /* Logo untuk channel dari "Playlist saya": pakai tvg-logo di file playlist; kalau tidak ada, cocokkan nama channel
+     dengan channel iptv-org yang sudah punya logo (mis. "Trans 7 HD" → logo Trans7). Indeks nama dibuat sekali. */
+  const namaKunci = (x) => String(x || "").toLowerCase().replace(/\[[^\]]*\]|\([^)]*\)/g, " ")
+    .replace(/\b(hd|fhd|uhd|sd|4k|1080p|720p|480p|live)\b/g, " ").replace(/[^a-z0-9]+/g, "");
+  let LOGO_NAMA = null, LOGO_DARI = null;
+  function logoNama(name) {
+    const L = window.LOGOS; if (!L) return "";
+    if (LOGO_DARI !== L) {
+      LOGO_NAMA = new Map(); LOGO_DARI = L;
+      for (const n of BASE) for (const c of n.channels) {
+        const u = L[`${n.code}:${c.no}`], k = namaKunci(c.name);
+        if (u && k && !LOGO_NAMA.has(k)) LOGO_NAMA.set(k, u);
+      }
+    }
+    return LOGO_NAMA.get(namaKunci(name)) || "";
+  }
   function logoInfo(c, code) {
-    const L = window.LOGOS; if (!L || !c) return null;
-    let u = L[`${c.cc0 || code}:${c.no0 ?? c.no}`]; if (!u) return null;
+    const L = window.LOGOS; if (!c) return null;
+    if (c.u && c.logo) return { url: c.logo, alas: false };
+    let u = c.u ? logoNama(c.name) : L && L[`${c.cc0 || code}:${c.no0 ?? c.no}`]; if (!u) return null;
     const alas = u[0] === "#"; if (alas) u = u.slice(1);
     return { url: (AWAL[u.slice(0, 2)] ? AWAL[u.slice(0, 2)] + u.slice(2) : u), alas };
   }
@@ -1344,8 +1362,9 @@ html.app .screen, html.app .screen * { animation: none !important; }
     for (const c of chs) {
       if (out.length >= max) break;
       if (sembunyi(c)) continue;
-      const i = logoInfo(c, code); if (!i || ada.has(i.url)) continue;
-      ada.add(i.url);
+      const i = logoInfo(c, code), k = "w:" + String(c.name || "").toLowerCase().split(/\s+/)[0];  // satu logo per merek ("FIFA+", "FIFA+ Spain" → sekali)
+      if (!i || ada.has(i.url) || ada.has(k)) continue;
+      ada.add(i.url); ada.add(k);
       out.push(`<img class="lgd${i.alas ? " alas" : ""}" src="${esc(i.url)}" alt="" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`);
     }
     return out.length ? `<div class="logos">${out.join("")}</div>` : "";
@@ -1505,7 +1524,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
       if (!f.channels.length) return pesan("Tidak ada channel di playlist itu. Pastikan isinya format M3U.", true);
       const name = f.name || (f.file || f.url.split("/").pop() || "Playlist").replace(/\.m3u8?$/i, "");
       const pl = { id: Date.now().toString(36), name, code: kodePL(name), src: f.src, url: f.url || "", mode: f.mode,
-        target: (BASE[f.target] || BASE[0]).code, channels: f.channels, added: new Date().toISOString() };
+        target: (BASE[f.target] || BASE[0]).code, channels: f.channels, added: new Date().toISOString(), lv: 1 };
       PL.push(pl);
       if (!simpanPL()) { PL.pop(); return pesan("Penyimpanan penuh. Hapus playlist lain dulu.", true); }
       S.form = null; rebuild(); renderPlaylists();
@@ -1637,7 +1656,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
     else if (a === "pl-refresh") {
       const pl = PL.find((x) => x.id === el.dataset.id); el.textContent = "Mengunduh…";
       ambilLink(pl.url).then((t) => {
-        const chs = parseM3U(t, pl.url).channels; if (chs.length) pl.channels = chs;
+        const chs = parseM3U(t, pl.url).channels; if (chs.length) { pl.channels = chs; pl.lv = 1; }
         simpanPL(); rebuild(); renderPlaylists(); log(`"${pl.name}" diperbarui: ${pl.channels.length} channel`);
       }).catch((e) => { el.textContent = "Gagal"; log(`Gagal memperbarui "${pl.name}": ${e.message}`); });
     }
@@ -1759,6 +1778,15 @@ html.app .screen, html.app .screen * { animation: none !important; }
   tick(); setInterval(tick, 15000);
   setInterval(isiAcara, 60000);
   setTimeout(() => muatJadwal(), 4000); setInterval(() => muatJadwal(), 3600e3);
+  /* Playlist dari link yang disimpan versi lama belum menyimpan tvg-logo: unduh ulang sekali di latar belakang. */
+  setTimeout(async () => {
+    let berubah = false;
+    for (const pl of PL.filter((x) => x.src === "url" && x.url && !x.lv)) {
+      try { const chs = parseM3U(await ambilLink(pl.url), pl.url).channels; if (chs.length) { pl.channels = chs; } pl.lv = 1; berubah = true; }
+      catch (e) { log(`Logo playlist "${pl.name}" belum bisa diperbarui: ${e.message}`); }
+    }
+    if (berubah && simpanPL()) { rebuild(); if (S.screen === "dash") renderDash(); else render(); }
+  }, 8000);
   if (window.Android) document.documentElement.classList.add("app");
   const fit = () => {
     const s = Math.min(stage.clientWidth / 1920, stage.clientHeight / 1080);
