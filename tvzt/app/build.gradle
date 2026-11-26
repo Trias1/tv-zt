@@ -11,8 +11,8 @@ android {
         // Box B860H: Android 10, userspace 32-bit. Tanpa kode native, jadi APK jalan di armeabi-v7a.
         minSdk 24
         targetSdk 34
-        versionCode 4
-        versionName '1.3'
+        versionCode 5
+        versionName '1.3.1'
     }
 
     buildTypes {
