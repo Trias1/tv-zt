@@ -16,23 +16,25 @@ A weekend project that turns a second-hand IndiHome **ZTE B860H V5** set-top box
 - **Automatic subtitle translation** into the app language for foreign channels that send text subtitles (WebVTT / CEA-608), marked **SUB EN** / **SUB ID**
 - Channel logos, splash screen, full D-pad remote navigation, ▲▼ channel zapping like a regular TV
 - **Signal scan**: tick the groups you want and re-check them directly from the box; dead channels are hidden for 3 days, recovered ones come back
-- Your own .m3u playlists (from a URL or file), as a new card or merged into a country
+- Your own .m3u playlists (from a URL or file), as a new card or merged into a country — with **logos detected automatically** (`tvg-logo`, or matched by channel name) and a place in the **navbar**
+- **Bola (football)**: football channels gathered from your own playlists into one navbar group — no women's football, other sports, past matches or duplicates; live matches on top
+- **Ping & speed** in the info bar (e.g. *Ping 53 ms · 5.2 MB/s*, red when too slow), and a **"server is slow"** notice when a channel is stuck buffering for 15 s
 - **Language: English or Indonesian** (Settings → *Bahasa / Language*); English by default
 - **Time zone**: clock and programme guide follow your zone — Auto (device), WIB/WITA/WIT, Singapore, Tokyo, Makkah, Dubai, London, Berlin, New York, Los Angeles, Sydney or UTC
 - Tuned for a 2 GB box: lazy-loaded long lists, heavy animations disabled on-device, playback fully stopped on the dashboard
 
 ## Install (no root, no computer)
 
-Download **[TV-ZT-v1.2.apk](https://github.com/Trias1/tv-zt/releases/latest)** from Releases. Works on Android TV / Android set-top boxes running Android 7.0 or newer.
+Download **[TV-ZT-v1.3.apk](https://github.com/Trias1/tv-zt/releases/latest)** from Releases. Works on Android TV / Android set-top boxes running Android 7.0 or newer.
 
 1. On the TV/box, install **File Manager+** and **Send Files to TV** from the Play Store. Install **Send Files to TV** on your phone too.
-2. Download `TV-ZT-v1.2.apk` on your phone.
+2. Download `TV-ZT-v1.3.apk` on your phone.
 3. Send it to the TV: on the TV open *Send Files to TV* → **Receive**; on the phone *Send Files to TV* → **Send** → pick the APK → pick the TV. (A USB stick works too.)
 4. Allow installs: **Settings → Apps → Special app access → Install unknown apps → File Manager+ → Allow**.
 5. Open **File Manager+** → *Download* folder → select the APK → **Install** (if Play Protect warns you, choose **Install anyway**).
 6. Open **TV ZT** from the app list. The TV needs an internet connection.
 
-With a computer: `adb connect <tv-ip>:5555` then `adb install -r TV-ZT-v1.2.apk`.
+With a computer: `adb connect <tv-ip>:5555` then `adb install -r TV-ZT-v1.3.apk`.
 
 ## How to use
 

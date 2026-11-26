@@ -1,0 +1,2 @@
+const v = document.querySelector("video");
+return { screen: document.querySelector(".tv").dataset.screen, group: (document.getElementById("homeCount") || {}).textContent, name: (document.getElementById("osdName") || {}).textContent, state: (document.getElementById("osdState") || {}).textContent, net: (document.getElementById("osdNet") || {}).textContent, playing: v && !v.paused, h: v && v.videoHeight };

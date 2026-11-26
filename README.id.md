@@ -16,23 +16,25 @@ Proyek oprek STB bekas IndiHome **ZTE B860H V5** (Android TV 10, RAM 2 GB) jadi 
 - **Subtitle otomatis diterjemahkan ke bahasa Indonesia** untuk channel luar negeri yang mengirim subtitle teks (tanda **SUB ID**)
 - Logo channel, layar pembuka, navigasi penuh pakai remote D-pad, ▲▼ ganti channel seperti TV biasa
 - **Cari sinyal**: cek ulang channel per kelompok langsung dari box; yang mati disembunyikan otomatis, yang hidup lagi dimunculkan
-- Playlist sendiri (.m3u dari link/file), bisa jadi kartu baru atau digabung ke negara
+- Playlist sendiri (.m3u dari link/file), bisa jadi kartu baru atau digabung ke negara — **logo terdeteksi otomatis** (`tvg-logo` atau dicocokkan dari nama channel) dan ikut tampil di **navbar**
+- **Bola**: channel sepak bola dari playlist sendiri dikumpulkan jadi satu grup di navbar — tanpa bola wanita, olahraga lain, laga yang sudah lewat, atau nama dobel; laga live di paling atas
+- **Ping & kecepatan** di baris info (mis. *Ping 53 ms · 5.2 MB/s*, merah kalau terlalu lambat), plus pemberitahuan **"server lambat"** kalau channel macet buffering 15 detik
 - **Bahasa: Indonesia atau English** (Pengaturan → *Bahasa / Language*); versi publik bawaannya English
 - **Zona waktu**: jam dan jadwal acara mengikuti zona pilihan — Otomatis (perangkat), WIB/WITA/WIT, atau zona negara lain
 - Ringan untuk box 2 GB: daftar panjang dimuat bertahap, animasi berat dimatikan di box, siaran berhenti total di Dashboard
 
 ## Cara pasang (tanpa root, tanpa laptop)
 
-Unduh **[TV-ZT-v1.2.apk](https://github.com/Trias1/tv-zt/releases/latest)** dari halaman Releases. Bisa dipasang di TV/STB Android 7 ke atas.
+Unduh **[TV-ZT-v1.3.apk](https://github.com/Trias1/tv-zt/releases/latest)** dari halaman Releases. Bisa dipasang di TV/STB Android 7 ke atas.
 
 1. Di TV/STB, pasang **File Manager+** dan **Send Files to TV** dari Play Store. Di HP, pasang juga **Send Files to TV**.
-2. Unduh `TV-ZT-v1.2.apk` di HP.
+2. Unduh `TV-ZT-v1.3.apk` di HP.
 3. Kirim ke TV: di TV buka *Send Files to TV* → **Receive**; di HP *Send Files to TV* → **Send** → pilih APK → pilih TV. (Atau pakai flashdisk.)
 4. Izinkan pemasangan: **Setelan → Aplikasi → Akses aplikasi khusus → Instal aplikasi tidak dikenal → File Manager+ → Izinkan**.
 5. Buka **File Manager+** → folder *Download* → pilih APK → **Instal** (kalau Play Protect memperingatkan, pilih **Tetap instal**).
 6. Buka **TV ZT** dari daftar aplikasi. TV harus tersambung ke internet.
 
-Lewat laptop: `adb connect <ip-tv>:5555` lalu `adb install -r TV-ZT-v1.2.apk`.
+Lewat laptop: `adb connect <ip-tv>:5555` lalu `adb install -r TV-ZT-v1.3.apk`.
 
 ## Cara pakai
 
