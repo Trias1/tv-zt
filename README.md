@@ -12,7 +12,7 @@ A weekend project that turns a second-hand IndiHome **ZTE B860H V5** set-top box
 
 - ~9,700 live channels from ~170 countries; dead links are removed by an automated deep audit (playlist → variant → video segment)
 - Indonesian national TV (TVRI, Trans TV, Trans7, MNCTV, GTV, Metro TV, tvOne, iNews, …) with a **programme guide (EPG)** and a "now playing" list
-- Dashboard + navbar categories: **Indonesia, Indovision** (curated package), **Islam** (live Makkah & Madinah), **Sub Indo, Anime, Kids, Movies** (Hollywood), **News & Sports, Music** (Indonesian & Western), **Lo-fi & Relax**, **All countries**
+- Dashboard + navbar categories: **Indonesia, Top Picks** (curated package), **Islam** (live Makkah & Madinah), **Sub Indo, Anime, Kids, Movies** (Hollywood), **News & Sports, Music** (Indonesian & Western), **Lo-fi & Relax**, **All countries**
 - **Automatic Indonesian translation of subtitles** for foreign channels that send text subtitles (WebVTT / CEA-608), marked **SUB ID**
 - Channel logos, splash screen, full D-pad remote navigation, ▲▼ channel zapping like a regular TV
 - **Signal scan**: tick the groups you want and re-check them directly from the box; dead channels are hidden for 3 days, recovered ones come back

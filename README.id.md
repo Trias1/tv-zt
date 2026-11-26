@@ -12,7 +12,7 @@ Proyek oprek STB bekas IndiHome **ZTE B860H V5** (Android TV 10, RAM 2 GB) jadi 
 
 - ±9.700 channel hidup dari ±170 negara (link yang mati dibuang lewat audit otomatis)
 - TV nasional Indonesia (TVRI, Trans TV, Trans7, MNCTV, GTV, Metro TV, tvOne, iNews, dll.) dengan **jadwal acara** dan daftar "sedang tayang"
-- Dashboard + navbar kategori: **Indonesia, Indovision** (paket pilihan), **Islam** (live Makkah & Madinah), **Sub Indo, Anime, Anak, Film** (Hollywood), **Berita & Olahraga, Musik** (Indonesia & barat), **Lofi & Santai**, **Luar negeri**
+- Dashboard + navbar kategori: **Indonesia, Pilihan** (paket channel pilihan), **Islam** (live Makkah & Madinah), **Sub Indo, Anime, Anak, Film** (Hollywood), **Berita & Olahraga, Musik** (Indonesia & barat), **Lofi & Santai**, **Luar negeri**
 - **Subtitle otomatis diterjemahkan ke bahasa Indonesia** untuk channel luar negeri yang mengirim subtitle teks (tanda **SUB ID**)
 - Logo channel, layar pembuka, navigasi penuh pakai remote D-pad, ▲▼ ganti channel seperti TV biasa
 - **Cari sinyal**: cek ulang channel per kelompok langsung dari box; yang mati disembunyikan otomatis, yang hidup lagi dimunculkan

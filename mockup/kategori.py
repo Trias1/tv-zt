@@ -1,4 +1,4 @@
-"""Susun kelompok kategori (Indovision, Anime, Anak & Kartun, Film & Hiburan, Berita & Olahraga, Lofi & Santai).
+"""Susun kelompok kategori (Pilihan, Anime, Anak & Kartun, Film & Hiburan, Berita & Olahraga, Lofi & Santai).
 
 Kategori channel diambil dari data resmi iptv-org (iptv/api/channels.json + streams.json, dicocokkan lewat URL),
 ditambah pencocokan nama untuk anime dan lofi. Hasilnya hanya rujukan [kode negara, nomor, grup] supaya data
@@ -14,7 +14,7 @@ API = Path(__file__).resolve().parent.parent / "iptv" / "api"
 # Negara yang didahulukan (bahasa Inggris / Asia dulu), sisanya mengikuti urutan data.
 PRIORITAS = ["ID", "SG", "US", "GB", "AU", "CA", "PH", "MY", "IN", "HK", "JP", "KR", "TW", "TH", "NZ", "IE",
              "FR", "DE", "ES", "IT", "NL", "BR", "MX", "AR", "TR", "AE", "SA"]
-# Versi bahasa lain dari channel internasional dilewati untuk paket Indovision.
+# Versi bahasa lain dari channel internasional dilewati untuk paket Pilihan.
 BAHASA_LAIN = re.compile(r"espa[nñ]ol|spanish|latin|brasil|brazil|portugu|deutsch|germany|france|fran[cç]ais|arab|t[uü]rk|polsk|"
                          r"poland|czech|bulgar|hungar|romania|ukrain|russia|ital|hindi|tamil|telugu|\bcee\b|balkan|adria", re.I)
 ANIME = re.compile(r"anime|naruto|boruto|one piece|pok[eé]mon|dragon ?ball|yu-?gi|sailor moon|crunchyroll|retrocrush|toonami|"
@@ -40,7 +40,7 @@ ROHANI = re.compile(r"gospel|praise|worship|christ|church|jesus|faith|hymn|3abn|
                     r"hillsong|rohani|islam|quran|qur'an|nasheed|nasyid|sholawat|shalawat|dakwah|muslim|sufi|hindu|bhakti|bhajan|"
                     r"devotion|spirit|zion|shalom|kingdom|miracle|salvation|grace|glory|angel", re.I)
 
-# Paket Indovision: grup → daftar merek (regex nama, berapa yang diambil).
+# Paket Pilihan: grup → daftar merek (regex nama, berapa yang diambil).
 PAKET = [
     ("Film", [r"\bHBO\b", r"cinemax", r"\bAXN\b", r"^warner (tv|bros\.? tv)$", r"universal", r"paramount", r"^AMC$|^AMC (asia|thrillers|presents)", r"^FXX?$|^FX movie", r"star movies",
               r"sony (max|movies|one)", r"hallmark", r"lionsgate", r"filmrise (movies|action|western|classic)", r"pluto tv (movies|action|comedy)",
@@ -185,7 +185,7 @@ def susun(negara):
         kelompok("SANTAI", "Lofi & Santai", "lofi, jazz, lounge, alam", [("{n}", lambda c, k: ("relax" in k or bool(LOFI.search(c["name"]))) and not RADIO.search(c["name"]) and not rohani(c, k))]),
     ]
 
-    # Indovision: nasional Indonesia + satu channel terbaik per merek internasional, bernomor seperti paket TV.
+    # Pilihan: nasional Indonesia + satu channel terbaik per merek internasional, bernomor seperti paket TV.
     iv, sudah = [], set()
     idn = next(n for n in negara if n["code"] == "ID")
     for c in idn["channels"]:
@@ -202,7 +202,7 @@ def susun(negara):
                 sudah.add(key)
                 iv.append([n["code"], c["no"], grup, no]); no += 1
                 break
-    out.insert(0, {"code": "IV", "name": "Indovision", "desc": "paket pilihan Indonesia + internasional", "items": iv})
+    out.insert(0, {"code": "IV", "name": "Pilihan", "desc": "paket pilihan Indonesia + internasional", "items": iv})
     return out
 
 
