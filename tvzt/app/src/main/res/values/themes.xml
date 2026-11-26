@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.TvZt" parent="android:Theme.Material.NoActionBar.Fullscreen">
+        <!-- Sama dengan latar layar pembuka HTML (warna night), supaya tidak ada kedipan hitam saat dibuka -->
+        <item name="android:windowBackground">@color/malam</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+</resources>

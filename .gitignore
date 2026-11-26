@@ -1,0 +1,41 @@
+# --- Pribadi: jangan pernah diunggah ---
+wallpaper/*.jpg
+tema-ringan/*.jpg
+screenshot/
+backup/
+*.docx
+paket-*.txt
+*-log.txt
+build-log.txt
+.claude/
+
+# --- Proyek pihak ketiga (ambil sendiri dari github.com/Gathin23/cleanyourtv) ---
+cleanyourtv/
+
+# --- Hasil build Android ---
+tvzt/.gradle/
+tvzt/build/
+tvzt/app/build/
+tvzt/local.properties
+tvzt/app/src/main/assets/
+tvzt/app/src/main/res/drawable*/banner*.png
+*.apk
+
+# --- Data unduhan & hasil cek (bisa dibuat ulang dengan script di iptv/) ---
+iptv/api/
+iptv/negara/
+iptv/*.json
+iptv/laporan-*.txt
+iptv/id.m3u
+iptv/kandidat.m3u
+iptv/id_denstv.m3u
+mockup/channels.js
+
+# --- Cadangan lama & sampah ---
+mockup/*.sebelum-*
+mockup/hls-1.5.13.min.js
+__pycache__/
+*.pyc
+
+install-log*.txt
+tema-ringan/*.sebelum-*

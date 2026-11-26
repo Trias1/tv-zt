@@ -1,0 +1,30 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'id.zt.tv'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'id.zt.tv'
+        // Box B860H: Android 10, userspace 32-bit. Tanpa kode native, jadi APK jalan di armeabi-v7a.
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName '1.0'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            // Dipasang lewat ADB, tidak lewat Play Store: tanda tangan kunci debug supaya bisa dipasang menimpa.
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

@@ -1,0 +1,14 @@
+const w = (ms) => new Promise((r) => setTimeout(r, ms));
+TVZT.key("home"); await w(500);
+[...document.querySelectorAll("#dgrid .dtile")].find((e) => e.querySelector(".t").textContent === "Indonesia").click();
+await w(1500);
+TVZT.key("menu"); await w(800);
+const t0 = Date.now();
+document.querySelector('#setwrap [data-act="sinyal"]').click();
+await w(2000);
+const tengah = document.querySelector("#scan").innerText.replace(/\n/g, " | ");
+for (let i = 0; i < 150 && /Mencari/.test(document.querySelector("#scan .jd").innerText); i++) await w(1000);
+const g = JSON.parse(localStorage.getItem("tvzt.gagal") || "{}");
+const C = window.TVKITA.countries, id = C.find((n) => n.code === "ID");
+const mati = id.channels.filter((c) => g[c.url]).map((c) => c.no + " " + c.name);
+return { tengah, akhir: document.querySelector("#scan").innerText.replace(/\n/g, " | "), detik: Math.round((Date.now() - t0) / 1000), disembunyikan: mati };

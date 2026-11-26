@@ -1,0 +1,43 @@
+{
+  "dock_apps": [
+    "id.zt.tv",
+    "com.google.android.youtube.tv",
+    "com.idlixku.tv",
+    "com.ottplay.ottplay"
+  ],
+  "hidden_apps": [
+    "org.liskovsoft.androidtv.rukeyboard",
+    "ru.littlevictor.powermenu",
+    "com.zte.helper",
+    "com.codingbuffalo.aerialdream",
+    "com.vidio.android.tv",
+    "com.phlox.tvwebbrowser",
+    "com.android.vending",
+    "com.mixplorer.silver",
+    "com.alphainventor.filemanager",
+    "com.yablio.sendfilestotv",
+    "jackpal.androidterm"
+  ],
+  "columns": 6,
+  "rows_below_dock": 1,
+  "background_color": "#0E0F12",
+  "wallpaper": true,
+  "sky_intensity": 0,
+  "show_greeting": false,
+  "dock_title": false,
+  "dock_band": false,
+  "ambient_glow": false,
+  "app_glow": false,
+  "glass_style": "rim",
+  "icon_only_buttons": true,
+  "icon_only_inputs": true,
+  "focus_overshoot": false,
+  "reduced_motion": true,
+  "show_stats": true,
+  "clock_format": "24",
+  "app_library": true,
+  "stock_home_redirect": "com.google.android.tvlauncher",
+  "home_long_press_home": true,
+  "library_ok_opens": true,
+  "library_button": true
+}
