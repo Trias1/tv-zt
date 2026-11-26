@@ -85,9 +85,9 @@ Isi kolom yang disediakan (perangkat, versi TV ZT, langkah sampai masalah muncul
 | `tvzt/` | Proyek Android TV ZT (`MainActivity.java`: WebView, header Referer/User-Agent per channel, remote, layar pembuka, cek sinyal) |
 | `mockup/` | Tampilan TV ZT (`tv-kita.html`, bisa dibuka di browser), penyusun data (`buat_channels.py`, `kategori.py`, `logo.py`) |
 | `iptv/` | Script data: `buat_semua.py` (semua negara), `buat_nasional.py` (TV nasional), `audit.py` (cek mendalam), `cek_sub.py` (subtitle), `cek_logo.py`, `update-playlist.ps1` |
-| `tema-ringan/` | `config.json` tema launcher cleanyourtv (wallpaper tidak ikut diunggah) |
+| `launcher-theme/` | `config.json` tema launcher cleanyourtv (wallpaper tidak ikut diunggah) |
 | `wallpaper/` | Script pembuat wallpaper dari foto sendiri |
-| `alat/` | Alat uji: menjalankan JavaScript di WebView TV ZT lewat ADB + Chrome DevTools Protocol |
+| `tools/` | Alat uji: menjalankan JavaScript di WebView TV ZT lewat ADB + Chrome DevTools Protocol |
 
 ## Build & pasang
 

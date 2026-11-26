@@ -1,4 +1,4 @@
-// Pakai: node alat/cdp.mjs <ws-url> <file-js>  → jalankan JS di WebView TV ZT (lewat adb forward), cetak hasilnya.
+// Pakai: node tools/cdp.mjs <ws-url> <file-js>  → jalankan JS di WebView TV ZT (lewat adb forward), cetak hasilnya.
 import { readFileSync } from "node:fs";
 const [ws, file] = process.argv.slice(2);
 const expr = readFileSync(file, "utf8");

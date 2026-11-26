@@ -1,6 +1,6 @@
 # --- Pribadi: jangan pernah diunggah ---
 wallpaper/*.jpg
-tema-ringan/*.jpg
+launcher-theme/*.jpg
 screenshot/
 backup/
 *.docx
@@ -38,5 +38,5 @@ __pycache__/
 *.pyc
 
 install-log*.txt
-tema-ringan/*.sebelum-*
+launcher-theme/*.sebelum-*
 dist/

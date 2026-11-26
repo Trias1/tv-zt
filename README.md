@@ -77,9 +77,9 @@ Open **[Issues → New issue](https://github.com/Trias1/tv-zt/issues/new/choose)
 | `tvzt/` | Android project (`MainActivity.java`: WebView, per-channel Referer/User-Agent, remote keys, native splash, signal checker) |
 | `mockup/` | TV ZT UI (`tv-kita.html`, opens in any browser) and data builders (`buat_channels.py`, `kategori.py`, `logo.py`) |
 | `iptv/` | Data scripts: `buat_semua.py` (all countries), `buat_nasional.py` (Indonesian national TV), `audit.py` (deep check), `cek_sub.py` (subtitles), `cek_logo.py`, `update-playlist.ps1` |
-| `tema-ringan/` | cleanyourtv launcher theme `config.json` (the wallpaper photo is not included) |
+| `launcher-theme/` | cleanyourtv launcher theme `config.json` (the wallpaper photo is not included) |
 | `wallpaper/` | Script that builds a wallpaper from your own photo |
-| `alat/` | Test tools: run JavaScript inside the TV ZT WebView over ADB + Chrome DevTools Protocol |
+| `tools/` | Test tools: run JavaScript inside the TV ZT WebView over ADB + Chrome DevTools Protocol |
 
 ## Build
 
