@@ -704,7 +704,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
   const LOC = BAHASA === "en" ? "en-US" : "id-ID";
   document.documentElement.lang = BAHASA;
   const EN_PAS = {
-    "Memuat channel…": "Loading channels…", "Bola": "Football", "sepak bola dari playlist saya": "football from my playlists", "memuat playlist…": "loading playlist…", "Muat file .m3u lain": "Load another .m3u file", "Server channel ini sedang lambat": "This channel's server is slow right now", "Video belum masuk setelah": "No video has arrived after", "detik.": "seconds.", "kecepatan": "speed", ", video ini butuh": ", this video needs", "Biasanya hanya sementara: coba lagi nanti, atau tekan": "It's usually temporary: try again later, or press", "untuk ganti channel.": "to change channel.",
+    "Memuat channel…": "Loading channels…", "Bola": "Football", "satu kualitas": "single quality", "sepak bola dari playlist saya": "football from my playlists", "memuat playlist…": "loading playlist…", "Muat file .m3u lain": "Load another .m3u file", "Server channel ini sedang lambat": "This channel's server is slow right now", "Video belum masuk setelah": "No video has arrived after", "detik.": "seconds.", "kecepatan": "speed", ", video ini butuh": ", this video needs", "Biasanya hanya sementara: coba lagi nanti, atau tekan": "It's usually temporary: try again later, or press", "untuk ganti channel.": "to change channel.",
     "Terakhir ditonton": "Recently watched", "Channel": "Channels", "Kualitas": "Quality", "daftar channel": "channel list",
     "Semua negara": "All countries", "Playlist saya": "My playlists", "+ Tambah dari link": "+ Add from link", "+ Tambah dari file": "+ Add from file",
     "Pengaturan": "Settings", "Semua gratis.": "Everything is free.", "Tidak ada pilihan yang dikunci versi Premium.": "Nothing is locked behind a Premium version.",
@@ -992,7 +992,10 @@ html.app .screen, html.app .screen * { animation: none !important; }
     const max = OPTS.buffer.sec[S.set.buffer];
     $("#osdBuf").textContent = `${ahead.toFixed(0)} / ${max} dtk`;
     $("#osdBufBar").style.width = Math.min(100, ahead / max * 100) + "%";
-    $("#osdRes").textContent = video.videoHeight ? `${video.videoHeight}p` : "—";
+    // Server yang hanya mengirim satu kualitas (mis. Music Box Hits 1080p): Otomatis/720p/480p tidak bisa menurunkannya.
+    const satu = hls && hls.levels && hls.levels.length === 1;
+    const res = video.videoHeight ? `${video.videoHeight}p${satu ? (BAHASA === "en" ? " · single quality" : " · satu kualitas") : ""}` : "—";
+    if ($("#osdRes").textContent !== res) $("#osdRes").textContent = res;
     ukurJaringan();
   }, 700);
   /* Ping & kecepatan unduh video, untuk baris info dan kotak "server lambat".
