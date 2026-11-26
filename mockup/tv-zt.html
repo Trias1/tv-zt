@@ -310,6 +310,9 @@ html.app [data-f] { cursor: none; }
 #bufLogo img { max-width: 440px; max-height: 220px; object-fit: contain; }
 #bufLogo .ring { width: 64px; height: 64px; border-radius: 50%; border: 6px solid rgba(255,255,255,.15); border-top-color: var(--focus); animation: putar .9s linear infinite; }
 #bufLogo .bn { font: 700 40px var(--f-body); color: var(--ink); }
+#bufLogo .lambat { max-width: 960px; text-align: center; background: rgba(10,18,32,.82); border: 2px solid var(--focus); border-radius: 18px; padding: 22px 34px; }
+#bufLogo .lambat .h { font: 700 32px var(--f-body); color: var(--focus); margin-bottom: 10px; }
+#bufLogo .lambat .p { font: 400 26px/1.45 var(--f-body); color: var(--ink); }
 .tv.buffer[data-screen="watch"] .toast.load { display: none !important; }
 
 /* Tanda SUB ID */
@@ -489,7 +492,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
 
   <div class="tvframe"><div class="stage" id="stage"><div class="tv" id="tv" data-screen="home">
     <video id="video" playsinline muted poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-    <div id="bufLogo" aria-hidden="true"><img id="bufImg" alt=""><div class="ring"></div><div class="bn" id="bufName"></div></div>
+    <div id="bufLogo" aria-hidden="true"><img id="bufImg" alt=""><div class="ring"></div><div class="bn" id="bufName"></div><div class="lambat" id="bufLambat" hidden><div class="h">Server channel ini sedang lambat</div><div class="p"><span>Video belum masuk setelah</span> <b id="bufDetik">15</b> <span>detik.</span> <span>Biasanya hanya sementara: coba lagi nanti, atau tekan</span> <kbd>▲</kbd><kbd>▼</kbd> <span>untuk ganti channel.</span></div></div></div>
     <div id="subs" aria-live="polite"></div>
     <div id="scan" role="status" hidden></div>
 
@@ -680,7 +683,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
   const LOC = BAHASA === "en" ? "en-US" : "id-ID";
   document.documentElement.lang = BAHASA;
   const EN_PAS = {
-    "Memuat channel…": "Loading channels…", "memuat playlist…": "loading playlist…", "Muat file .m3u lain": "Load another .m3u file",
+    "Memuat channel…": "Loading channels…", "memuat playlist…": "loading playlist…", "Muat file .m3u lain": "Load another .m3u file", "Server channel ini sedang lambat": "This channel's server is slow right now", "Video belum masuk setelah": "No video has arrived after", "detik.": "seconds.", "Biasanya hanya sementara: coba lagi nanti, atau tekan": "It's usually temporary: try again later, or press", "untuk ganti channel.": "to change channel.",
     "Terakhir ditonton": "Recently watched", "Channel": "Channels", "Kualitas": "Quality", "daftar channel": "channel list",
     "Semua negara": "All countries", "Playlist saya": "My playlists", "+ Tambah dari link": "+ Add from link", "+ Tambah dari file": "+ Add from file",
     "Pengaturan": "Settings", "Semua gratis.": "Everything is free.", "Tidak ada pilihan yang dikunci versi Premium.": "Nothing is locked behind a Premium version.",
@@ -890,6 +893,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
   }
   function start(c) {
     tv.classList.remove("kosong");
+    bufSejak = 0; $("#bufLambat").hidden = true;
     setState("menyambung…"); showToast("load", c);
     SUB.ada = false; SUB.seq++; $("#subs").textContent = "";
     // Di aplikasi Android, header khusus (Referer/User-Agent) dikirim oleh sisi Java.
@@ -965,7 +969,20 @@ html.app .screen, html.app .screen * { animation: none !important; }
     $("#osdBufBar").style.width = Math.min(100, ahead / max * 100) + "%";
     $("#osdRes").textContent = video.videoHeight ? `${video.videoHeight}p` : "—";
   }, 700);
-  function setState(s) { $("#osdState").textContent = s; tv.classList.toggle("buffer", /menyambung|buffering/.test(s)); }
+  /* Server lambat: kalau video belum jalan 15 detik sejak mulai menyambung/buffering, beri tahu penyebabnya
+     (mis. Music Box Hits: daftar video terbuka, tapi potongan videonya hanya terkirim beberapa KB/detik). */
+  var bufSejak = 0;  // var: setState() bisa terpanggil sebelum baris ini dijalankan
+  function setState(s) {
+    $("#osdState").textContent = s;
+    const b = /menyambung|buffering/.test(s);
+    tv.classList.toggle("buffer", b);
+    if (!b) { bufSejak = 0; $("#bufLambat").hidden = true; } else if (!bufSejak) bufSejak = Date.now();
+  }
+  setInterval(() => {
+    if (!bufSejak || document.hidden) return;
+    const d = Math.round((Date.now() - bufSejak) / 1000);
+    if (d >= 15) { $("#bufLambat").hidden = false; $("#bufDetik").textContent = d; }
+  }, 1000);
 
   /* ---------- toast & OSD ---------- */
   /* "Menyambung" hanya tampil sebentar (1,5 dtk) lalu hilang walau siaran masih memuat;
