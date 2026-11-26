@@ -23,16 +23,16 @@ A weekend project that turns a second-hand IndiHome **ZTE B860H V5** set-top box
 
 ## Install (no root, no computer)
 
-Download **[TV-ZT-v1.1.apk](https://github.com/Trias1/tv-zt/releases/latest)** from Releases. Works on Android TV / Android set-top boxes running Android 7.0 or newer.
+Download **[TV-ZT-v1.2.apk](https://github.com/Trias1/tv-zt/releases/latest)** from Releases. Works on Android TV / Android set-top boxes running Android 7.0 or newer.
 
 1. On the TV/box, install **File Manager+** and **Send Files to TV** from the Play Store. Install **Send Files to TV** on your phone too.
-2. Download `TV-ZT-v1.1.apk` on your phone.
+2. Download `TV-ZT-v1.2.apk` on your phone.
 3. Send it to the TV: on the TV open *Send Files to TV* → **Receive**; on the phone *Send Files to TV* → **Send** → pick the APK → pick the TV. (A USB stick works too.)
 4. Allow installs: **Settings → Apps → Special app access → Install unknown apps → File Manager+ → Allow**.
 5. Open **File Manager+** → *Download* folder → select the APK → **Install** (if Play Protect warns you, choose **Install anyway**).
 6. Open **TV ZT** from the app list. The TV needs an internet connection.
 
-With a computer: `adb connect <tv-ip>:5555` then `adb install -r TV-ZT-v1.1.apk`.
+With a computer: `adb connect <tv-ip>:5555` then `adb install -r TV-ZT-v1.2.apk`.
 
 ## How to use
 
