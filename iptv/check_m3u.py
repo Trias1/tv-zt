@@ -1,6 +1,6 @@
 """Tes setiap channel di playlist M3U dan tulis playlist baru berisi channel yang hidup.
 
-Pemakaian: python -I cek_m3u.py <input.m3u> <output.m3u> <laporan.txt>
+Pemakaian: python -I check_m3u.py <input.m3u> <output.m3u> <laporan.txt>
 File input tidak diubah.
 """
 import concurrent.futures as cf

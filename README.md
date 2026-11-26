@@ -12,8 +12,8 @@ A weekend project that turns a second-hand IndiHome **ZTE B860H V5** set-top box
 
 - ~9,700 live channels from ~170 countries; dead links are removed by an automated deep audit (playlist → variant → video segment)
 - Indonesian national TV (TVRI, Trans TV, Trans7, MNCTV, GTV, Metro TV, tvOne, iNews, …) with a **programme guide (EPG)** and a "now playing" list
-- Dashboard + navbar categories: **Indonesia, Top Picks** (curated package), **Islam** (live Makkah & Madinah), **Sub Indo, Anime, Kids, Movies** (Hollywood), **News & Sports, Music** (Indonesian & Western), **Lo-fi & Relax**, **All countries**
-- **Automatic Indonesian translation of subtitles** for foreign channels that send text subtitles (WebVTT / CEA-608), marked **SUB ID**
+- Dashboard + navbar categories: **Indonesia, Top Picks** (curated package), **Islam** (live Makkah & Madinah), **Subtitled, Anime, Kids, Movies** (Hollywood), **News & Sports, Music** (Indonesian & Western), **Lo-fi & Relax**, **All countries**
+- **Automatic subtitle translation** into the app language for foreign channels that send text subtitles (WebVTT / CEA-608), marked **SUB EN** / **SUB ID**
 - Channel logos, splash screen, full D-pad remote navigation, ▲▼ channel zapping like a regular TV
 - **Signal scan**: tick the groups you want and re-check them directly from the box; dead channels are hidden for 3 days, recovered ones come back
 - Your own .m3u playlists (from a URL or file), as a new card or merged into a country
@@ -43,7 +43,7 @@ With a computer: `adb connect <tv-ip>:5555` then `adb install -r TV-ZT-v1.2.apk`
 | **OK** on the home video | watch full screen |
 | **▲ / ▼** while watching | next / previous channel |
 | **OK** while watching | channel list + programme guide |
-| **◀ / ▶** while watching | subtitles (Indonesian/original/off) / audio language |
+| **◀ / ▶** while watching | subtitles (translated/original/off) / audio language |
 | **Back** | go back (on the Dashboard: exit) |
 | **Menu** / ⚙ icon | Settings: quality, buffer, subtitles, **signal scan**, my playlists |
 
@@ -54,29 +54,29 @@ With a computer: `adb connect <tv-ip>:5555` then `adb install -r TV-ZT-v1.2.apk`
 | **The APK won't install** ("App not installed") | Allow File Manager+ to install apps: *Settings → Apps → Special app access → Install unknown apps → File Manager+ → Allow*. Keep at least 50 MB free. If an older TV ZT from another source is installed, uninstall it first. |
 | **Play Protect warning** | Choose **Install anyway**. TV ZT is not on the Play Store, so this warning is expected. |
 | **TV ZT is not in the app list** | Look under **Apps / All apps**. TV ZT is made for **Android TV / set-top boxes** (remote control), not phones. |
-| **Stuck on "Memuat channel…" (Loading channels)** | Check the TV's internet (try YouTube). Close and reopen TV ZT. If it persists: *Settings → Apps → TV ZT → Clear data*, then reopen. |
-| **A channel won't play** (*manifestLoadError*, *HTTP 403/404*) | That link is down. Press **▲/▼** to change channel; TV ZT hides dead channels for 3 days. To check many at once: **Settings → Cari sinyal channel** (signal scan). Turn off any VPN — some channels block foreign connections. |
+| **Stuck on "Loading channels…"** | Check the TV's internet (try YouTube). Close and reopen TV ZT. If it persists: *Settings → Apps → TV ZT → Clear data*, then reopen. |
+| **A channel won't play** (*manifestLoadError*, *HTTP 403/404*) | That link is down. Press **▲/▼** to change channel; TV ZT hides dead channels for 3 days. To check many at once: **Settings → Scan channel signals**. Turn off any VPN — some channels block foreign connections. |
 | **Stuttering / constant buffering** | *Settings → Buffer size → Large* or *Very large*; *Settings → Quality → 720p* or *480p*. Move the box closer to the router or use a LAN cable, then restart the box. |
 | **No sound** | Press any button on the remote once (sound turns on after the first key). Check the TV volume. If a channel has several languages, press **▶** while watching. |
-| **Indonesian subtitles don't show** | Only for channels marked **SUB ID**. Press **◀** while watching until it says *Subtitle: Indonesia*. Subtitles burned into the picture (e.g. Boruto) cannot be translated. |
+| **Translated subtitles don't show** | Only for channels marked **SUB EN** / **SUB ID**. Press **◀** while watching until the translated subtitle is selected. Subtitles burned into the picture (e.g. Boruto) cannot be translated. |
 | **Programme guide is empty** | The guide covers Indonesian channels only; it is fetched a few seconds after start and refreshed every 6 hours. Wait a moment or reopen the app. |
 | **Channel logos are missing** | Logos are downloaded on first use, so internet is needed. Some channels simply have no logo; their number and name are shown instead. |
-| **A channel disappeared from the list** | It was probably hidden after failing. Use *Settings → Pulihkan channel tersembunyi* (restore hidden channels), or set *Channel gagal diputar → Tetap tampilkan* (keep showing). |
+| **A channel disappeared from the list** | It was probably hidden after failing. Use *Settings → Restore hidden channels*, or set *Channels that fail to play → Keep showing*. |
 | **Back closes the app** | On the **Dashboard**, Back exits. Elsewhere it goes back one screen. |
-| **Start from the last watched channel** | *Settings → Lanjutkan channel terakhir → Aktif*. |
+| **Start from the last watched channel** | *Settings → Resume last channel → On*. |
 | **Errors after updating** | Uninstall TV ZT (*Settings → Apps → TV ZT → Uninstall*) and install the latest APK from Releases. |
 
 ## Still stuck? Report / suggest
 
-Open **[Issues → New issue](https://github.com/Trias1/tv-zt/issues/new/choose)** (free GitHub account needed) and pick 🐞 *Lapor masalah* (bug), 📺 *Channel mati / salah* (broken channel) or 💡 *Usul fitur / channel* (idea). Fill in your device, TV ZT version and the steps to reproduce, and attach a photo of the screen if you can. Please don't post personal data — issues are public.
+Open **[Issues → New issue](https://github.com/Trias1/tv-zt/issues/new/choose)** (free GitHub account needed) and pick 🐞 *Report a bug*, 📺 *Broken / wrong channel* or 💡 *Suggest a feature / channel*. Fill in your device, TV ZT version and the steps to reproduce, and attach a photo of the screen if you can. Please don't post personal data — issues are public.
 
 ## Project layout
 
 | Folder | Contents |
 |---|---|
 | `tvzt/` | Android project (`MainActivity.java`: WebView, per-channel Referer/User-Agent, remote keys, native splash, signal checker) |
-| `mockup/` | TV ZT UI (`tv-kita.html`, opens in any browser) and data builders (`buat_channels.py`, `kategori.py`, `logo.py`) |
-| `iptv/` | Data scripts: `buat_semua.py` (all countries), `buat_nasional.py` (Indonesian national TV), `audit.py` (deep check), `cek_sub.py` (subtitles), `cek_logo.py`, `update-playlist.ps1` |
+| `mockup/` | TV ZT UI (`tv-zt.html`, opens in any browser) and data builders (`build_channels.py`, `categories.py`, `logo.py`) |
+| `iptv/` | Data scripts: `build_all.py` (all countries), `build_national.py` (Indonesian national TV), `audit.py` (deep check), `check_subtitles.py` (subtitles), `check_logos.py`, `update-playlist.ps1` |
 | `launcher-theme/` | cleanyourtv launcher theme `config.json` (the wallpaper photo is not included) |
 | `wallpaper/` | Script that builds a wallpaper from your own photo |
 | `tools/` | Test tools: run JavaScript inside the TV ZT WebView over ADB + Chrome DevTools Protocol |
@@ -87,12 +87,12 @@ Requirements: Python 3 (+ Pillow), JDK 17+, Android SDK, ADB.
 
 ```powershell
 # 1. (optional) rebuild channel data — needs internet
-python -I iptv\buat_semua.py
-python -I mockup\buat_channels.py
+python -I iptv\build_all.py
+python -I mockup\build_channels.py
 
 # 2. copy the UI into the app + generate icons, then build
 cd tvzt
-python siapkan.py
+python prepare.py
 .\gradlew.bat assembleRelease
 
 # 3. install on the box over network ADB

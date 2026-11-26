@@ -1,0 +1,21 @@
+name: 💡 Suggest a feature / channel
+description: An idea for a new feature, or a free channel link that is missing
+title: "[Idea] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What's your idea?
+      placeholder: e.g. a separate Sports category instead of News & Sports.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why would it help?
+  - type: input
+    id: link
+    attributes:
+      label: Channel link (if suggesting a channel)
+      description: Official / public free streams only.

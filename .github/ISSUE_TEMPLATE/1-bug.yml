@@ -1,0 +1,48 @@
+name: 🐞 Report a bug
+description: The app crashes, won't install, freezes, looks wrong, or a remote button doesn't work
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! The more detail, the easier it is to fix. You may write in English or Indonesian.
+        **Don't** post personal data (passwords, phone numbers, addresses) — issues are public.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Briefly describe the problem.
+      placeholder: e.g. after opening the Music category the screen goes black and the app closes.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open TV ZT
+        2. Pick the Music card
+        3. Press OK on the video
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device
+      description: TV or set-top box brand/model and Android version (Settings → About).
+      placeholder: e.g. ZTE B860H V5, Android 10
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: TV ZT version
+      placeholder: e.g. v1.2
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Photo of the screen (optional)
+      description: Drag & drop a photo or video of the TV screen here.

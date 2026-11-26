@@ -1,7 +1,7 @@
-# Komponen pihak ketiga
+# Third-party components
 
-Komponen pihak ketiga yang ikut di repo ini tetap memakai lisensinya sendiri:
+Third-party components included in this repository keep their own licenses:
 
 - **hls.js** (`mockup/hls.min.js`) — Apache License 2.0, https://github.com/video-dev/hls.js
-- **Daftar channel & logo** dari iptv-org (https://github.com/iptv-org) — The Unlicense / domain publik.
-  Link siaran milik penyiar masing-masing; repo ini tidak menyimpan atau menyiarkan ulang video.
+- **Channel list & logos** from iptv-org (https://github.com/iptv-org) — The Unlicense / public domain.
+  Stream links belong to their respective broadcasters; this repository does not store or re-broadcast any video.

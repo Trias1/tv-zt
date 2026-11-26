@@ -2,7 +2,7 @@
 
 Potong ke 16:9 dengan kepala pasangan tetap utuh, kecilkan ke 1280x720,
 lalu gelapkan kiri atas (jam dan info) dan bawah (ubin aplikasi) supaya tetap terbaca.
-Pemakaian: python -I buat_wallpaper.py foto-nikah.jpg ../launcher-theme/wallpaper.jpg
+Pemakaian: python -I make_wallpaper.py foto-nikah.jpg ../launcher-theme/wallpaper.jpg
 """
 import sys
 

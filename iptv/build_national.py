@@ -3,7 +3,7 @@
 Untuk tiap channel dicoba semua link-nya, lalu dipakai link pertama yang benar-benar sedang tayang:
 playlist video dibaca dua kali berselang beberapa detik, dan dianggap LIVE kalau segmennya bertambah
 (siaran berjalan) dan satu segmen video bisa diunduh.
-Pemakaian: python -I buat_nasional.py id.m3u id-nasional.m3u laporan-nasional.txt
+Pemakaian: python -I build_national.py id.m3u id-national.m3u laporan-nasional.txt
 """
 import concurrent.futures as cf
 import gzip

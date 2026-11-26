@@ -1,7 +1,7 @@
 """Cari channel yang mengirim subtitle teks (WebVTT atau closed caption) — hanya membaca playlist utama.
 
-Hasil: iptv/subtitle.json  {url: "sub" | "cc"}  dipakai buat_channels.py untuk tanda "SUB ID".
-Pemakaian:  python -I iptv/cek_sub.py [jumlah_pekerja]
+Hasil: iptv/subtitle.json  {url: "sub" | "cc"}  dipakai build_channels.py untuk tanda "SUB ID".
+Pemakaian:  python -I iptv/check_subtitles.py [jumlah_pekerja]
 """
 import json
 import re

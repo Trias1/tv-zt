@@ -1,11 +1,11 @@
 """Kumpulkan SEMUA negara di iptv-org/iptv, tes setiap link, simpan yang hidup ke iptv/semua.json.
 
-Pemakaian (dari folder iptv, WARP/VPN mati):  python -I buat_semua.py
+Pemakaian (dari folder iptv, WARP/VPN mati):  python -I build_all.py
 - Daftar file diambil dari repo iptv-org/iptv (streams/<kode>*.m3u); file seperti us_pluto.m3u digabung ke negaranya.
-- Link [Geo-blocked] dibuang; sisanya dites dengan cek_m3u.check (playlist + satu sub-playlist harus terbuka).
+- Link [Geo-blocked] dibuang; sisanya dites dengan check_m3u.check (playlist + satu sub-playlist harus terbuka).
 - Nama yang sama dalam satu negara hanya diambil sekali (link hidup pertama).
 - Wilayah (benua) diambil dari iptv-org API regions.json.
-Indonesia tidak diambil dari sini: TV ZT memakai id-nasional.m3u + id-aktif.m3u (lihat mockup/buat_channels.py).
+Indonesia tidak diambil dari sini: TV ZT memakai id-national.m3u + id-active.m3u (lihat mockup/build_channels.py).
 """
 import concurrent.futures as cf
 import json
@@ -17,7 +17,7 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from cek_m3u import check  # noqa: E402
+from check_m3u import check  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 RAW = "https://raw.githubusercontent.com/iptv-org/iptv/master/"

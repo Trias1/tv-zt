@@ -1,4 +1,4 @@
-"""Patch tv-kita.html: pilihan Bahasa (Indonesia/English) + Zona waktu.
+"""Patch tv-zt.html: pilihan Bahasa (Indonesia/English) + Zona waktu.
 
 Cara kerja bahasa: teks dasar tetap Indonesia; kalau bahasa = English, lapisan penerjemah (MutationObserver)
 mengganti teks tampilan memakai kamus EN di bawah. Nama channel, judul acara, dan subtitle tidak disentuh.

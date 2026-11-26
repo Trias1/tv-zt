@@ -1,7 +1,7 @@
 """Siapkan aset TV ZT sebelum build: salin tampilan HTML, hls.js, playlist bawaan, dan gambar banner/ikon.
 
-Pemakaian (dari folder tvzt):  python -I siapkan.py
-Sumber tampilan ada di ../mockup/tv-kita.html, jadi desain cukup diubah di satu tempat.
+Pemakaian (dari folder tvzt):  python -I prepare.py
+Sumber tampilan ada di ../mockup/tv-zt.html, jadi desain cukup diubah di satu tempat.
 """
 import shutil
 from pathlib import Path
@@ -15,11 +15,11 @@ ASSETS = ROOT / "app/src/main/assets"
 RES = ROOT / "app/src/main/res"
 
 ASSETS.mkdir(parents=True, exist_ok=True)
-shutil.copyfile(MOCK / "tv-kita.html", ASSETS / "index.html")
+shutil.copyfile(MOCK / "tv-zt.html", ASSETS / "index.html")
 shutil.copyfile(MOCK / "hls.min.js", ASSETS / "hls.min.js")
 if (MOCK / "logos.js").exists():  # alamat logo channel, dimuat setelah Dashboard tampil
     shutil.copyfile(MOCK / "logos.js", ASSETS / "logos.js")
-shutil.copyfile(IPTV / "id-nasional.m3u", ASSETS / "default.m3u")
+shutil.copyfile(IPTV / "id-national.m3u", ASSETS / "default.m3u")
 
 NIGHT, AMBER, INK = (10, 18, 32), (244, 183, 64), (238, 242, 248)
 

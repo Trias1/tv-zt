@@ -1,6 +1,6 @@
 """Buat mockup/logos.js: alamat logo tiap channel ("KODE:nomor" → url singkat) dari iptv-org api/logos.json.
 
-Dipisah dari data channel supaya layar pembuka tidak tambah lama: tv-kita.html memuat logos.js setelah Dashboard tampil.
+Dipisah dari data channel supaya layar pembuka tidak tambah lama: tv-zt.html memuat logos.js setelah Dashboard tampil.
 Alamat disingkat: "i:" = https://i.imgur.com/, "w:" = https://upload.wikimedia.org/wikipedia/, "p:" = https://images.pluto.tv/
 """
 import json
@@ -33,7 +33,7 @@ def buat(negara):
     for c in json.loads((API / "channels.json").read_text(encoding="utf-8")):
         if c.get("country") == "ID":
             nama_id.setdefault(kunci(c["name"]), c["id"])
-    # Hasil iptv/cek_logo.py: logo rusak dibuang, logo gelap-transparan diberi tanda "#" (perlu alas terang).
+    # Hasil iptv/check_logos.py: logo rusak dibuang, logo gelap-transparan diberi tanda "#" (perlu alas terang).
     cekf = API.parent / "logo-cek.json"
     cek = json.loads(cekf.read_text(encoding="utf-8")) if cekf.exists() else {"rusak": [], "alas": []}
     rusak, alas = set(cek["rusak"]), set(cek["alas"])

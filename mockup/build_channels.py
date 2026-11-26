@@ -1,8 +1,8 @@
-"""Ubah id-nasional.m3u (+ laporan-nasional.txt) jadi channels.js untuk tv-kita.html.
+"""Ubah id-national.m3u (+ laporan-nasional.txt) jadi channels.js untuk tv-zt.html.
 
 File HTML yang dibuka langsung dari disk (file://) tidak boleh membaca file .m3u lewat fetch(),
 jadi daftar channel dibungkus sebagai skrip biasa yang dimuat dengan <script src="channels.js">.
-Pemakaian (dari folder mockup):  python -I buat_channels.py
+Pemakaian (dari folder mockup):  python -I build_channels.py
 """
 import json
 import re
@@ -11,14 +11,14 @@ from pathlib import Path
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from kategori import susun  # noqa: E402
+from categories import susun  # noqa: E402
 
 IPTV = Path(__file__).resolve().parent.parent / "iptv"
-M3U = IPTV / "id-nasional.m3u"
+M3U = IPTV / "id-national.m3u"
 LAPORAN = IPTV / "laporan-nasional.txt"
 OUT = Path(__file__).resolve().parent / "channels.js"
 
-# Nomor channel untuk yang tidak tersedia, sama dengan urutan di buat_nasional.py.
+# Nomor channel untuk yang tidak tersedia, sama dengan urutan di build_national.py.
 URUTAN = ["TVRI", "RCTI", "SCTV", "MNCTV", "GTV", "Indosiar", "Trans TV", "Trans7", "ANTV", "Kompas TV",
           "Metro TV", "tvOne", "iNews", "RTV", "MDTV", "Moji", "Nusantara TV", "Garuda TV", "BTV",
           "BeritaSatu", "CNN Indonesia", "CNBC Indonesia", "TVRI World", "TVRI Sport"]
@@ -58,8 +58,8 @@ def unavailable(path):
 
 
 def daerah(nasional):
-    """Channel Indonesia lain yang hidup (id-aktif.m3u), di luar yang sudah ada di daftar nasional."""
-    path = IPTV / "id-aktif.m3u"
+    """Channel Indonesia lain yang hidup (id-active.m3u), di luar yang sudah ada di daftar nasional."""
+    path = IPTV / "id-active.m3u"
     if not path.exists():
         return []
     pakai = {c["name"].lower() for c in nasional}
@@ -87,7 +87,7 @@ SEMUA = IPTV / "semua.json"
 if SEMUA.exists():
     negara += json.loads(SEMUA.read_text(encoding="utf-8"))["countries"]
 
-# Tandai channel yang mengirim subtitle teks (iptv/cek_sub.py) → tanda "SUB ID" + kategori Sub Indo.
+# Tandai channel yang mengirim subtitle teks (iptv/check_subtitles.py) → tanda "SUB ID" + kategori Sub Indo.
 SUBJSON = IPTV / "subtitle.json"
 if SUBJSON.exists():
     bersub = json.loads(SUBJSON.read_text(encoding="utf-8"))
@@ -131,8 +131,8 @@ data = {
 js = "window.TVKITA = " + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";"
 OUT.write_text(js + "\n", encoding="utf-8")
 
-# Tanam juga langsung di tv-kita.html supaya cukup satu file yang dibuka.
-HTML = Path(__file__).resolve().parent / "tv-kita.html"
+# Tanam juga langsung di tv-zt.html supaya cukup satu file yang dibuka.
+HTML = Path(__file__).resolve().parent / "tv-zt.html"
 page = HTML.read_text(encoding="utf-8")
 page = re.sub(r"(<!-- DATA-CHANNEL:MULAI[^>]*-->\n).*?(\n<!-- DATA-CHANNEL:SELESAI -->)",
               lambda m: m.group(1) + "<script>" + js.replace("</", "<\\/") + "</script>" + m.group(2), page, flags=re.S)

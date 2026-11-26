@@ -1,6 +1,6 @@
 """Ambil playlist beberapa negara dari iptv-org, tes setiap channel, simpan yang hidup ke iptv/negara/<kode>.m3u.
 
-Pemakaian (dari folder iptv):  python -I buat_negara.py
+Pemakaian (dari folder iptv):  python -I build_country.py
 Channel bertanda [Geo-blocked] dibuang (hampir pasti tidak jalan dari Indonesia). Tiap negara dibatasi
 MAKS channel; yang siaran 24 jam didahulukan, dan nama yang sama hanya diambil satu (link hidup pertama).
 """
@@ -11,7 +11,7 @@ import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from cek_m3u import check, parse  # noqa: E402  (tes yang sama dengan id-aktif.m3u)
+from check_m3u import check, parse  # noqa: E402  (tes yang sama dengan id-active.m3u)
 
 NEGARA = [  # (kode iptv-org, kode tampil, nama)
     ("my", "MY", "Malaysia"),

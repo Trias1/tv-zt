@@ -72,9 +72,9 @@ Kalau sudah mencoba cara di atas tapi masalahnya belum beres, laporkan lewat bag
 
 Masih bermasalah atau punya ide? Buka **[Issues → New issue](https://github.com/Trias1/tv-zt/issues/new/choose)** (perlu akun GitHub gratis), lalu pilih:
 
-- 🐞 **Lapor masalah**: aplikasi error, tidak bisa dipasang, macet, tombol remote tidak jalan
-- 📺 **Channel mati / salah**: channel tidak bisa diputar, isinya tidak sesuai, logo atau jadwal keliru
-- 💡 **Usul fitur / channel**: ide fitur baru atau link channel gratis
+- 🐞 **Report a bug** (lapor masalah): aplikasi error, tidak bisa dipasang, macet, tombol remote tidak jalan
+- 📺 **Broken / wrong channel** (channel mati/salah): channel tidak bisa diputar, isinya tidak sesuai, logo atau jadwal keliru
+- 💡 **Suggest a feature / channel** (usul): ide fitur baru atau link channel gratis
 
 Isi kolom yang disediakan (perangkat, versi TV ZT, langkah sampai masalah muncul) dan lampirkan foto layar kalau bisa. Sebelum melapor channel mati, coba dulu **Pengaturan → Cari sinyal channel**, karena link dari iptv-org kadang mati sementara. Jangan tulis data pribadi di laporan, karena laporan bisa dilihat semua orang.
 
@@ -83,8 +83,8 @@ Isi kolom yang disediakan (perangkat, versi TV ZT, langkah sampai masalah muncul
 | Folder | Isi |
 |---|---|
 | `tvzt/` | Proyek Android TV ZT (`MainActivity.java`: WebView, header Referer/User-Agent per channel, remote, layar pembuka, cek sinyal) |
-| `mockup/` | Tampilan TV ZT (`tv-kita.html`, bisa dibuka di browser), penyusun data (`buat_channels.py`, `kategori.py`, `logo.py`) |
-| `iptv/` | Script data: `buat_semua.py` (semua negara), `buat_nasional.py` (TV nasional), `audit.py` (cek mendalam), `cek_sub.py` (subtitle), `cek_logo.py`, `update-playlist.ps1` |
+| `mockup/` | Tampilan TV ZT (`tv-zt.html`, bisa dibuka di browser), penyusun data (`build_channels.py`, `categories.py`, `logo.py`) |
+| `iptv/` | Script data: `build_all.py` (semua negara), `build_national.py` (TV nasional), `audit.py` (cek mendalam), `check_subtitles.py` (subtitle), `check_logos.py`, `update-playlist.ps1` |
 | `launcher-theme/` | `config.json` tema launcher cleanyourtv (wallpaper tidak ikut diunggah) |
 | `wallpaper/` | Script pembuat wallpaper dari foto sendiri |
 | `tools/` | Alat uji: menjalankan JavaScript di WebView TV ZT lewat ADB + Chrome DevTools Protocol |
@@ -95,12 +95,12 @@ Kebutuhan: Python 3 (+ Pillow), JDK 17+, Android SDK, ADB.
 
 ```powershell
 # 1. (opsional) susun ulang data channel — butuh internet
-python -I iptv\buat_semua.py
-python -I mockup\buat_channels.py
+python -I iptv\build_all.py
+python -I mockup\build_channels.py
 
 # 2. salin tampilan ke aplikasi + buat ikon, lalu build
 cd tvzt
-python siapkan.py
+python prepare.py
 .\gradlew.bat assembleRelease
 
 # 3. pasang ke box lewat ADB jaringan

@@ -2,7 +2,7 @@
 
 Kategori channel diambil dari data resmi iptv-org (iptv/api/channels.json + streams.json, dicocokkan lewat URL),
 ditambah pencocokan nama untuk anime dan lofi. Hasilnya hanya rujukan [kode negara, nomor, grup] supaya data
-channel tidak tertulis dua kali; tampilan (tv-kita.html) menyusun kelompoknya saat dibuka.
+channel tidak tertulis dua kali; tampilan (tv-zt.html) menyusun kelompoknya saat dibuka.
 Di nama grup, "{n}" diganti nama negara oleh tampilan.
 """
 import json
@@ -207,7 +207,7 @@ def susun(negara):
 
 
 if __name__ == "__main__":
-    # Uji cepat: python -I kategori.py
+    # Uji cepat: python -I categories.py
     import sys
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     semua = json.loads((API.parent / "semua.json").read_text(encoding="utf-8"))["countries"]

@@ -2,7 +2,7 @@
 
 Hasil: iptv/audit.json  {"generated": ..., "hasil": {url: {"ok": bool, "why": str, "info": str}}}
        iptv/laporan-audit.txt (ringkasan per alasan)
-Dipakai mockup/buat_channels.py untuk menyembunyikan channel yang gagal.
+Dipakai mockup/build_channels.py untuk menyembunyikan channel yang gagal.
 
 Jalankan dari jaringan rumah (sama dengan box) dan Cloudflare WARP mati:  python -I iptv/audit.py
 """
@@ -180,7 +180,7 @@ def uji(c):
 
 def main():
     chans = {}
-    masukan = ROOT / "audit-input.json"  # daftar lengkap dari buat_channels.py (belum disaring audit)
+    masukan = ROOT / "audit-input.json"  # daftar lengkap dari build_channels.py (belum disaring audit)
     if masukan.exists():
         for c in json.loads(masukan.read_text(encoding="utf-8")):
             chans.setdefault(c["url"], c)

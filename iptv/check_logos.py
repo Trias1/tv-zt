@@ -4,7 +4,7 @@
 - Transparan dan gelap (mis. tulisan hitam)          → perlu alas terang ("alas")
 - Terang (mis. tulisan putih) atau punya latar sendiri → tampil apa adanya di latar gelap
 Hasil: iptv/logo-cek.json {"rusak": [...], "alas": [...]}, dipakai mockup/logo.py.
-Pemakaian: python -I iptv/cek_logo.py [pekerja]
+Pemakaian: python -I iptv/check_logos.py [pekerja]
 """
 import io
 import json

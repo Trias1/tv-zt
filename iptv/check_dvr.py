@@ -1,6 +1,6 @@
 """Ukur berapa lama siaran bisa dimundurkan (jendela DVR) di tiap channel: total durasi potongan di playlist.
 
-Hasil: iptv/dvr.json {url: detik} dan ringkasan di layar.  Pemakaian: python -I iptv/cek_dvr.py [pekerja]
+Hasil: iptv/dvr.json {url: detik} dan ringkasan di layar.  Pemakaian: python -I iptv/check_dvr.py [pekerja]
 Hanya channel yang lolos audit (audit.json) yang diukur.
 """
 import gzip
