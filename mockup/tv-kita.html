@@ -480,7 +480,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
 <div id="splash" role="status"><div class="logo2">TV <b>ZT</b></div><div class="ring"></div><div class="msg">Memuat channel…</div></div>
 <div class="wrap">
   <div class="head">
-    <div class="brand"><h1>TV <b>ZT</b></h1><span>aplikasi IPTV untuk STB Android TV (ZTE B860H)</span></div>
+    <div class="brand"><h1>TV <b>ZT</b></h1><span id="tagline">aplikasi IPTV untuk STB Android TV (ZTE B860H)</span></div>
     <div class="meta">
       <span class="pill" id="srcInfo">memuat playlist…</span>
       <label for="m3uFile">Muat file .m3u lain<input id="m3uFile" type="file" accept=".m3u,.m3u8,audio/x-mpegurl"></label>
@@ -608,7 +608,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
         <button data-go="settings">Pengaturan</button>
         <button data-go="playlists">Playlist saya</button>
       </div>
-      <p class="notes">Klik kotak di layar, atau pakai <kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd> sebagai tombol arah, <kbd>Enter</kbd> sebagai OK, dan <kbd>Backspace</kbd>/<kbd>Esc</kbd> sebagai Back. Saat menonton, <kbd>↑</kbd><kbd>↓</kbd> ganti channel. Suara menyala setelah Anda klik atau menekan tombol pertama kali.</p>
+      <p class="notes" id="petunjukMockup">Klik kotak di layar, atau pakai <kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd> sebagai tombol arah, <kbd>Enter</kbd> sebagai OK, dan <kbd>Backspace</kbd>/<kbd>Esc</kbd> sebagai Back. Saat menonton, <kbd>↑</kbd><kbd>↓</kbd> ganti channel. Suara menyala setelah Anda klik atau menekan tombol pertama kali.</p>
       <div class="log" id="log"></div>
     </div>
     <div class="remote" aria-label="Remote">
@@ -680,7 +680,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
   const LOC = BAHASA === "en" ? "en-US" : "id-ID";
   document.documentElement.lang = BAHASA;
   const EN_PAS = {
-    "Memuat channel…": "Loading channels…", "memuat playlist…": "loading playlist…",
+    "Memuat channel…": "Loading channels…", "memuat playlist…": "loading playlist…", "Muat file .m3u lain": "Load another .m3u file",
     "Terakhir ditonton": "Recently watched", "Channel": "Channels", "Kualitas": "Quality", "daftar channel": "channel list",
     "Semua negara": "All countries", "Playlist saya": "My playlists", "+ Tambah dari link": "+ Add from link", "+ Tambah dari file": "+ Add from file",
     "Pengaturan": "Settings", "Semua gratis.": "Everything is free.", "Tidak ada pilihan yang dikunci versi Premium.": "Nothing is locked behind a Premium version.",
@@ -782,6 +782,10 @@ html.app .screen, html.app .screen * { animation: none !important; }
     for (const el of root.querySelectorAll ? root.querySelectorAll("input[placeholder]") : []) { const t = terjemahTeks(el.placeholder); if (t !== el.placeholder) el.placeholder = t; }
   }
   if (BAHASA === "en") {
+    // Teks di luar layar TV (hanya terlihat di browser) yang terpecah oleh <kbd>, jadi diganti utuh.
+    const tg = document.getElementById("tagline"); if (tg) tg.textContent = "IPTV app for Android TV set-top boxes (ZTE B860H)";
+    const pm = document.getElementById("petunjukMockup");
+    if (pm) pm.innerHTML = "Click the screen, or use <kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd> as arrow keys, <kbd>Enter</kbd> as OK and <kbd>Backspace</kbd>/<kbd>Esc</kbd> as Back. While watching, <kbd>↑</kbd><kbd>↓</kbd> change channel. Sound turns on after your first click or key press.";
     terjemahDi(document.body);
     new MutationObserver((ms) => { for (const m of ms) { if (m.type === "characterData") terjemahSimpul(m.target); else for (const a of m.addedNodes) terjemahDi(a); } })
       .observe(document.body, { childList: true, subtree: true, characterData: true });
