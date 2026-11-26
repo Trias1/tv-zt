@@ -277,7 +277,7 @@ html.app [data-f] { cursor: none; }
 .dtile.kat .big { font-size: 64px; color: var(--ink-2); }
 
 /* Navbar kategori di beranda */
-.navbar { display: flex; gap: 2px; flex: 1 1 auto; min-width: 0; overflow: hidden; padding: 8px; margin: -8px; }
+.navbar { position: relative; display: flex; gap: 2px; flex: 1 1 auto; min-width: 0; overflow: hidden; padding: 8px; margin: -8px; }
 #s-home .topbar .logo { white-space: nowrap; flex: 0 0 auto; }
 #s-home .topbar { gap: 20px; }
 .navbar .nv { flex: 0 0 auto; padding: 8px 14px; border-radius: 999px; font: 600 22px var(--f-body); color: var(--ink-2); white-space: nowrap; }
@@ -646,6 +646,13 @@ html.app .screen, html.app .screen * { animation: none !important; }
   const simpanPL = () => { try { localStorage.setItem("tvzt.playlists", JSON.stringify(PL)); return true; } catch { return false; } };
   const kodePL = (name) => (name.replace(/[^A-Za-z0-9 ]/g, "").split(/\s+/).filter(Boolean).map((w) => w[0]).join("") || name).slice(0, 3).toUpperCase() || "PL";
   /* Gabungkan data bawaan + playlist pengguna. Kartu baru ditaruh tepat setelah Indonesia. */
+  const BOLA_YA = /football|soccer|sepak ?bola|f[uú]tbol|futebol|calcio|fu(ss|ß)ball|golazo|fifa\+|uefa|champions league|europa league|premier league|la ?liga|serie a|bundesliga|ligue 1|eredivisie|liga 1|mutv|real madrid tv|bar[cç]a tv|chelsea tv|liverpool tv|\bpsg\b/i;
+  const BOLA_TIDAK = /wom[ae]n|wanita|putri|femen|f[eé]minin|frauen|heldinnen|\bnwsl\b|\bwsl\b|ladies|girls|strongman|darts?\b|combat|ringside|boxing|tinju|\bmma\b|\bufc\b|wrestl|cricket|kriket|tennis|golf|racing|motogp|\bf1\b|\bnba\b|\bnfl\b|\bnhl\b|\bmlb\b|rugby|basket/i;
+  // BDIX = jaringan lokal Bangladesh, tidak bisa dibuka dari luar. Laga bertanggal (mis. "14 Nov 2026") yang sudah lewat lebih dari sehari dilewati.
+  const BULAN = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, mei: 4, jun: 5, jul: 6, aug: 7, agu: 7, sep: 8, oct: 9, okt: 9, nov: 10, dec: 11, des: 11 };
+  const lewatTanggal = (name) => { const m = /\b(\d{1,2}) ([A-Za-z]{3})[a-z]* (\d{4})\b/.exec(name); if (!m || BULAN[m[2].toLowerCase()] == null) return false;
+    return new Date(+m[3], BULAN[m[2].toLowerCase()], +m[1] + 2) < new Date(); };
+  const bolaKah = (c) => { const t = `${c.name} ${c.group || ""}`; return BOLA_YA.test(t) && !BOLA_TIDAK.test(t) && !/bdix/i.test(c.group || "") && !lewatTanggal(c.name); };
   function rebuild() {
     const keepCode = NEGARA[S.cc] && NEGARA[S.cc].code, keepUrl = live[S.cur] && live[S.cur].url;
     const base = BASE.map((n) => ({ ...n, channels: n.channels.slice() }));
@@ -660,6 +667,17 @@ html.app .screen, html.app .screen * { animation: none !important; }
       } else {
         cards.push({ code: pl.code, name: pl.name, region: "Playlist saya", user: pl.id, channels: chs, unavailable: [] });
       }
+    }
+    // Bola: channel sepak bola dari semua "Playlist saya" (tanpa sepak bola wanita & olahraga lain), satu grup di navbar.
+    const bola = [], adaUrl = new Set();
+    // Nama yang persis sama (mis. "FIFA+" 15 link) cukup sekali; link lain dengan nama itu dilewati.
+    for (const pl of PL) for (const c of pl.channels) { const k = c.name.toLowerCase();
+      if (!adaUrl.has(c.url) && !adaUrl.has(k) && bolaKah(c)) { adaUrl.add(c.url); adaUrl.add(k); bola.push(c); } }
+    if (bola.length) {
+      const laga = (c) => (/\svs\.?\s/i.test(c.name) ? 1 : 0);  // pertandingan ("Arsenal vs Dortmund") di atas
+      bola.sort((a, b) => laga(b) - laga(a));
+      cards.unshift({ code: "BOLA", name: "Bola", desc: "sepak bola dari playlist saya", region: "Playlist saya", user: "bola",
+        channels: bola.map((c, i) => ({ ...c, no: i + 1, u: 1 })), unavailable: [] });
     }
     // Kategori: rujukan [negara, nomor, grup, nomor-baru?] ke channel yang sudah ada, diberi nomor sendiri.
     const idx = new Map(base.map((n) => [n.code, new Map(n.channels.map((c) => [c.no, c]))]));
@@ -686,7 +704,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
   const LOC = BAHASA === "en" ? "en-US" : "id-ID";
   document.documentElement.lang = BAHASA;
   const EN_PAS = {
-    "Memuat channel…": "Loading channels…", "memuat playlist…": "loading playlist…", "Muat file .m3u lain": "Load another .m3u file", "Server channel ini sedang lambat": "This channel's server is slow right now", "Video belum masuk setelah": "No video has arrived after", "detik.": "seconds.", "kecepatan": "speed", ", video ini butuh": ", this video needs", "Biasanya hanya sementara: coba lagi nanti, atau tekan": "It's usually temporary: try again later, or press", "untuk ganti channel.": "to change channel.",
+    "Memuat channel…": "Loading channels…", "Bola": "Football", "sepak bola dari playlist saya": "football from my playlists", "memuat playlist…": "loading playlist…", "Muat file .m3u lain": "Load another .m3u file", "Server channel ini sedang lambat": "This channel's server is slow right now", "Video belum masuk setelah": "No video has arrived after", "detik.": "seconds.", "kecepatan": "speed", ", video ini butuh": ", this video needs", "Biasanya hanya sementara: coba lagi nanti, atau tekan": "It's usually temporary: try again later, or press", "untuk ganti channel.": "to change channel.",
     "Terakhir ditonton": "Recently watched", "Channel": "Channels", "Kualitas": "Quality", "daftar channel": "channel list",
     "Semua negara": "All countries", "Playlist saya": "My playlists", "+ Tambah dari link": "+ Add from link", "+ Tambah dari file": "+ Add from file",
     "Pengaturan": "Settings", "Semua gratis.": "Everything is free.", "Tidak ada pilihan yang dikunci versi Premium.": "Nothing is locked behind a Premium version.",
@@ -837,7 +855,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
       if (l.startsWith("#EXTINF")) {
         const no = /tvg-chno="(\d+)"/.exec(l);
         const g = /group-title="([^"]*)"/.exec(l);
-        cur = { name: l.split(",").slice(1).join(",").replace(/\s*\[[^\]]*\]|\s*\(\d{3,4}[pi]\)/g, "").trim(), no: no ? +no[1] : out.length + 1 };
+        cur = { name: l.replace(/[\w-]+="[^"]*"/g, "").split(",").slice(1).join(",").replace(/\s*\[(?![A-Z]{2,3}\])[^\]]*\]|\s*\(\d{3,4}[pi]\)/g, "").trim(), no: no ? +no[1] : out.length + 1 };
         if (g && g[1]) cur.group = g[1];
         const lg = /tvg-logo="(https?:\/\/[^"]+)"/.exec(l); if (lg) cur.logo = lg[1];
       } else if (l.startsWith("#EXTVLCOPT:http-referrer=")) { if (cur) cur.referer = l.split("=").slice(1).join("="); }
@@ -1345,12 +1363,15 @@ html.app .screen, html.app .screen * { animation: none !important; }
   const LABEL = { ID: "Indonesia", IV: "Pilihan", ISLAM: "Islam", SUB: "Sub Indo", ANIME: "Anime", ANAK: "Anak", FILM: "Film", BERITA: "Berita", MUSIK: "Musik", SANTAI: "Lofi" };
   function renderNav() {
     const cur = NEGARA[S.cc] || {}, items = [];
-    NEGARA.forEach((n, ci) => {
-      if (n.code === "ID" || n.kat) items.push(`<div class="nv${ci === S.cc ? " on" : ""}" data-f data-act="grp" data-nav="1" data-cc="${ci}">${esc(LABEL[n.code] || n.name)}</div>`);
+    // Urutan: Indonesia, Bola, kategori, lalu Playlist saya (ikut di navbar supaya bisa dibuka seperti Anime/Musik).
+    const urut = (n) => n.code === "ID" ? 0 : n.code === "BOLA" ? 1 : n.kat ? 2 : n.user ? 3 : 9;
+    NEGARA.map((n, ci) => [n, ci]).filter(([n]) => urut(n) < 9).sort((a, b) => urut(a[0]) - urut(b[0]) || a[1] - b[1]).forEach(([n, ci]) => {
+      if (true) items.push(`<div class="nv${ci === S.cc ? " on" : ""}" data-f data-act="grp" data-nav="1" data-cc="${ci}">${esc(LABEL[n.code] || n.name)}</div>`);
     });
-    const luar = !cur.kat && cur.code !== "ID";
-    items.push(`<div class="nv${luar ? " on" : ""}" data-f data-act="countries" data-nav="1">${luar ? esc(cur.user ? cur.name : `Luar · ${cur.name}`) : "Luar negeri"}</div>`);
-    $("#navbar").innerHTML = items.join("");
+    const luar = !cur.kat && !cur.user && cur.code !== "ID";
+    items.push(`<div class="nv${luar ? " on" : ""}" data-f data-act="countries" data-nav="1">${luar ? esc(`Luar · ${cur.name}`) : "Luar negeri"}</div>`);
+    const nb = $("#navbar"); nb.innerHTML = items.join("");
+    const on = nb.querySelector(".nv.on"); nb.scrollLeft = on ? Math.max(0, on.offsetLeft - nb.clientWidth / 2 + on.offsetWidth / 2) : 0;
   }
   function namaTerakhir(code) {
     const n = NEGARA.find((x) => x.code === code); if (!n || S.last[code] == null) return "";
@@ -1524,7 +1545,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
       if (!f.channels.length) return pesan("Tidak ada channel di playlist itu. Pastikan isinya format M3U.", true);
       const name = f.name || (f.file || f.url.split("/").pop() || "Playlist").replace(/\.m3u8?$/i, "");
       const pl = { id: Date.now().toString(36), name, code: kodePL(name), src: f.src, url: f.url || "", mode: f.mode,
-        target: (BASE[f.target] || BASE[0]).code, channels: f.channels, added: new Date().toISOString(), lv: 1 };
+        target: (BASE[f.target] || BASE[0]).code, channels: f.channels, added: new Date().toISOString(), lv: 3 };
       PL.push(pl);
       if (!simpanPL()) { PL.pop(); return pesan("Penyimpanan penuh. Hapus playlist lain dulu.", true); }
       S.form = null; rebuild(); renderPlaylists();
@@ -1586,7 +1607,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
     document.querySelectorAll(".tv .focus").forEach((x) => x.classList.remove("focus"));
     if (!el) return;
     el.classList.add("focus");
-    const box = el.closest(".strip, .chlist, .cgrid, .chgrid, .rtabs, .setwrap, .dgrid");
+    const box = el.closest(".strip, .chlist, .cgrid, .chgrid, .rtabs, .setwrap, .dgrid, .navbar");  // navbar: geser kalau playlist saya membuatnya lebih lebar dari layar
     if (box) {
       dekatUjung(box, el);
       const vert = box.classList.contains("chlist") || box.classList.contains("cgrid") || box.classList.contains("chgrid") || box.classList.contains("setwrap") || box.classList.contains("dgrid");
@@ -1656,7 +1677,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
     else if (a === "pl-refresh") {
       const pl = PL.find((x) => x.id === el.dataset.id); el.textContent = "Mengunduh…";
       ambilLink(pl.url).then((t) => {
-        const chs = parseM3U(t, pl.url).channels; if (chs.length) { pl.channels = chs; pl.lv = 1; }
+        const chs = parseM3U(t, pl.url).channels; if (chs.length) { pl.channels = chs; pl.lv = 3; }
         simpanPL(); rebuild(); renderPlaylists(); log(`"${pl.name}" diperbarui: ${pl.channels.length} channel`);
       }).catch((e) => { el.textContent = "Gagal"; log(`Gagal memperbarui "${pl.name}": ${e.message}`); });
     }
@@ -1778,11 +1799,12 @@ html.app .screen, html.app .screen * { animation: none !important; }
   tick(); setInterval(tick, 15000);
   setInterval(isiAcara, 60000);
   setTimeout(() => muatJadwal(), 4000); setInterval(() => muatJadwal(), 3600e3);
-  /* Playlist dari link yang disimpan versi lama belum menyimpan tvg-logo: unduh ulang sekali di latar belakang. */
+  /* Playlist dari link yang disimpan versi lama belum menyimpan tvg-logo / tanda bahasa: unduh ulang sekali di latar belakang. */
   setTimeout(async () => {
     let berubah = false;
-    for (const pl of PL.filter((x) => x.src === "url" && x.url && !x.lv)) {
-      try { const chs = parseM3U(await ambilLink(pl.url), pl.url).channels; if (chs.length) { pl.channels = chs; } pl.lv = 1; berubah = true; }
+    // lv 1 = tvg-logo tersimpan, lv 2 = tanda bahasa [ENG]/[HIN] di nama, lv 3 = nama benar walau link logo berisi koma
+    for (const pl of PL.filter((x) => x.src === "url" && x.url && (x.lv || 0) < 3)) {
+      try { const chs = parseM3U(await ambilLink(pl.url), pl.url).channels; if (chs.length) { pl.channels = chs; } pl.lv = 3; berubah = true; }
       catch (e) { log(`Logo playlist "${pl.name}" belum bisa diperbarui: ${e.message}`); }
     }
     if (berubah && simpanPL()) { rebuild(); if (S.screen === "dash") renderDash(); else render(); }
