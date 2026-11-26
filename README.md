@@ -57,4 +57,4 @@ Pembaruan rutin channel nasional: `iptv\update-playlist.ps1` (tambahkan `-Audit`
 
 ## Lisensi
 
-[MIT](LICENSE) © 2026 Trias. Komponen pihak ketiga (hls.js, data iptv-org) mengikuti lisensinya masing-masing.
+[MIT](LICENSE) © 2026 Trias. Komponen pihak ketiga (hls.js, data iptv-org) mengikuti lisensinya masing-masing — lihat [NOTICE.md](NOTICE.md).
