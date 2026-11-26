@@ -915,7 +915,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
   }
   function start(c) {
     tv.classList.remove("kosong");
-    bufSejak = 0; $("#bufLambat").hidden = true; NET.ping = []; NET.kbs = 0; NET.ukur = false;
+    bufSejak = 0; $("#bufLambat").hidden = true; NET.ping = []; NET.kbs = 0; NET.ukur = false; NET.butuh = [];
     setState("menyambung…"); showToast("load", c);
     SUB.ada = false; SUB.seq++; $("#subs").textContent = "";
     // Di aplikasi Android, header khusus (Referer/User-Agent) dikirim oleh sisi Java.
@@ -936,6 +936,9 @@ html.app .screen, html.app .screen * { animation: none !important; }
       // Ping ≈ waktu sampai byte pertama playlist (diulang tiap beberapa detik untuk siaran live); diambil yang terkecil.
       const catatPing = (_, d) => { const l = d.stats && d.stats.loading; if (l && l.first > l.start) NET.ping = [...NET.ping, l.first - l.start].slice(-6); };
       hls.on(Hls.Events.MANIFEST_LOADED, catatPing); hls.on(Hls.Events.LEVEL_LOADED, catatPing);
+      // Kebutuhan sebenarnya = ukuran potongan video / durasinya (untuk playlist yang tidak mencantumkan bitrate, mis. Music Box Hits ±48 KB/s).
+      hls.on(Hls.Events.FRAG_LOADED, (_, d) => { const f = d.frag; if (f && f.type === "main" && f.duration > 0 && f.stats && f.stats.loaded)
+        NET.butuh = [...NET.butuh, f.stats.loaded / f.duration].slice(-5); });
       hls.on(Hls.Events.MANIFEST_PARSED, () => { capQuality(); if (S.screen !== "dash") video.play().catch(() => {}); });
       hls.on(Hls.Events.ERROR, (_, d) => {
         if (!d.fatal) { if (d.details === "bufferStalledError") setState("buffering…"); return; }
@@ -996,13 +999,13 @@ html.app .screen, html.app .screen * { animation: none !important; }
     const satu = hls && hls.levels && hls.levels.length === 1;
     const res = video.videoHeight ? `${video.videoHeight}p${satu ? (BAHASA === "en" ? " · single quality" : " · satu kualitas") : ""}` : "—";
     if ($("#osdRes").textContent !== res) $("#osdRes").textContent = res;
-    ukurJaringan();
+    ukurJaringan(ahead);
   }, 700);
   /* Ping & kecepatan unduh video, untuk baris info dan kotak "server lambat".
      Kecepatan dihitung dari potongan video yang sedang/terakhir diunduh, jadi tetap terbaca walau potongannya tidak pernah selesai. */
-  var NET = { ping: [], kbs: 0 };  // var: start() bisa terpanggil sebelum baris ini
+  var NET = { ping: [], kbs: 0, butuh: [] };  // var: start() bisa terpanggil sebelum baris ini
   const fmtKB = (b) => b >= 1024 * 1024 ? (b / 1048576).toFixed(1) + " MB/s" : Math.round(b / 1024) + " KB/s";
-  function ukurJaringan() {
+  function ukurJaringan(ahead = 0) {
     if (!hls) return;
     const f = hls.streamController && hls.streamController.fragCurrent, st = f && f.stats;
     const jalan = st && st.loading && st.loading.start && !st.loading.end;
@@ -1014,11 +1017,12 @@ html.app .screen, html.app .screen * { animation: none !important; }
       NET.kbs = hls.bandwidthEstimate / 8; NET.ukur = true;
     }
     const lv = hls.levels && hls.levels[hls.currentLevel >= 0 ? hls.currentLevel : hls.loadLevel];
-    const butuh = lv && lv.bitrate ? lv.bitrate / 8 : 0;
+    const butuh = lv && lv.bitrate ? lv.bitrate / 8 : NET.butuh.length ? Math.max(...NET.butuh) : 0;
     const ping = NET.ping.length ? Math.round(Math.min(...NET.ping)) + " ms" : "—";
     const cepat = NET.ukur ? fmtKB(NET.kbs) : "";
-    // Tanpa info bitrate (playlist tanpa daftar kualitas): di bawah ±100 KB/s video SD pun tidak sempat terisi.
-    const kelas = !NET.ukur ? "" : NET.kbs < (butuh || 100 * 1024) ? "pelan" : "ok";
+    // Belum ada potongan yang selesai & tanpa info bitrate: di bawah ±100 KB/s video SD pun biasanya tidak sempat terisi.
+    // Buffer masih ≥ 8 dtk = tontonan aman (saat buffer penuh unduhan berhenti sebentar, jadi angka sesaat bisa rendah).
+    const kelas = !NET.ukur ? "" : ahead >= 8 || NET.kbs >= (butuh || 100 * 1024) ? "ok" : "pelan";
     const teks = cepat ? `${ping} · ${cepat}` : ping, el = $("#osdNet");
     if (el.textContent !== teks) el.textContent = teks;
     el.className = "net " + kelas;
