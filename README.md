@@ -43,6 +43,16 @@ Lewat laptop: `adb connect <ip-tv>:5555` lalu `adb install -r TV-ZT-v1.0.apk`.
 | **Back** | kembali (di Dashboard: keluar) |
 | **Menu** / ikon ⚙ | Pengaturan: kualitas, buffer, subtitle, **Cari sinyal**, Playlist saya |
 
+## Lapor masalah / usul
+
+Ketemu masalah atau punya ide? Buka **[Issues → New issue](https://github.com/Trias1/tv-zt/issues/new/choose)** (perlu akun GitHub gratis), lalu pilih:
+
+- 🐞 **Lapor masalah**: aplikasi error, tidak bisa dipasang, macet, tombol remote tidak jalan
+- 📺 **Channel mati / salah**: channel tidak bisa diputar, isinya tidak sesuai, logo atau jadwal keliru
+- 💡 **Usul fitur / channel**: ide fitur baru atau link channel gratis
+
+Isi kolom yang disediakan (perangkat, versi TV ZT, langkah sampai masalah muncul) dan lampirkan foto layar kalau bisa. Sebelum melapor channel mati, coba dulu **Pengaturan → Cari sinyal channel**, karena link dari iptv-org kadang mati sementara. Jangan tulis data pribadi di laporan, karena laporan bisa dilihat semua orang.
+
 ## Struktur
 
 | Folder | Isi |

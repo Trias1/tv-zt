@@ -1,0 +1,39 @@
+name: 📺 Channel mati / salah
+description: Channel tidak bisa diputar, isi tidak sesuai nama, logo salah, atau jadwal keliru
+title: "[Channel] "
+labels: ["channel"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Coba dulu **Pengaturan → Cari sinyal channel** di TV ZT. Channel dari iptv-org kadang mati sementara dan hidup lagi sendiri.
+  - type: input
+    id: channel
+    attributes:
+      label: Nama & nomor channel
+      placeholder: Contoh — Indonesia · 8 Trans7
+    validations:
+      required: true
+  - type: dropdown
+    id: jenis
+    attributes:
+      label: Masalahnya
+      options:
+        - Tidak bisa diputar / error
+        - Putar tapi patah-patah
+        - Isi tidak sesuai nama channel
+        - Logo salah / tidak muncul
+        - Jadwal acara keliru
+        - Lainnya
+    validations:
+      required: true
+  - type: input
+    id: pesan
+    attributes:
+      label: Pesan error di layar (kalau ada)
+      placeholder: Contoh — manifestLoadError · HTTP 403
+  - type: input
+    id: jaringan
+    attributes:
+      label: Internet yang dipakai
+      placeholder: Contoh — IndiHome 30 Mbps, Wi-Fi
