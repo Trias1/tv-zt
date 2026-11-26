@@ -39,3 +39,4 @@ __pycache__/
 
 install-log*.txt
 tema-ringan/*.sebelum-*
+dist/

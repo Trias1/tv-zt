@@ -1,0 +1,1 @@
+return document.querySelector("#scan").hidden ? "panel tertutup" : document.querySelector("#scan").innerText.replace(/\n/g, " | ");
