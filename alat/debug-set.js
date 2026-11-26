@@ -1,0 +1,1 @@
+return {raw: localStorage.getItem("tvzt.set"), lang: document.documentElement.lang, href: location.href};

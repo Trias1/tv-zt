@@ -254,7 +254,9 @@ public class MainActivity extends Activity {
         lp.topMargin = (int) (22 * dp);
         box.addView(pb, lp);
         TextView msg = new TextView(this);
-        msg.setText("Memuat channel…");
+        // Bahasa perangkat Indonesia ("in"/"id") → teks Indonesia, selain itu English.
+        String bhs = Locale.getDefault().getLanguage();
+        msg.setText("in".equals(bhs) || "id".equals(bhs) ? "Memuat channel…" : "Loading channels…");
         msg.setTextColor(0xFFA3B1C6);
         msg.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         LinearLayout.LayoutParams mp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);

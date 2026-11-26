@@ -1,0 +1,1 @@
+setTimeout(() => location.reload(), 3000); return "reload dalam 3 dtk";

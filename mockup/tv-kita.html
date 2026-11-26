@@ -530,7 +530,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
       <div class="osd" id="osd">
         <div class="numbox" id="osdNo"></div>
         <div class="body">
-          <div class="row1"><img id="osdLogo" alt="" hidden><span class="name" id="osdName"></span><span class="livebadge"><i></i>LIVE</span><span class="subid besar" id="osdSub" hidden>SUB ID</span></div>
+          <div class="row1"><img id="osdLogo" alt="" hidden><span class="name" id="osdName"></span><span class="livebadge"><i></i>LIVE</span><span class="subid besar" id="osdSub" hidden>SUB</span></div>
           <div class="row0" id="osdEpg" hidden></div>
           <div class="row2">
             <span>Kualitas <b id="osdRes">—</b></span>
@@ -673,8 +673,133 @@ html.app .screen, html.app .screen * { animation: none !important; }
       else setNegara(0);
     }
   }
+
+  /* ---------- bahasa (Indonesia / English) ---------- */
+  // Bahasa dibaca sekali saat aplikasi dibuka (bawaan English untuk versi publik); ganti bahasa = muat ulang.
+  const BAHASA = (() => { try { const v = JSON.parse(localStorage.getItem("tvzt.set") || "{}").lang; return v === 0 ? "id" : "en"; } catch { return "en"; } })();
+  const LOC = BAHASA === "en" ? "en-US" : "id-ID";
+  document.documentElement.lang = BAHASA;
+  const EN_PAS = {
+    "Memuat channel…": "Loading channels…", "memuat playlist…": "loading playlist…",
+    "Terakhir ditonton": "Recently watched", "Channel": "Channels", "Kualitas": "Quality", "daftar channel": "channel list",
+    "Semua negara": "All countries", "Playlist saya": "My playlists", "+ Tambah dari link": "+ Add from link", "+ Tambah dari file": "+ Add from file",
+    "Pengaturan": "Settings", "Semua gratis.": "Everything is free.", "Tidak ada pilihan yang dikunci versi Premium.": "Nothing is locked behind a Premium version.",
+    "Kiri/kanan mengganti nilai. Back kembali ke beranda.": "Left/right changes the value. Back returns home.",
+    "Beranda": "Home", "Negara": "Country", "Menonton": "Watching", "Daftar channel": "Channel list", "Suara": "Sound",
+    "menyambung…": "connecting…", "lancar": "playing", "gagal": "failed", "berhenti": "stop",
+    "Menyambung ke siaran…": "Connecting to the stream…", "Disembunyikan, pindah ke channel berikutnya…": "Hidden, moving to the next channel…",
+    "Tekan ▲/▼ untuk pindah channel.": "Press ▲/▼ to change channel.",
+    "Server channel ini sedang menolak atau mati. Coba lagi nanti, atau perbarui playlist.": "This channel's server is refusing or down. Try again later, or refresh the playlist.",
+    "Kemungkinan server menolak browser (CORS) atau koneksi lewat VPN/IP luar negeri. Di box TV bisa berbeda.": "The server probably refuses browsers (CORS) or foreign VPN/IP connections. It may work on the TV box.",
+    "Channel ini butuh header Referer/User-Agent khusus yang tidak bisa dikirim browser. Di aplikasi TV nanti header ini dikirim.": "This channel needs a special Referer/User-Agent header that browsers can't send. The TV app sends it.",
+    "hls.js tidak termuat (cek internet)": "hls.js failed to load (check the internet)",
+    "Jadwal acara": "Programme guide", "Sekarang": "Now", "Berikutnya": "Next",
+    "Cari sinyal": "Signal scan", "Centang kelompok yang mau dicek": "Tick the groups to check", "pilih": "select", "centang": "tick", "tutup": "close",
+    "Mencari sinyal…": "Scanning…", "Selesai": "Done", "Pencarian dihentikan": "Scan stopped", "Luar negeri": "Other countries",
+    "Channel tanpa sinyal disembunyikan 3 hari (channel nasional tetap tampil).": "Channels without signal are hidden for 3 days (national channels stay visible).",
+    "Di browser hasil ini hanya perkiraan; cek sebenarnya dilakukan di box.": "In a browser this is only an estimate; the real check runs on the TV box.",
+    "Lanjut menonton · tekan OK untuk layar penuh": "Continue watching · press OK for full screen",
+    "Semua channel": "All channels", "Pilih negara dulu": "Pick a country first", "Terakhir:": "Last:", "Belum ada yang ditonton": "Nothing watched yet",
+    "● sedang diputar": "● playing", "● diputar": "● playing", "siaran langsung": "live", "tidak 24 jam": "not 24/7", "tidak tersedia": "unavailable",
+    "pilih ·": "select ·", "centang ·": "tick ·", "Indonesia atau English": "Indonesian or English", "aplikasi dimuat ulang": "the app reloads", "lanjut menonton": "continue watching", "tekan OK untuk layar penuh": "press OK for full screen", "nasional & daerah": "national & regional", "ada jadwal acara": "with TV guide", "sedang diputar": "playing", "▶ Mulai cari": "▶ Start scan", "kartu sendiri di beranda": "own card on the dashboard",
+    "Status": "Status", "Header khusus": "Custom headers", "tidak perlu": "not needed", "siap diputar": "ready", "siap diputar · tidak 24 jam": "ready · not 24/7",
+    "tonton": "watch", "ganti negara": "change country", "Alternatif": "Alternative",
+    "Aplikasi Vidio atau antena digital": "Vidio app or a digital antenna", "Aplikasi RCTI+ atau antena digital": "RCTI+ app or a digital antenna", "Antena digital (DVB-T2)": "Digital antenna (DVB-T2)",
+    "belum ada playlist": "no playlists yet", "kartu sendiri di beranda": "own card on the dashboard", "Lihat channel": "View channels",
+    "Jadikan kartu": "Make a card", "Gabungkan": "Merge", "Perbarui": "Refresh", "Hapus": "Delete", "Yakin hapus?": "Delete for sure?", "Gagal": "Failed",
+    "Belum ada playlist tambahan.": "No extra playlists yet.", "Tambahkan file": "Add a", "dari link (misalnya raw GitHub) atau dari file.": "file from a link (e.g. raw GitHub) or from a file.",
+    "Anda bisa memilih tampil sebagai": "You can show it as a", "kartu baru": "new card", "atau": "or", "digabung": "merged", "ke negara yang sudah ada.": "into an existing country.",
+    "Tambah dari link": "Add from link", "Tambah dari file": "Add from file", "Link playlist (.m3u)": "Playlist link (.m3u)", "Nama": "Name",
+    "Tampilkan sebagai": "Show as", "Kartu baru": "New card", "Simpan": "Save", "Batal": "Cancel",
+    "Kiri/kanan di tombol Gabung untuk memilih negara.": "Left/right on the Merge button picks the country.", "Muncul sebagai kartu sendiri di beranda.": "Shows up as its own card on the dashboard.",
+    "Link harus diawali http:// atau https://": "The link must start with http:// or https://", "Mengunduh playlist…": "Downloading playlist…",
+    "Tidak ada channel di playlist itu. Pastikan isinya format M3U.": "No channels in that playlist. Make sure it is in M3U format.",
+    "Penyimpanan penuh. Hapus playlist lain dulu.": "Storage is full. Delete another playlist first.", "File itu tidak berisi channel M3U.": "That file has no M3U channels.",
+    "Misalnya: Film Gratis": "e.g. Free Movies",
+    // Pengaturan
+    "Ukuran buffer": "Buffer size", "Lebih besar = lebih tahan macet, tapi ganti channel sedikit lebih lama": "Bigger = fewer stalls, but channel changes take a bit longer",
+    "Normal · 10 dtk": "Normal · 10 s", "Besar · 30 dtk": "Large · 30 s", "Sangat besar · 60 dtk": "Very large · 60 s",
+    "Batasi kualitas supaya hemat kuota": "Limit quality to save data", "Otomatis": "Auto",
+    "Lanjutkan channel terakhir": "Resume last channel", "Saat membuka kelompok, mulai dari channel yang terakhir ditonton": "When opening a group, start from the last watched channel",
+    "Aktif": "On", "Mati": "Off", "Subtitle luar negeri": "Foreign subtitles",
+    "Untuk channel yang menyediakan subtitle · terjemahan otomatis lewat Google Translate": "For channels that send subtitles · automatic translation via Google Translate",
+    "Terjemahan Indonesia": "Translate to English", "Bahasa asli": "Original language",
+    "Channel gagal diputar": "Channels that fail to play", "Disembunyikan 3 hari lalu dicoba lagi · langsung pindah ke channel berikutnya": "Hidden for 3 days, then retried · jumps to the next channel",
+    "Sembunyikan & lewati": "Hide & skip", "Tetap tampilkan": "Keep showing", "Channel tidak tersedia": "Unavailable channels",
+    "SCTV, Indosiar, dan lainnya yang linknya mati": "SCTV, Indosiar and others with dead links", "Tampilkan abu-abu": "Show greyed out", "Sembunyikan": "Hide",
+    "Cari sinyal channel": "Scan channel signals", "Pilih ▶": "Choose ▶",
+    "Pilih kelompok (Indonesia, luar negeri, kategori) lalu cek ulang · yang mati disembunyikan, yang hidup lagi dimunculkan": "Pick groups (Indonesia, other countries, categories) and re-check · dead ones are hidden, recovered ones come back",
+    "Tambah playlist .m3u dari link atau file, jadi kartu baru atau digabung ke negara": "Add an .m3u playlist from a link or file, as a new card or merged into a country",
+    "Pulihkan channel tersembunyi": "Restore hidden channels", "Tampilkan lagi channel yang tadi gagal diputar": "Show the channels that failed earlier again",
+    "Zona waktu": "Time zone", "Jam dan jadwal acara mengikuti zona ini": "The clock and programme guide follow this zone", "Otomatis (perangkat)": "Auto (device)",
+    // kategori, grup, wilayah
+    "Anak & Kartun": "Kids & Cartoons", "Film": "Movies", "Berita & Olahraga": "News & Sports", "Musik": "Music", "Lofi & Santai": "Lo-fi & Relax", "Sub Indo": "Subtitled",
+    "Anak": "Kids", "Berita": "News", "Lofi": "Lo-fi", "Nasional": "National", "Daerah": "Regional", "Baitullah & Madinah": "Baitullah & Madinah (live)",
+    "Islam Indonesia": "Islam · Indonesia", "Islam Dunia": "Islam · World", "Suara Jepang": "Japanese audio", "Favorit": "Favourites",
+    "Musik Indonesia": "Indonesian music", "Musik Barat": "Western music", "Film Indonesia": "Indonesian movies", "Film Hollywood": "Hollywood movies",
+    "Dokumenter": "Documentary", "Olahraga": "Sports", "Musik & Santai": "Music & Relax", "Lainnya": "Other", "Semua": "All",
+    "Asia Tenggara": "Southeast Asia", "Timur Tengah": "Middle East", "Eropa": "Europe", "Amerika Selatan": "South America",
+    "Amerika Utara & Tengah": "North & Central America", "Afrika": "Africa", "Oseania": "Oceania", "Kategori": "Category",
+    "paket pilihan Indonesia + internasional": "curated Indonesian + international package", "Baitullah & Madinah live, dakwah, murottal": "live Makkah & Madinah, sermons, Quran recitation",
+    "subtitle diterjemahkan ke Indonesia": "subtitles translated to English", "kartun dan acara anak": "cartoons and kids' shows", "film Indonesia & Hollywood": "Indonesian & Hollywood movies",
+    "berita dunia dan olahraga": "world news and sports", "musik Indonesia & barat": "Indonesian & Western music", "lofi, jazz, lounge, alam": "lo-fi, jazz, lounge, nature", "playlist saya": "my playlist",
+  };
+  // Pola per bagian (teks dipecah di " · " lalu tiap bagian diterjemahkan).
+  const EN_POLA = [
+    [/^([\d.,]+) channel$/, "$1 channels"], [/^([\d.,]+) channel hidup$/, "$1 live channels"], [/^([\d.,]+) negara$/, "$1 countries"],
+    [/^([\d.,]+) kelompok$/, "$1 groups"], [/^([\d.,]+)\/([\d.,]+) channel$/, "$1/$2 channels"], [/^([\d.,]+) playlist$/, "$1 playlists"],
+    [/^([\d]+) dtk$/, "$1 s"], [/^([\d.,]+) \/ ([\d]+) dtk$/, "$1 / $2 s"], [/^\u00b1([\d]+) menit$/, "~$1 min"],
+    [/^Sekarang: /, "Now: "], [/^lalu /, "then "], [/^semua ([\d.,]+) negara$/, "all $1 countries"], [/^Luar$/, "Abroad"],
+    [/ sedang tidak bisa diputar$/, " is not playable right now"], [/ belum bisa diputar di browser$/, " can't play in this browser yet"],
+    [/^Subtitle: Indonesia$/, "Subtitle: English"], [/^Subtitle: asli$/, "Subtitle: original"], [/^Subtitle: mati$/, "Subtitle: off"], [/^Suara: /, "Audio: "],
+    [/^\u25cf ([\d.,]+) ada sinyal$/, "\u25cf $1 with signal"], [/^\u25cf ([\d.,]+) tidak ada sinyal$/, "\u25cf $1 no signal"], [/^\u21ba ([\d.,]+) muncul lagi$/, "\u21ba $1 back again"],
+    [/^sisa \u00b1([\d]+) menit \u00b7$/, "about $1 min left \u00b7"], [/^digabung ke /, "merged into "], [/^dari link$/, "from link"], [/^dari file$/, "from file"],
+    [/^Gabung ke (.*) \u25c0 \u25b6$/, "Merge into $1 \u25c0 \u25b6"], [/^terakhir (.+)$/, "last $1"], [/^([\d.,]+) hidup$/, "$1 alive"],
+    [/^Berita$/, "News"], [/^Olahraga$/, "Sports"],
+  ];
+  // Teks yang tidak boleh diterjemahkan: nama channel, judul acara, subtitle.
+  const JANGAN = "#subs, .ccard .t, .rcard .t, #osdEpg b, #heroName, #osdName, #bufName, .kini, .chead .nm, #detail .t, .plrow .t, .jadwal .r, .lhead";
+  function terjemahBagian(x) {
+    if (EN_PAS[x] != null) return EN_PAS[x];
+    let r = x; for (const [re, ganti] of EN_POLA) r = r.replace(re, ganti);
+    return r;
+  }
+  function terjemahTeks(k) {
+    if (EN_PAS[k] != null) return EN_PAS[k];
+    if (k.includes(" \u00b7 ")) return k.split(" \u00b7 ").map(terjemahBagian).join(" \u00b7 ");
+    return terjemahBagian(k);
+  }
+  function terjemahSimpul(n) {
+    const p = n.parentElement; if (!p || p.classList.contains("li") || p.closest(JANGAN)) return;  // nama channel di daftar = teks langsung di .li
+    const s0 = n.nodeValue, k = s0.trim(); if (!k || !/[a-z]/i.test(k)) return;
+    const r = terjemahTeks(k); if (r !== k) n.nodeValue = s0.replace(k, r);
+  }
+  function terjemahDi(root) {
+    if (root.nodeType === 3) { terjemahSimpul(root); return; }
+    if (root.nodeType !== 1) return;
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); let n;
+    while ((n = w.nextNode())) terjemahSimpul(n);
+    for (const el of root.querySelectorAll ? root.querySelectorAll("input[placeholder]") : []) { const t = terjemahTeks(el.placeholder); if (t !== el.placeholder) el.placeholder = t; }
+  }
+  if (BAHASA === "en") {
+    terjemahDi(document.body);
+    new MutationObserver((ms) => { for (const m of ms) { if (m.type === "characterData") terjemahSimpul(m.target); else for (const a of m.addedNodes) terjemahDi(a); } })
+      .observe(document.body, { childList: true, subtree: true, characterData: true });
+  }
+
+  /* ---------- zona waktu ---------- */
+  const ZONA = [["Otomatis (perangkat)", ""], ["WIB · Jakarta", "Asia/Jakarta"], ["WITA · Makassar", "Asia/Makassar"], ["WIT · Jayapura", "Asia/Jayapura"],
+    ["Singapore / Kuala Lumpur", "Asia/Singapore"], ["Tokyo", "Asia/Tokyo"], ["Riyadh / Makkah", "Asia/Riyadh"], ["Dubai", "Asia/Dubai"],
+    ["London", "Europe/London"], ["Berlin / Paris", "Europe/Berlin"], ["New York", "America/New_York"], ["Los Angeles", "America/Los_Angeles"], ["Sydney", "Australia/Sydney"], ["UTC", "UTC"]];
+  const zonaIANA = () => { const z = ZONA[(S && S.set && S.set.tz) || 0]; return (z && z[1]) || Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Jakarta"; };
+  function labelZona() {
+    const z = zonaIANA(), id = { "Asia/Jakarta": "WIB", "Asia/Pontianak": "WIB", "Asia/Makassar": "WITA", "Asia/Jayapura": "WIT" }[z];
+    if (id) return id;
+    try { return new Intl.DateTimeFormat(LOC, { timeZone: z, timeZoneName: "short" }).formatToParts(new Date()).find((x) => x.type === "timeZoneName").value; } catch { return ""; }
+  }
+
   const namaNegara = (() => {
-    let dn = null; try { dn = new Intl.DisplayNames(["id"], { type: "region" }); } catch {}
+    let dn = null; try { dn = new Intl.DisplayNames([BAHASA], { type: "region" }); } catch {}
     return (code) => { try { return (dn && dn.of(code)) || code; } catch { return code; } };
   })();
   function loadData(d) {
@@ -717,8 +842,10 @@ html.app .screen, html.app .screen * { animation: none !important; }
   // cc = negara yang diputar, view = negara yang sedang dibuka, lc = negara di daftar channel, region = filter benua
   const S = { screen: "dash", cur: 0, cc: 0, view: 0, lc: 0, region: "Semua", from: "home", recent: [], muted: true,
     stack: [], last: {},
-    set: { buffer: 1, quality: 0, resume: 0, showOff: 0, subs: 0, failShow: 0 } };
+    set: { buffer: 1, quality: 0, resume: 0, showOff: 0, subs: 0, failShow: 0, lang: 1, tz: 0 } };
   const OPTS = {
+    lang: { label: "Bahasa / Language", help: "Indonesia atau English · aplikasi dimuat ulang", vals: ["Indonesia", "English"] },
+    tz: { label: "Zona waktu", help: "Jam dan jadwal acara mengikuti zona ini", vals: ZONA.map((z) => z[0]) },
     buffer: { label: "Ukuran buffer", help: "Lebih besar = lebih tahan macet, tapi ganti channel sedikit lebih lama", vals: ["Normal · 10 dtk", "Besar · 30 dtk", "Sangat besar · 60 dtk"], sec: [10, 30, 60] },
     quality: { label: "Kualitas", help: "Batasi kualitas supaya hemat kuota", vals: ["Otomatis", "720p", "480p", "360p"], h: [0, 720, 480, 360] },
     resume: { label: "Lanjutkan channel terakhir", help: "Saat membuka kelompok, mulai dari channel yang terakhir ditonton", vals: ["Aktif", "Mati"] },
@@ -866,7 +993,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
     { url: "https://epg.pw/xmltv/epg_ID.xml.gz", gz: true, tz: 480 },
   ];
   const kunci = (s) => String(s || "").toLowerCase().replace(/\(.*?\)|\[.*?\]/g, "").replace(/\b(hd|sd|fhd)\b/g, "").replace(/[^a-z0-9]/g, "");
-  const jam = (ms) => new Date(ms).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Asia/Jakarta" });
+  const jam = (ms) => new Date(ms).toLocaleTimeString(LOC, { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: zonaIANA() });
   let EPG = store.get("epg", { at: 0, data: {} }), epgJalan = false;
   async function muatJadwal(paksa) {
     if (epgJalan || (!paksa && Date.now() - EPG.at < 6 * 3600e3)) return;
@@ -950,7 +1077,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
     if (k >= 0 && baru[k]) focus(baru[k]);
   };
   /* Tanda "SUB ID": channel luar negeri yang mengirim subtitle teks, jadi bisa diterjemahkan ke Indonesia. */
-  const subTag = (x, code) => x.sub && (x.cc0 || code) !== "ID" ? `<span class="subid">SUB ID</span>` : ""; // 0 = terjemahan Indonesia, 1 = bahasa asli, 2 = mati
+  const subTag = (x, code) => x.sub && (x.cc0 || code) !== "ID" ? `<span class="subid">${BAHASA === "en" ? "SUB EN" : "SUB ID"}</span>` : ""; // 0 = terjemahan Indonesia, 1 = bahasa asli, 2 = mati
   function terapkanSub() {
     if (hls) {
       if (subMode() === 2) hls.subtitleTrack = -1;
@@ -987,7 +1114,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
     if (SUB.cache.has(teks)) return SUB.cache.get(teks);
     try {
       const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 4000);
-      const r = await fetch("https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=id&dt=t&q=" + encodeURIComponent(teks), { signal: ctl.signal });
+      const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${BAHASA}&dt=t&q=` + encodeURIComponent(teks), { signal: ctl.signal });
       clearTimeout(tm);
       const j = await r.json();
       const hasil = (j[0] || []).map((x) => x[0]).join("").trim() || teks;
@@ -1045,8 +1172,8 @@ html.app .screen, html.app .screen * { animation: none !important; }
   function tulisPilih() {
     const n = jumlahPilih(), mulai = SCAN.opsi.length;
     $("#scan").innerHTML = `<div class="kotak pilih"><div class="jd">Cari sinyal</div><div class="grp">Centang kelompok yang mau dicek</div>
-      <div class="opsi">${SCAN.opsi.map((o, i) => `<div class="op${SCAN.pilih.has(o.key) ? " on" : ""}${SCAN.idx === i ? " fokus" : ""}"><span class="cek">${SCAN.pilih.has(o.key) ? "\u2713" : ""}</span>${esc(o.nama)}<span class="jm">${new Set(o.chs.map((c) => c.url)).size.toLocaleString("id-ID")}</span></div>`).join("")}</div>
-      <div class="op mulai${SCAN.idx === mulai ? " fokus" : ""}${n ? "" : " mati"}">\u25b6 Mulai cari \u00b7 ${n.toLocaleString("id-ID")} channel${n > 1500 ? ` \u00b7 \u00b1${Math.max(1, Math.round(n / 480))} menit` : ""}</div>
+      <div class="opsi">${SCAN.opsi.map((o, i) => `<div class="op${SCAN.pilih.has(o.key) ? " on" : ""}${SCAN.idx === i ? " fokus" : ""}"><span class="cek">${SCAN.pilih.has(o.key) ? "\u2713" : ""}</span>${esc(o.nama)}<span class="jm">${new Set(o.chs.map((c) => c.url)).size.toLocaleString(LOC)}</span></div>`).join("")}</div>
+      <div class="op mulai${SCAN.idx === mulai ? " fokus" : ""}${n ? "" : " mati"}">\u25b6 Mulai cari \u00b7 ${n.toLocaleString(LOC)} channel${n > 1500 ? ` \u00b7 \u00b1${Math.max(1, Math.round(n / 480))} menit` : ""}</div>
       <div class="ket"><kbd>\u25b2\u25bc</kbd> pilih \u00b7 <kbd>OK</kbd> centang \u00b7 <kbd>Back</kbd> tutup</div></div>`;
     const f = $("#scan .op.fokus"); if (f) f.scrollIntoView({ block: "nearest" });
   }
@@ -1071,9 +1198,9 @@ html.app .screen, html.app .screen * { animation: none !important; }
     const tulis = (judul, ket, paksa) => {
       if (!paksa && Date.now() - terakhir < 250) return; terakhir = Date.now();
       const pr = chs.length ? Math.round(sel2 / chs.length * 100) : 100;
-      el.innerHTML = `<div class="kotak"><div class="jd">${judul}</div><div class="grp">${esc(judulGrup)} \u00b7 ${sel2.toLocaleString("id-ID")}/${chs.length.toLocaleString("id-ID")} channel</div>
+      el.innerHTML = `<div class="kotak"><div class="jd">${judul}</div><div class="grp">${esc(judulGrup)} \u00b7 ${sel2.toLocaleString(LOC)}/${chs.length.toLocaleString(LOC)} channel</div>
         <div class="bar"><i style="width:${pr}%"></i></div>
-        <div class="angka"><span class="ok">\u25cf ${hidup.toLocaleString("id-ID")} ada sinyal</span><span class="no">\u25cf ${mati.toLocaleString("id-ID")} tidak ada sinyal</span>${pulih ? `<span>\u21ba ${pulih} muncul lagi</span>` : ""}</div>
+        <div class="angka"><span class="ok">\u25cf ${hidup.toLocaleString(LOC)} ada sinyal</span><span class="no">\u25cf ${mati.toLocaleString(LOC)} tidak ada sinyal</span>${pulih ? `<span>\u21ba ${pulih} muncul lagi</span>` : ""}</div>
         <div class="ket">${ket}</div></div>`;
     };
     const cari = `<span class="spin2"></span>Mencari sinyal\u2026`;
@@ -1174,7 +1301,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
     const lastLuar = rLuar ? (() => { const n = NEGARA.find((x) => x.code === rLuar.cc); const c = n && n.channels.find((x) => x.no === rLuar.no); return c ? `${c.name} · ${n.name}` : ""; })() : "";
     const akhir = (code, kosong) => { const t = namaTerakhir(code); return `<div class="last">${t ? `Terakhir: <b>${esc(t)}</b>` : kosong}</div>`; };
     const kartu = (n, ci, cls) => { const lg = deretLogo(n.channels, n.code, 4);
-      return `<div class="dtile ${cls}" data-f data-act="grp" data-cc="${ci}" style="--hue:${hue(n.code + n.name)}">${lg || `<span class="big">${n.channels.length}</span>`}<div class="t">${esc(n.name)}</div><div class="s">${n.channels.length.toLocaleString("id-ID")} channel · ${esc(n.desc || "playlist saya")}</div>${akhir(n.code, "Belum ada yang ditonton")}</div>`; };
+      return `<div class="dtile ${cls}" data-f data-act="grp" data-cc="${ci}" style="--hue:${hue(n.code + n.name)}">${lg || `<span class="big">${n.channels.length}</span>`}<div class="t">${esc(n.name)}</div><div class="s">${n.channels.length.toLocaleString(LOC)} channel · ${esc(n.desc || "playlist saya")}</div>${akhir(n.code, "Belum ada yang ditonton")}</div>`; };
     const tiles = [];
     if (idx >= 0) {
       const n = NEGARA[idx];
@@ -1182,14 +1309,14 @@ html.app .screen, html.app .screen * { animation: none !important; }
     }
     const iv = NEGARA.findIndex((n) => n.code === "IV");
     if (iv >= 0) tiles.push(kartu(NEGARA[iv], iv, "kat"));
-    tiles.push(`<div class="dtile" data-f data-act="countries" style="--hue:${hue("luar")}">${(iv >= 0 && deretLogo(NEGARA[iv].channels.filter((c) => c.cc0 !== "ID"), "IV", 4)) || `<span class="big">${luar.length}</span>`}<div class="t">Luar negeri</div><div class="s">${luar.length} negara · ${luarCh.toLocaleString("id-ID")} channel</div><div class="last">${lastLuar ? `Terakhir: <b>${esc(lastLuar)}</b>` : "Pilih negara dulu"}</div></div>`);
+    tiles.push(`<div class="dtile" data-f data-act="countries" style="--hue:${hue("luar")}">${(iv >= 0 && deretLogo(NEGARA[iv].channels.filter((c) => c.cc0 !== "ID"), "IV", 4)) || `<span class="big">${luar.length}</span>`}<div class="t">Luar negeri</div><div class="s">${luar.length} negara · ${luarCh.toLocaleString(LOC)} channel</div><div class="last">${lastLuar ? `Terakhir: <b>${esc(lastLuar)}</b>` : "Pilih negara dulu"}</div></div>`);
     NEGARA.forEach((n, ci) => { if (n.kat && n.code !== "IV") tiles.push(kartu(n, ci, "kat")); });
     NEGARA.forEach((n, ci) => { if (n.user) tiles.push(kartu(n, ci, "")); });
     $("#dgrid").innerHTML = tiles.join("");
     $("#drow").innerHTML = `<div class="dmini" data-f data-act="playlists"><span class="ic">+</span>Playlist saya</div>
       <div class="dmini" data-f data-act="settings"><span class="ic">⚙</span>Pengaturan</div>`;
     const total = BASE.reduce((a, n) => a + n.channels.length, 0);
-    $("#dashCount").textContent = `${NEGARA.length} kelompok · ${total.toLocaleString("id-ID")} channel`;
+    $("#dashCount").textContent = `${NEGARA.length} kelompok · ${total.toLocaleString(LOC)} channel`;
   }
   /* Buka beranda satu kelompok: lanjutkan channel terakhir di kelompok itu. */
   function bukaGrup(ci) {
@@ -1469,6 +1596,8 @@ html.app .screen, html.app .screen * { animation: none !important; }
     if (k === "buffer") start(chan());
     if (k === "quality") capQuality();
     if (k === "subs") terapkanSub();
+    if (k === "lang") { setTimeout(() => location.reload(), 300); }
+    if (k === "tz") { tick(); isiAcara(); }
     const keep = k; render(); focus($(`#setwrap [data-k="${keep}"]`));
   }
   /* Mengembalikan false hanya untuk Back di Dashboard, supaya aplikasi Android boleh menutup diri. */
@@ -1568,8 +1697,8 @@ html.app .screen, html.app .screen * { animation: none !important; }
   });
 
   /* ---------- jam WIB & skala layar ---------- */
-  const fmt = new Intl.DateTimeFormat("id-ID", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Jakarta" });
-  const tick = () => { const t = fmt.format(new Date()).replace(".", ":"); $("#clock1").innerHTML = `${t}<small>WIB</small>`; $("#clock2").innerHTML = `${t}<small>WIB</small>`; $("#clock3").innerHTML = `${t}<small>WIB</small>`; };
+  const fmtJam = () => new Intl.DateTimeFormat(LOC, { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: zonaIANA() });
+  const tick = () => { const t = fmtJam().format(new Date()).replace(".", ":"), zl = labelZona(); $("#clock1").innerHTML = `${t}<small>${zl}</small>`; $("#clock2").innerHTML = `${t}<small>${zl}</small>`; $("#clock3").innerHTML = `${t}<small>${zl}</small>`; };
   tick(); setInterval(tick, 15000);
   setInterval(isiAcara, 60000);
   setTimeout(() => muatJadwal(), 4000); setInterval(() => muatJadwal(), 3600e3);

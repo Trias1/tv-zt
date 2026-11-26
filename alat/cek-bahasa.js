@@ -1,0 +1,1 @@
+const w=(ms)=>new Promise(r=>setTimeout(r,ms)); TVZT.key("home"); await w(500); return {lang:document.documentElement.lang, jam:document.querySelector("#clock3").textContent, kartu:[...document.querySelectorAll("#dgrid .dtile")].slice(0,3).map(e=>e.querySelector(".t").textContent+" | "+e.querySelector(".s").textContent)};

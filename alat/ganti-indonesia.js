@@ -1,0 +1,1 @@
+const w=(ms)=>new Promise(r=>setTimeout(r,ms)); TVZT.key("menu"); await w(700); const r=document.querySelector("#setwrap [data-k=\"lang\"] .val").textContent.trim(); if (/English/.test(r)) document.querySelector("#setwrap [data-k=\"lang\"]").click(); return "sebelum: " + r;

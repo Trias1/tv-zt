@@ -1,0 +1,1 @@
+const g=JSON.parse(localStorage.getItem("tvzt.gagal")||"{}"); return {tersembunyi:Object.keys(g).length, set:JSON.parse(localStorage.getItem("tvzt.set")||"{}")};

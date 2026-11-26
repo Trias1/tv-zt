@@ -1,0 +1,1 @@
+const s=JSON.parse(localStorage.getItem("tvzt.set")||"{}"); s.lang=0; s.tz=0; localStorage.setItem("tvzt.set", JSON.stringify(s)); return s;
