@@ -313,6 +313,8 @@ html.app [data-f] { cursor: none; }
 #bufLogo .lambat { max-width: 960px; text-align: center; background: rgba(10,18,32,.82); border: 2px solid var(--focus); border-radius: 18px; padding: 22px 34px; }
 #bufLogo .lambat .h { font: 700 32px var(--f-body); color: var(--focus); margin-bottom: 10px; }
 #bufLogo .lambat .p { font: 400 26px/1.45 var(--f-body); color: var(--ink); }
+#bufLogo .lambat .netline { margin-top: 10px; font-family: var(--f-mono, monospace); font-size: 24px; color: var(--ink-2, #b8c2d6); }
+.net.ok, #lSpeed.ok { color: #3ddc84; } .net.pelan, #lSpeed.pelan { color: #ff6b6b; }
 .tv.buffer[data-screen="watch"] .toast.load { display: none !important; }
 
 /* Tanda SUB ID */
@@ -492,7 +494,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
 
   <div class="tvframe"><div class="stage" id="stage"><div class="tv" id="tv" data-screen="home">
     <video id="video" playsinline muted poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-    <div id="bufLogo" aria-hidden="true"><img id="bufImg" alt=""><div class="ring"></div><div class="bn" id="bufName"></div><div class="lambat" id="bufLambat" hidden><div class="h">Server channel ini sedang lambat</div><div class="p"><span>Video belum masuk setelah</span> <b id="bufDetik">15</b> <span>detik.</span> <span>Biasanya hanya sementara: coba lagi nanti, atau tekan</span> <kbd>▲</kbd><kbd>▼</kbd> <span>untuk ganti channel.</span></div></div></div>
+    <div id="bufLogo" aria-hidden="true"><img id="bufImg" alt=""><div class="ring"></div><div class="bn" id="bufName"></div><div class="lambat" id="bufLambat" hidden><div class="h">Server channel ini sedang lambat</div><div class="p"><span>Video belum masuk setelah</span> <b id="bufDetik">15</b> <span>detik.</span> <span>Biasanya hanya sementara: coba lagi nanti, atau tekan</span> <kbd>▲</kbd><kbd>▼</kbd> <span>untuk ganti channel.</span></div><div class="p netline"><span>Ping</span> <b id="lPing">—</b> · <span>kecepatan</span> <b id="lSpeed">—</b><span id="lNeedW" hidden>, video ini butuh</span> <b id="lNeed"></b></div></div></div>
     <div id="subs" aria-live="polite"></div>
     <div id="scan" role="status" hidden></div>
 
@@ -540,6 +542,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
             <span>Buffer <b id="osdBuf">—</b></span>
             <span class="bufbar"><i id="osdBufBar"></i></span>
             <span>Status <b id="osdState">menyambung…</b></span>
+            <span>Ping <b id="osdNet" class="net">—</b></span>
           </div>
         </div>
         <div class="side">
@@ -683,7 +686,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
   const LOC = BAHASA === "en" ? "en-US" : "id-ID";
   document.documentElement.lang = BAHASA;
   const EN_PAS = {
-    "Memuat channel…": "Loading channels…", "memuat playlist…": "loading playlist…", "Muat file .m3u lain": "Load another .m3u file", "Server channel ini sedang lambat": "This channel's server is slow right now", "Video belum masuk setelah": "No video has arrived after", "detik.": "seconds.", "Biasanya hanya sementara: coba lagi nanti, atau tekan": "It's usually temporary: try again later, or press", "untuk ganti channel.": "to change channel.",
+    "Memuat channel…": "Loading channels…", "memuat playlist…": "loading playlist…", "Muat file .m3u lain": "Load another .m3u file", "Server channel ini sedang lambat": "This channel's server is slow right now", "Video belum masuk setelah": "No video has arrived after", "detik.": "seconds.", "kecepatan": "speed", ", video ini butuh": ", this video needs", "Biasanya hanya sementara: coba lagi nanti, atau tekan": "It's usually temporary: try again later, or press", "untuk ganti channel.": "to change channel.",
     "Terakhir ditonton": "Recently watched", "Channel": "Channels", "Kualitas": "Quality", "daftar channel": "channel list",
     "Semua negara": "All countries", "Playlist saya": "My playlists", "+ Tambah dari link": "+ Add from link", "+ Tambah dari file": "+ Add from file",
     "Pengaturan": "Settings", "Semua gratis.": "Everything is free.", "Tidak ada pilihan yang dikunci versi Premium.": "Nothing is locked behind a Premium version.",
@@ -893,7 +896,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
   }
   function start(c) {
     tv.classList.remove("kosong");
-    bufSejak = 0; $("#bufLambat").hidden = true;
+    bufSejak = 0; $("#bufLambat").hidden = true; NET.ping = []; NET.kbs = 0; NET.ukur = false;
     setState("menyambung…"); showToast("load", c);
     SUB.ada = false; SUB.seq++; $("#subs").textContent = "";
     // Di aplikasi Android, header khusus (Referer/User-Agent) dikirim oleh sisi Java.
@@ -911,6 +914,9 @@ html.app .screen, html.app .screen * { animation: none !important; }
       hls.on(Hls.Events.SUBTITLE_TRACKS_UPDATED, terapkanSub);
       hls.on(Hls.Events.AUDIO_TRACKS_UPDATED, petunjuk);
       hls.on(Hls.Events.AUDIO_TRACK_SWITCHED, petunjuk);
+      // Ping ≈ waktu sampai byte pertama playlist (diulang tiap beberapa detik untuk siaran live); diambil yang terkecil.
+      const catatPing = (_, d) => { const l = d.stats && d.stats.loading; if (l && l.first > l.start) NET.ping = [...NET.ping, l.first - l.start].slice(-6); };
+      hls.on(Hls.Events.MANIFEST_LOADED, catatPing); hls.on(Hls.Events.LEVEL_LOADED, catatPing);
       hls.on(Hls.Events.MANIFEST_PARSED, () => { capQuality(); if (S.screen !== "dash") video.play().catch(() => {}); });
       hls.on(Hls.Events.ERROR, (_, d) => {
         if (!d.fatal) { if (d.details === "bufferStalledError") setState("buffering…"); return; }
@@ -968,7 +974,37 @@ html.app .screen, html.app .screen * { animation: none !important; }
     $("#osdBuf").textContent = `${ahead.toFixed(0)} / ${max} dtk`;
     $("#osdBufBar").style.width = Math.min(100, ahead / max * 100) + "%";
     $("#osdRes").textContent = video.videoHeight ? `${video.videoHeight}p` : "—";
+    ukurJaringan();
   }, 700);
+  /* Ping & kecepatan unduh video, untuk baris info dan kotak "server lambat".
+     Kecepatan dihitung dari potongan video yang sedang/terakhir diunduh, jadi tetap terbaca walau potongannya tidak pernah selesai. */
+  var NET = { ping: [], kbs: 0 };  // var: start() bisa terpanggil sebelum baris ini
+  const fmtKB = (b) => b >= 1024 * 1024 ? (b / 1048576).toFixed(1) + " MB/s" : Math.round(b / 1024) + " KB/s";
+  function ukurJaringan() {
+    if (!hls) return;
+    const f = hls.streamController && hls.streamController.fragCurrent, st = f && f.stats;
+    const jalan = st && st.loading && st.loading.start && !st.loading.end;
+    if (jalan && (st.loaded || performance.now() - st.loading.start > 3000) && performance.now() - st.loading.start > 1000) {
+      // potongan masih diunduh (server lambat): hitung dari byte yang sudah masuk
+      NET.kbs = st.loaded / ((performance.now() - st.loading.start) / 1000); NET.ukur = true;
+    } else if (!jalan && st && st.loading && st.loading.end) {
+      // potongan sudah selesai: perkiraan rata-rata hls.js dari unduhan sebenarnya
+      NET.kbs = hls.bandwidthEstimate / 8; NET.ukur = true;
+    }
+    const lv = hls.levels && hls.levels[hls.currentLevel >= 0 ? hls.currentLevel : hls.loadLevel];
+    const butuh = lv && lv.bitrate ? lv.bitrate / 8 : 0;
+    const ping = NET.ping.length ? Math.round(Math.min(...NET.ping)) + " ms" : "—";
+    const cepat = NET.ukur ? fmtKB(NET.kbs) : "";
+    // Tanpa info bitrate (playlist tanpa daftar kualitas): di bawah ±100 KB/s video SD pun tidak sempat terisi.
+    const kelas = !NET.ukur ? "" : NET.kbs < (butuh || 100 * 1024) ? "pelan" : "ok";
+    const teks = cepat ? `${ping} · ${cepat}` : ping, el = $("#osdNet");
+    if (el.textContent !== teks) el.textContent = teks;
+    el.className = "net " + kelas;
+    if (!$("#bufLambat").hidden) {
+      $("#lPing").textContent = ping; $("#lSpeed").textContent = cepat || "—"; $("#lSpeed").className = kelas;
+      $("#lNeedW").hidden = !butuh; $("#lNeed").textContent = butuh ? "±" + fmtKB(butuh) : "";
+    }
+  }
   /* Server lambat: kalau video belum jalan 15 detik sejak mulai menyambung/buffering, beri tahu penyebabnya
      (mis. Music Box Hits: daftar video terbuka, tapi potongan videonya hanya terkirim beberapa KB/detik). */
   var bufSejak = 0;  // var: setState() bisa terpanggil sebelum baris ini dijalankan
