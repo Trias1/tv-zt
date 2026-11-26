@@ -43,9 +43,30 @@ Lewat laptop: `adb connect <ip-tv>:5555` lalu `adb install -r TV-ZT-v1.0.apk`.
 | **Back** | kembali (di Dashboard: keluar) |
 | **Menu** / ikon ⚙ | Pengaturan: kualitas, buffer, subtitle, **Cari sinyal**, Playlist saya |
 
-## Lapor masalah / usul
+## Masalah umum & cara memperbaiki
 
-Ketemu masalah atau punya ide? Buka **[Issues → New issue](https://github.com/Trias1/tv-zt/issues/new/choose)** (perlu akun GitHub gratis), lalu pilih:
+| Masalah | Cara memperbaiki |
+|---|---|
+| **APK tidak mau terpasang** ("Aplikasi tidak terpasang") | Izinkan File Manager+ memasang aplikasi: *Setelan → Aplikasi → Akses aplikasi khusus → Instal aplikasi tidak dikenal → File Manager+ → Izinkan*. Pastikan memori kosong minimal 50 MB. Kalau sebelumnya sudah ada TV ZT dari sumber lain, hapus dulu lalu pasang ulang. |
+| **Muncul peringatan Play Protect** | Pilih **Tetap instal**. TV ZT tidak dari Play Store, jadi peringatan ini wajar. |
+| **TV ZT tidak muncul di daftar aplikasi** | Cari di menu **Aplikasi / Semua aplikasi** TV. TV ZT dibuat untuk **Android TV / STB** (pakai remote), bukan untuk HP. |
+| **Lama di layar "Memuat channel…"** | Cek internet TV (buka YouTube). Tutup TV ZT lalu buka lagi. Kalau tetap, hapus data: *Setelan → Aplikasi → TV ZT → Hapus data*, lalu buka ulang. |
+| **Channel tidak bisa diputar** (pesan *manifestLoadError*, *HTTP 403/404*) | Link channel itu sedang mati. Tekan **▲/▼** untuk pindah channel; TV ZT otomatis menyembunyikan channel mati selama 3 hari. Untuk cek banyak channel sekaligus: **Pengaturan → Cari sinyal channel**. Matikan VPN kalau ada, karena beberapa channel menolak koneksi luar negeri. |
+| **Siaran patah-patah / sering buffering** | *Pengaturan → Ukuran buffer → Besar* atau *Sangat besar*; *Pengaturan → Kualitas → 720p* atau *480p*. Dekatkan STB ke router atau pakai kabel LAN, lalu restart STB. |
+| **Tidak ada suara** | Tekan tombol apa saja di remote sekali (suara aktif setelah tombol pertama). Cek volume TV. Kalau channel punya beberapa bahasa, tekan **▶** saat menonton. |
+| **Subtitle Indonesia tidak muncul** | Hanya untuk channel bertanda **SUB ID**. Tekan **◀** saat menonton sampai tertulis *Subtitle: Indonesia*. Subtitle yang menempel di gambar (mis. Boruto) tidak bisa diterjemahkan. |
+| **Jadwal acara kosong** | Jadwal hanya untuk channel Indonesia, diambil dari internet beberapa detik setelah aplikasi dibuka dan diperbarui tiap 6 jam. Tunggu sebentar atau buka ulang aplikasi. |
+| **Logo channel tidak muncul** | Logo diunduh saat pertama dibuka, jadi butuh internet. Sebagian channel memang tidak punya logo; yang ditampilkan nomor dan namanya saja. |
+| **Channel yang dicari hilang dari daftar** | Kemungkinan tersembunyi otomatis karena sempat mati. Buka *Pengaturan → Pulihkan channel tersembunyi*, atau ubah *Pengaturan → Channel gagal diputar → Tetap tampilkan*. |
+| **Tekan Back aplikasi tertutup** | Di **Dashboard**, Back memang menutup aplikasi. Di layar lain, Back kembali ke layar sebelumnya. |
+| **Mau mulai dari channel terakhir yang ditonton** | *Pengaturan → Lanjutkan channel terakhir → Aktif*. |
+| **Masih error setelah update versi baru** | Hapus TV ZT (*Setelan → Aplikasi → TV ZT → Uninstal*), lalu pasang APK terbaru dari halaman Releases. |
+
+Kalau sudah mencoba cara di atas tapi masalahnya belum beres, laporkan lewat bagian berikutnya.
+
+## Masih bermasalah? Lapor / usul
+
+Masih bermasalah atau punya ide? Buka **[Issues → New issue](https://github.com/Trias1/tv-zt/issues/new/choose)** (perlu akun GitHub gratis), lalu pilih:
 
 - 🐞 **Lapor masalah**: aplikasi error, tidak bisa dipasang, macet, tombol remote tidak jalan
 - 📺 **Channel mati / salah**: channel tidak bisa diputar, isinya tidak sesuai, logo atau jadwal keliru
