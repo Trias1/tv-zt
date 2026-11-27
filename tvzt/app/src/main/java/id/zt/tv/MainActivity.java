@@ -240,8 +240,12 @@ public class MainActivity extends Activity {
         box.setGravity(Gravity.CENTER);
         box.setBackgroundColor(0xFF0A1220);
         TextView logo = new TextView(this);
-        SpannableString t = new SpannableString("TV ZT");
-        t.setSpan(new ForegroundColorSpan(0xFFF4B740), 3, 5, 0);
+        // Nama TV dari Pengaturan (Android.setNama); kata terakhir berwarna emas seperti di tampilan HTML.
+        String nama = getSharedPreferences("tvzt", MODE_PRIVATE).getString("nama", "");
+        if (nama == null || nama.trim().isEmpty()) nama = "TV ZT";
+        nama = nama.trim();
+        SpannableString t = new SpannableString(nama);
+        t.setSpan(new ForegroundColorSpan(0xFFF4B740), nama.lastIndexOf(' ') + 1, nama.length(), 0);
         logo.setText(t);
         logo.setTextColor(0xFFEEF2F8);
         logo.setTextSize(TypedValue.COMPLEX_UNIT_SP, 56);
@@ -306,6 +310,14 @@ public class MainActivity extends Activity {
     }
 
     private class Bridge {
+        /** Nama TV pilihan pengguna, dipakai layar pembuka bawaan saat aplikasi dibuka lagi. Kosong = "TV ZT". */
+        @JavascriptInterface
+        public void setNama(String n) {
+            String v = n == null ? "" : n.trim().replaceAll("\\s+", " ");
+            if (v.length() > 24) v = v.substring(0, 24);
+            getSharedPreferences("tvzt", MODE_PRIVATE).edit().putString("nama", v).apply();
+        }
+
         @JavascriptInterface
         public void siap() {
             runOnUiThread(MainActivity.this::tutupSplash);

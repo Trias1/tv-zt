@@ -19,41 +19,41 @@ Proyek oprek STB bekas IndiHome **ZTE B860H V5** (Android TV 10, RAM 2 GB) jadi 
 - Playlist sendiri (.m3u dari link/file), bisa jadi kartu baru atau digabung ke negara — **logo terdeteksi otomatis** (`tvg-logo` atau dicocokkan dari nama channel) dan ikut tampil di **navbar**
 - **Bola**: channel sepak bola dari playlist sendiri dikumpulkan jadi satu grup di navbar — tanpa bola wanita, olahraga lain, laga yang sudah lewat, atau nama dobel; laga live di paling atas
 - **Ping & kecepatan** di baris info (mis. *Ping 53 ms · 5.2 MB/s*, merah kalau terlalu lambat), plus pemberitahuan **"server lambat"** kalau channel macet buffering 15 detik
-- **Memberi tahu penyebab** channel lambat atau gagal, plus sarannya: server jauh & jalur luar negeri padat, channel hanya 1 kualitas, internet rumah lambat, atau server menolak (403), link hilang (404), membatasi penonton (429), server error (5xx) *(rilis berikutnya)*
-- **Pengaturan per tab** (Tampilan · Pemutaran · Channel) dengan **lingkaran RAM** (RAM bawaan, TV ZT, aplikasi lain, sisa), kuota terpakai TV ZT, dan **Bersihkan cache** *(rilis berikutnya)*
+- **Memberi tahu penyebab** channel lambat atau gagal, plus sarannya: server jauh & jalur luar negeri padat, channel hanya 1 kualitas, internet rumah lambat, atau server menolak (403), link hilang (404), membatasi penonton (429), server error (5xx)
+- **Pengaturan per tab** (Tampilan · Pemutaran · Channel) dengan **lingkaran RAM** (RAM bawaan, TV ZT, aplikasi lain, sisa), kuota terpakai TV ZT, dan **Bersihkan cache**
 - **Bahasa: Indonesia atau English** (Pengaturan → *Bahasa / Language*); versi publik bawaannya English
 - **Zona waktu**: jam dan jadwal acara mengikuti zona pilihan — Otomatis (perangkat), WIB/WITA/WIT, atau zona negara lain
 - Ringan untuk box 2 GB: daftar panjang dimuat bertahap, animasi berat dimatikan di box, siaran berhenti total di Dashboard
 
-## Tema (pratinjau)
+## Tema
 
-Pratinjau pilihan tema ada di [`mockup/tv-zt-tema.html`](mockup/tv-zt-tema.html) — buka di browser lalu masuk **Pengaturan → Tampilan**. Belum ada di APK; baru dirilis setelah diukur di box 2 GB sungguhan.
+Pilih tema di **Pengaturan → Tampilan** (mulai v1.4). Angka RAM diukur di ZTE B860H 2 GB, dibandingkan dengan tema Hemat (masing-masing sekali ukur, jadi anggap angka kira-kira).
 
-| Tema | Tampilan | Perkiraan RAM tambahan |
+| Tema | Tampilan | RAM tambahan |
 |---|---|---|
-| **Default** | Kartu grup dengan logo (seperti sekarang) | ±5–10 MB |
-| **Konsol** | Gaya konsol game: deretan kotak grup di atas, latar besar, kartu channel di bawah | ±10–15 MB |
-| **Streaming** | Banner besar channel yang disorot + baris channel yang bisa digeser | ±15–25 MB |
-| **Bioskop** | Gaya aplikasi streaming: menu kiri, banner berganti, kotak grup, baris channel | ±20–30 MB |
-| **Hemat** | Tanpa logo & hiasan — paling ringan | ±1–2 MB |
+| **Default** | Kartu grup dengan logo (tampilan klasik) | ±10 MB |
+| **Konsol** | Gaya konsol game: deretan kotak grup di atas, latar besar, kartu channel di bawah | ±15 MB |
+| **Streaming** | Banner besar channel yang disorot + baris channel yang bisa digeser | ±15 MB |
+| **Bioskop** | Gaya aplikasi streaming: menu kiri, banner berganti, kotak grup, baris channel | ±25 MB |
+| **Hemat** | Tanpa logo & hiasan — paling ringan | patokan |
 
 - **Warna aksen**: emas, biru, hijau, ungu, atau merah.
 - **Nama TV**: ganti tulisan "TV ZT" di pojok kiri atas dan layar pembuka dengan nama sendiri.
-- **Latar tema**: **Gambar** (bawaan, ±0 MB) atau **Siaran live** — channel yang disorot diputar di latar Dashboard, maks. 360p (**RAM tambahan ±60–120 MB, kuota ±150–250 MB per jam**). Saat dinyalakan ada konfirmasi Ya/Tidak, dan kalau box mulai patah-patah (gambar terlewat, layar tersendat, atau sisa RAM < 200 MB) TV ZT menawarkan kembali ke Gambar; pilih "Tidak" = ditanya lagi setelah 5 menit.
+- **Latar tema**: **Gambar** (bawaan, ±0 MB) atau **Siaran live** — channel yang disorot diputar di latar Dashboard, maks. 360p kalau channel punya beberapa kualitas (**terukur: RAM tambahan ±70 MB di 360p, ±120 MB untuk channel yang hanya 1080p; kuota ±150–250 MB per jam, channel 1080p ±1,4 GB per jam**). Saat dinyalakan ada konfirmasi Ya/Tidak, dan kalau box mulai patah-patah (gambar terlewat, layar tersendat, atau sisa RAM < 200 MB) TV ZT menawarkan kembali ke Gambar; pilih "Tidak" = ditanya lagi setelah 5 menit.
 - Di tema Konsol, Streaming, dan Bioskop, memilih grup atau channel **langsung layar penuh**; Back kembali ke Dashboard.
 
 ## Cara pasang (tanpa root, tanpa laptop)
 
-Unduh **[TV-ZT-v1.3.1.apk](https://github.com/Trias1/tv-zt/releases/latest)** dari halaman Releases. Bisa dipasang di TV/STB Android 7 ke atas.
+Unduh **[TV-ZT-v1.4.apk](https://github.com/Trias1/tv-zt/releases/latest)** dari halaman Releases. Bisa dipasang di TV/STB Android 7 ke atas.
 
 1. Di TV/STB, pasang **File Manager+** dan **Send Files to TV** dari Play Store. Di HP, pasang juga **Send Files to TV**.
-2. Unduh `TV-ZT-v1.3.1.apk` di HP.
+2. Unduh `TV-ZT-v1.4.apk` di HP.
 3. Kirim ke TV: di TV buka *Send Files to TV* → **Receive**; di HP *Send Files to TV* → **Send** → pilih APK → pilih TV. (Atau pakai flashdisk.)
 4. Izinkan pemasangan: **Setelan → Aplikasi → Akses aplikasi khusus → Instal aplikasi tidak dikenal → File Manager+ → Izinkan**.
 5. Buka **File Manager+** → folder *Download* → pilih APK → **Instal** (kalau Play Protect memperingatkan, pilih **Tetap instal**).
 6. Buka **TV ZT** dari daftar aplikasi. TV harus tersambung ke internet.
 
-Lewat laptop: `adb connect <ip-tv>:5555` lalu `adb install -r TV-ZT-v1.3.1.apk`.
+Lewat laptop: `adb connect <ip-tv>:5555` lalu `adb install -r TV-ZT-v1.4.apk`.
 
 ## Cara pakai
 
@@ -104,7 +104,7 @@ Isi kolom yang disediakan (perangkat, versi TV ZT, langkah sampai masalah muncul
 | Folder | Isi |
 |---|---|
 | `tvzt/` | Proyek Android TV ZT (`MainActivity.java`: WebView, header Referer/User-Agent per channel, remote, layar pembuka, cek sinyal) |
-| `mockup/` | Tampilan TV ZT (`tv-zt.html`, bisa dibuka di browser; `tv-zt-tema.html` = pratinjau tema), penyusun data (`build_channels.py`, `categories.py`, `logo.py`) |
+| `mockup/` | Tampilan TV ZT (`tv-zt.html`, bisa dibuka di browser; `python tools/mockup-server.py` sekalian menampilkan RAM asli laptop di Pengaturan), penyusun data (`build_channels.py`, `categories.py`, `logo.py`) |
 | `iptv/` | Script data: `build_all.py` (semua negara), `build_national.py` (TV nasional), `audit.py` (cek mendalam), `check_subtitles.py` (subtitle), `check_logos.py`, `update-playlist.ps1` |
 | `launcher-theme/` | `config.json` tema launcher cleanyourtv (wallpaper tidak ikut diunggah) |
 | `wallpaper/` | Script pembuat wallpaper dari foto sendiri |

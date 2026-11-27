@@ -296,6 +296,140 @@ html.app [data-f] { cursor: none; }
 .dtile .last { font-size: 20px; }
 .dtile.kat .big { font-size: 64px; color: var(--ink-2); }
 
+/* ===== Tema Dashboard (Default / Konsol / Streaming / Bioskop / Hemat) ===== */
+/* Latar siaran live (Pengaturan → Latar tema): satu video kecil kualitas rendah di belakang tema */
+#dvidInfo { position: absolute; right: 96px; top: 136px; z-index: 4; max-width: 640px; padding: 8px 18px; border-radius: 999px; background: rgba(10,18,32,.85);
+  border: 1px solid rgba(255,255,255,.16); font: 500 19px var(--f-body); color: var(--ink-2); }
+#dvid { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; background: #000; opacity: 0; transition: opacity .45s ease; pointer-events: none; }
+html[data-tema="streaming"] #dvid { height: 560px; }
+html[data-tema="bioskop"] #dvid { height: 690px; }
+html[data-dvid="1"] #dvid { opacity: 1; }
+html[data-dvid="1"] .dk .bg, html[data-dvid="1"] .ds .sban, html[data-dvid="1"] .db .hero { background: transparent !important; }
+html[data-dvid="1"] .dk .bg .art, html[data-dvid="1"] .ds .sban .art, html[data-dvid="1"] .db .hero .art { opacity: 0; }
+#dkonsol, #dstream, #dbioskop, #dtop { display: none; }
+html[data-tema="konsol"] #dkonsol, html[data-tema="streaming"] #dstream, html[data-tema="bioskop"] #dbioskop { display: block; }
+html[data-tema="konsol"] #dtop, html[data-tema="streaming"] #dtop { display: flex; }
+html[data-tema="konsol"] #dgrid, html[data-tema="konsol"] #drow, html[data-tema="streaming"] #dgrid, html[data-tema="streaming"] #drow,
+html[data-tema="bioskop"] #dgrid, html[data-tema="bioskop"] #drow { display: none; }
+#s-dash .topbar { z-index: 3; }  /* tetap absolute seperti layar lain; cukup di atas latar tema */
+#dtop { gap: 12px; margin-left: auto; margin-right: 24px; }
+#dtop .dmini { padding: 10px 22px; font-size: 22px; }
+#dtop .dmini.focus { box-shadow: 0 0 0 4px var(--focus); }
+/* Hemat: tanpa logo & tanpa lingkaran warna */
+html[data-tema="hemat"] .dtile::after { display: none; }
+html[data-tema="konsol"] #tabs [data-go="home"], html[data-tema="streaming"] #tabs [data-go="home"], html[data-tema="bioskop"] #tabs [data-go="home"] { display: none; }
+
+/* --- Konsol --- */
+.dk { position: absolute; inset: 0; overflow: hidden; }
+.dk .bg { position: absolute; inset: 0; }
+.dk .bg .art { position: absolute; right: 7%; top: 22%; width: 44%; height: 46%; display: flex; align-items: center; justify-content: center; }
+.dk .bg .art img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 30px 60px rgba(0,0,0,.45)); }
+.dk .bg .art img.alas { background: rgba(255,255,255,.94); border-radius: 36px; padding: 44px 60px; }
+.dk .bg .art .huruf { font: 800 300px/1 var(--f-num); color: rgba(255,255,255,.16); }
+.dk .tirai { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,18,32,.95) 0%, rgba(10,18,32,.72) 36%, rgba(10,18,32,.15) 70%, rgba(10,18,32,.05) 100%), linear-gradient(0deg, rgba(10,18,32,.97) 0%, rgba(10,18,32,.5) 27%, rgba(10,18,32,0) 46%), linear-gradient(180deg, rgba(10,18,32,.8) 0%, rgba(10,18,32,0) 24%); }
+.dk .krow { position: absolute; left: 96px; top: 150px; display: flex; align-items: flex-start; gap: 22px; transition: transform .25s ease; }
+.dk .kt { flex: 0 0 auto; width: 150px; height: 150px; border-radius: 26px; overflow: hidden; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(145deg, var(--h1), var(--h2)); box-shadow: 0 10px 30px rgba(0,0,0,.35); transition: width .2s ease, height .2s ease; }
+.dk .kt img { max-width: 72%; max-height: 50%; object-fit: contain; }
+.dk .kt img.alas { background: rgba(255,255,255,.94); border-radius: 12px; padding: 6px 10px; }
+.dk .kt .kode { font: 800 46px/1 var(--f-num); color: rgba(255,255,255,.92); }
+.dk .kt.on { width: 196px; height: 196px; box-shadow: 0 0 0 3px rgba(255,255,255,.4), 0 18px 50px rgba(0,0,0,.55); }
+.dk .kt.focus { box-shadow: 0 0 0 5px var(--focus), 0 18px 50px rgba(0,0,0,.55); }
+.dk .khero { position: absolute; left: 96px; top: 420px; width: 880px; }
+.dk .khero .kat { font: 700 22px var(--f-body); letter-spacing: 3px; text-transform: uppercase; color: var(--ink-2); }
+.dk .khero h1 { margin: 8px 0 12px; font: 800 104px/.95 var(--f-num); }
+.dk .khero .desc { font: 500 28px/1.35 var(--f-body); color: var(--ink-2); }
+.dk .khero .meta { margin-top: 12px; font: 600 23px var(--f-body); color: var(--ink-3); }
+.dk .khero .meta b { color: var(--ink); }
+.dk .kaksi { display: flex; gap: 18px; margin-top: 30px; }
+.dk .kbtn { height: 66px; padding: 0 38px; border-radius: 999px; display: inline-flex; align-items: center; gap: 12px; font: 700 27px var(--f-body); background: rgba(255,255,255,.14); }
+.dk .kbtn.utama { background: rgba(255,255,255,.92); color: #0b1222; }
+.dk .kbtn.focus { box-shadow: 0 0 0 4px var(--focus); }
+.dk .kh { position: absolute; left: 96px; top: 812px; font: 700 25px var(--f-body); color: var(--ink-2); }
+.dk .kstrip { position: absolute; left: 96px; top: 858px; display: flex; gap: 20px; transition: transform .25s ease; }
+.dk .kc { flex: 0 0 auto; width: 262px; height: 150px; border-radius: 20px; background: rgba(255,255,255,.08); padding: 18px 20px; display: flex; flex-direction: column; justify-content: space-between; }
+.dk .kc .lg { max-height: 50px; max-width: 150px; object-fit: contain; align-self: flex-start; }
+.dk .kc .lg.alas { background: rgba(255,255,255,.94); border-radius: 8px; padding: 4px 8px; }
+.dk .kc .n { font: 800 42px/1 var(--f-num); color: var(--ink-3); }
+.dk .kc .t { font: 700 23px/1.2 var(--f-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dk .kc.focus { background: rgba(255,255,255,.2); box-shadow: 0 0 0 4px var(--focus); }
+
+/* --- Streaming: banner besar + baris per grup --- */
+.ds { position: absolute; inset: 0; overflow: hidden; }
+.ds .sban { position: absolute; left: 0; right: 0; top: 0; height: 560px; overflow: hidden; }
+.ds .sban .art { position: absolute; right: 8%; top: 120px; width: 40%; height: 330px; display: flex; align-items: center; justify-content: center; }
+.ds .sban .art img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 24px 50px rgba(0,0,0,.5)); }
+.ds .sban .art img.alas { background: rgba(255,255,255,.94); border-radius: 30px; padding: 36px 50px; }
+.ds .sban .art .huruf { font: 800 240px/1 var(--f-num); color: rgba(255,255,255,.16); }
+.ds .sban::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--night) 0%, rgba(10,18,32,.8) 38%, rgba(10,18,32,.1) 75%), linear-gradient(0deg, var(--night) 0%, rgba(10,18,32,0) 45%); }
+.ds .sinfo { position: absolute; left: 96px; top: 170px; width: 900px; z-index: 1; }
+.ds .sinfo .grp { font: 700 22px var(--f-body); letter-spacing: 3px; text-transform: uppercase; color: var(--focus); }
+.ds .sinfo h1 { margin: 8px 0 10px; font: 800 96px/.95 var(--f-num); }
+.ds .sinfo .now { font: 600 28px/1.35 var(--f-body); color: var(--ink); }
+.ds .sinfo .now span { color: var(--ink-3); font-weight: 500; }
+.ds .sinfo .hint { margin-top: 14px; font: 500 22px var(--f-body); color: var(--ink-3); }
+.ds .srows { position: absolute; left: 0; right: 0; top: 520px; bottom: 0; overflow: hidden; scroll-behavior: smooth; padding-bottom: 400px; }
+.ds .ssec { margin-bottom: 18px; }
+.ds .ssec h3 { margin: 0 0 12px 96px; font: 700 30px var(--f-body); }
+.ds .ssec h3 span { font: 500 22px var(--f-body); color: var(--ink-3); margin-left: 12px; }
+.ds .srow { display: flex; gap: 18px; overflow: hidden; padding: 10px 96px; scroll-behavior: smooth; }
+.ds .sc { flex: 0 0 auto; width: 300px; height: 168px; border-radius: 16px; position: relative; overflow: hidden; padding: 16px 18px;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--hue) 40%, #111b2c), #111b2c 70%); display: flex; flex-direction: column; justify-content: space-between; }
+.ds .sc .lg { max-height: 56px; max-width: 170px; object-fit: contain; align-self: flex-start; }
+.ds .sc .lg.alas { background: rgba(255,255,255,.94); border-radius: 8px; padding: 4px 8px; }
+.ds .sc .n { font: 800 44px/1 var(--f-num); color: rgba(255,255,255,.35); }
+.ds .sc .t { font: 700 23px/1.2 var(--f-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ds .sc .k { font: 500 18px var(--f-body); color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ds .sc.semua { background: var(--panel); align-items: center; justify-content: center; font: 700 26px var(--f-body); color: var(--ink-2); }
+.ds .sc.focus { box-shadow: 0 0 0 4px var(--focus); transform: scale(1.05); transition: transform .15s ease; }
+
+/* --- Bioskop: menu ikon kiri, banner berganti otomatis, kotak grup, baris channel --- */
+.db { position: absolute; inset: 0; overflow: hidden; }
+html[data-tema="bioskop"] #s-dash .topbar { left: 170px; }
+html[data-tema="bioskop"] #dtop { display: none !important; }
+.db .rail { position: absolute; left: 0; top: 0; bottom: 0; width: 120px; z-index: 4; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px;
+  background: linear-gradient(90deg, rgba(10,18,32,.92), rgba(10,18,32,0)); }
+.db .rail .ri { width: 64px; height: 64px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font: 600 30px var(--f-body); color: var(--ink-2); }
+.db .rail .ri.focus { background: var(--focus); color: var(--focus-ink); }
+.db .hero { position: absolute; left: 0; right: 0; top: 0; height: 690px; transition: background .5s ease; }
+.db .hero .art { position: absolute; right: 7%; top: 150px; width: 42%; height: 360px; display: flex; align-items: center; justify-content: center; transition: opacity .35s ease; }
+.db .hero .art img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 30px 60px rgba(0,0,0,.5)); }
+.db .hero .art img.alas { background: rgba(255,255,255,.94); border-radius: 32px; padding: 40px 56px; }
+.db .hero .art .huruf { font: 800 260px/1 var(--f-num); color: rgba(255,255,255,.16); }
+.db .hero::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, var(--night) 4%, rgba(10,18,32,.78) 40%, rgba(10,18,32,.05) 78%), linear-gradient(0deg, var(--night) 2%, rgba(10,18,32,0) 40%); }
+.db .hinfo { position: absolute; left: 170px; top: 170px; width: 860px; z-index: 2; }
+.db .hinfo .lbl { font: 700 22px var(--f-body); letter-spacing: 3px; text-transform: uppercase; color: var(--focus); }
+.db .hinfo h1 { margin: 8px 0 10px; font: 800 104px/.95 var(--f-num); }
+.db .hinfo .now { font: 600 28px/1.35 var(--f-body); }
+.db .hinfo .now span { color: var(--ink-3); font-weight: 500; }
+.db .hinfo .desc { margin-top: 8px; font: 500 24px/1.4 var(--f-body); color: var(--ink-2); }
+.db .haksi { display: flex; gap: 16px; margin-top: 26px; }
+.db .hb { height: 64px; padding: 0 36px; border-radius: 12px; display: inline-flex; align-items: center; gap: 12px; font: 700 26px var(--f-body); background: rgba(255,255,255,.16); }
+.db .hb.utama { background: #fff; color: #0b1222; }
+.db .hb.focus { box-shadow: 0 0 0 4px var(--focus); transform: scale(1.04); }
+.db .dots { display: flex; gap: 8px; margin-top: 22px; }
+.db .dots i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.25); }
+.db .dots i.on { width: 30px; border-radius: 6px; background: var(--focus); }
+.db .brows { position: absolute; left: 0; right: 0; top: 600px; bottom: 0; overflow: hidden; scroll-behavior: smooth; padding-bottom: 420px; z-index: 2; }
+.db .bsec { margin-bottom: 14px; }
+.db .bsec h3 { margin: 0 0 10px 170px; font: 700 28px var(--f-body); }
+.db .brow { display: flex; gap: 18px; overflow: hidden; padding: 10px 170px; scroll-behavior: smooth; }
+.db .bg2 { flex: 0 0 auto; width: 250px; height: 130px; border-radius: 16px; position: relative; overflow: hidden;
+  background: linear-gradient(140deg, var(--h1), var(--h2)); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border: 2px solid rgba(255,255,255,.12); }
+.db .bg2 img { max-width: 60%; max-height: 46px; object-fit: contain; }
+.db .bg2 img.alas { background: rgba(255,255,255,.94); border-radius: 8px; padding: 4px 8px; }
+.db .bg2 .t { font: 700 22px var(--f-body); }
+.db .bc { flex: 0 0 auto; width: 290px; height: 163px; border-radius: 12px; position: relative; overflow: hidden; padding: 14px 16px;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--hue) 45%, #111b2c), #0e1727 75%); display: flex; flex-direction: column; justify-content: space-between; }
+.db .bc .lg { max-height: 54px; max-width: 160px; object-fit: contain; align-self: flex-start; }
+.db .bc .lg.alas { background: rgba(255,255,255,.94); border-radius: 8px; padding: 4px 8px; }
+.db .bc .n { font: 800 44px/1 var(--f-num); color: rgba(255,255,255,.35); }
+.db .bc .t { font: 700 22px/1.2 var(--f-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.db .bc .k { font: 500 17px var(--f-body); color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.db .bc .live { position: absolute; top: 12px; right: 12px; font: 700 14px var(--f-body); letter-spacing: 1px; background: var(--live); color: #fff; border-radius: 6px; padding: 3px 8px; }
+.db .bg2.focus, .db .bc.focus { box-shadow: 0 0 0 4px var(--focus); transform: scale(1.06); transition: transform .15s ease; z-index: 1; }
+
 /* Navbar kategori di beranda */
 .navbar { position: relative; display: flex; gap: 2px; flex: 1 1 auto; min-width: 0; overflow: hidden; padding: 8px; margin: -8px; }
 #s-home .topbar .logo { white-space: nowrap; flex: 0 0 auto; }
@@ -373,6 +507,14 @@ html.app [data-f] { cursor: none; }
 #scan .op.fokus { box-shadow: 0 0 0 4px var(--focus); }
 #scan .op.mulai { justify-content: center; background: var(--focus); color: var(--focus-ink); margin-top: 6px; }
 #scan .op.mulai.mati { opacity: .45; }
+#konfirm { position: absolute; inset: 0; z-index: 7; display: flex; align-items: center; justify-content: center; background: rgba(6,10,18,.8); }
+#konfirm .kotak { width: 1000px; padding: 46px 54px; border-radius: 26px; background: var(--panel); border: 2px solid var(--line); box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+#konfirm .jd { font: 700 42px/1.2 var(--f-body); margin-bottom: 16px; }
+#konfirm .isi { font: 500 27px/1.5 var(--f-body); color: var(--ink-2); }
+#konfirm .isi b { color: var(--ink); }
+#konfirm .tombol { display: flex; gap: 18px; margin-top: 34px; }
+#konfirm .kb { padding: 18px 40px; border-radius: 14px; font: 700 28px var(--f-body); background: var(--panel-2); }
+#konfirm .kb.on { box-shadow: 0 0 0 4px var(--focus); background: var(--focus); color: var(--focus-ink); }
 #scan { position: absolute; inset: 0; z-index: 6; display: flex; align-items: center; justify-content: center; background: rgba(6,10,18,.78); }
 #scan[hidden] { display: none !important; }
 #scan .kotak { width: 900px; background: var(--panel); border-radius: 24px; padding: 40px 48px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 30px 80px -20px #000; }
@@ -504,7 +646,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
 </style>
 </head>
 <body>
-<div id="splash" role="status"><div class="logo2">TV <b>ZT</b></div><div class="ring"></div><div class="msg">Memuat channel…</div></div>
+<div id="splash" role="status"><div class="logo2 brandname">TV <b>ZT</b></div><div class="ring"></div><div class="msg">Memuat channel…</div></div>
 <div class="wrap">
   <div class="head">
     <div class="brand"><h1>TV <b>ZT</b></h1><span id="tagline">aplikasi IPTV untuk STB Android TV (ZTE B860H)</span></div>
@@ -519,14 +661,21 @@ html.app .screen, html.app .screen * { animation: none !important; }
     <div id="bufLogo" aria-hidden="true"><img id="bufImg" alt=""><div class="ring"></div><div class="bn" id="bufName"></div><div class="lambat" id="bufLambat" hidden><div class="h">Server channel ini sedang lambat</div><div class="p"><span>Video belum masuk setelah</span> <b id="bufDetik">15</b> <span>detik.</span> <span>Biasanya hanya sementara: coba lagi nanti, atau tekan</span> <kbd>▲</kbd><kbd>▼</kbd> <span>untuk ganti channel.</span></div><div class="p netline"><span>Ping</span> <b id="lPing">—</b> · <span>kecepatan</span> <b id="lSpeed">—</b><span id="lNeedW" hidden>, video ini butuh</span> <b id="lNeed"></b></div><div class="p sebab" id="bufSebab"></div></div></div>
     <div id="subs" aria-live="polite"></div>
     <div id="scan" role="status" hidden></div>
+    <div id="konfirm" role="dialog" hidden></div>
 
     <!-- 0. Dashboard -->
     <section class="screen" id="s-dash" aria-label="Dashboard">
       <div class="topbar">
-        <div class="logo">TV <b>ZT</b></div>
+        <div class="logo brandname">TV <b>ZT</b></div>
         <div class="chipcount" id="dashCount"></div>
+        <div id="dtop"><div class="dmini" data-f data-act="playlists"><span class="ic">+</span>Playlist saya</div><div class="dmini" data-f data-act="settings"><span class="ic">⚙</span>Pengaturan</div></div>
         <div class="clock" id="clock3"></div>
       </div>
+      <video id="dvid" muted playsinline></video>
+      <div id="dvidInfo" hidden></div>
+      <div class="dk" id="dkonsol"></div>
+      <div class="ds" id="dstream"></div>
+      <div class="db" id="dbioskop"></div>
       <div class="dgrid" id="dgrid"></div>
       <div class="drow" id="drow"></div>
     </section>
@@ -534,7 +683,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
     <!-- 1. Beranda -->
     <section class="screen" id="s-home" aria-label="Beranda">
       <div class="topbar">
-        <div class="logo">TV <b>ZT</b></div>
+        <div class="logo brandname">TV <b>ZT</b></div>
         <div class="chipcount" id="homeCount" hidden></div>
         <nav class="navbar" id="navbar" aria-label="Kategori"></nav>
         <div class="clock" id="clock1"></div>
@@ -731,7 +880,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
   const LOC = BAHASA === "en" ? "en-US" : "id-ID";
   document.documentElement.lang = BAHASA;
   const EN_PAS = {
-    "Memuat channel…": "Loading channels…", "Bola": "Football", "Tampilan": "Display", "Pemutaran": "Playback", "Logo & data sementara · tidak menambah sisa RAM": "Logos & temporary data · does not free RAM", "Bersihkan cache": "Clear cache", "Hapus logo & data sementara yang tersimpan · berguna kalau logo atau tampilan error · tidak menambah sisa RAM": "Delete saved logos & temporary data · useful when logos or screens look broken · does not free RAM", "satu kualitas": "single quality", "sepak bola dari playlist saya": "football from my playlists", "memuat playlist…": "loading playlist…", "Muat file .m3u lain": "Load another .m3u file", "Server channel ini sedang lambat": "This channel's server is slow right now", "Video belum masuk setelah": "No video has arrived after", "detik.": "seconds.", "kecepatan": "speed", ", video ini butuh": ", this video needs", "Biasanya hanya sementara: coba lagi nanti, atau tekan": "It's usually temporary: try again later, or press", "untuk ganti channel.": "to change channel.",
+    "Memuat channel…": "Loading channels…", "Bola": "Football", "Tampil di pojok kiri atas & layar pembuka · OK untuk mengetik, OK lagi untuk simpan": "Shown top-left & on the splash screen · OK to type, OK again to save", "Kartu grup dengan logo · terukur di box 2 GB: RAM tambahan ±10 MB": "Group cards with logos · measured on a 2 GB box: extra RAM ±10 MB", "Kotak grup + latar logo besar · terukur di box 2 GB: RAM tambahan ±15 MB": "Group tiles + big logo background · measured on a 2 GB box: extra RAM ±15 MB", "Banner + baris channel · terukur di box 2 GB: RAM tambahan ±15 MB": "Banner + channel rows · measured on a 2 GB box: extra RAM ±15 MB", "Gaya aplikasi streaming: menu kiri, banner berganti, kotak grup, baris channel · terukur di box 2 GB: RAM tambahan ±25 MB": "Streaming-app style: side menu, rotating banner, group tiles, channel rows · measured on a 2 GB box: extra RAM ±25 MB", "Tanpa logo & hiasan · paling ringan, dasar ukuran tema lain": "No logos or decoration · lightest, the baseline for the other themes", "Warna sorotan remote & tanda aktif": "Colour of the remote highlight & active marks", "Disarankan · untuk tema Konsol, Streaming & Bioskop · logo besar diam · RAM tambahan ±0 MB · kuota hampir 0": "Recommended · for Console, Streaming & Cinema themes · still big logo · extra RAM ±0 MB · almost no data", "⚠ Berat · siaran channel yang disorot diputar di latar (maks. 360p kalau channel punya beberapa kualitas) · terukur: RAM tambahan ±70 MB (360p) sampai ±120 MB (channel yang hanya 1080p), box bisa tersendat · kuota ±150–250 MB per jam, channel 1080p ±1,4 GB per jam": "⚠ Heavy · the highlighted channel plays in the background (max 360p when the channel offers several qualities) · measured: extra RAM ±70 MB (360p) up to ±120 MB (1080p-only channels), the box may stutter · data ±150–250 MB per hour, 1080p channels ±1.4 GB per hour", "Tampilan Dashboard": "Dashboard layout", "Tema": "Theme", "Konsol": "Console", "Streaming": "Streaming", "Bioskop": "Cinema", "Latar tema": "Theme background", "Gambar": "Image", "Siaran live": "Live broadcast", "Sedang tayang di Indonesia": "On now in Indonesia", "Lanjut menonton": "Continue watching", "Grup": "Groups", "Hemat": "Lite", "Warna aksen": "Accent colour", "Emas": "Gold", "Biru": "Blue", "Hijau": "Green", "Ungu": "Purple", "Merah": "Red", "Nama TV": "TV name", "Tonton": "Watch", "Semua ›": "All ›", "Siaran langsung": "Live", "Negara": "Countries", "Dunia": "World", "Tampilan": "Display", "Pemutaran": "Playback", "Logo & data sementara · tidak menambah sisa RAM": "Logos & temporary data · does not free RAM", "Bersihkan cache": "Clear cache", "Hapus logo & data sementara yang tersimpan · berguna kalau logo atau tampilan error · tidak menambah sisa RAM": "Delete saved logos & temporary data · useful when logos or screens look broken · does not free RAM", "satu kualitas": "single quality", "sepak bola dari playlist saya": "football from my playlists", "memuat playlist…": "loading playlist…", "Muat file .m3u lain": "Load another .m3u file", "Server channel ini sedang lambat": "This channel's server is slow right now", "Video belum masuk setelah": "No video has arrived after", "detik.": "seconds.", "kecepatan": "speed", ", video ini butuh": ", this video needs", "Biasanya hanya sementara: coba lagi nanti, atau tekan": "It's usually temporary: try again later, or press", "untuk ganti channel.": "to change channel.",
     "Terakhir ditonton": "Recently watched", "Channel": "Channels", "Kualitas": "Quality", "daftar channel": "channel list",
     "Semua negara": "All countries", "Playlist saya": "My playlists", "+ Tambah dari link": "+ Add from link", "+ Tambah dari file": "+ Add from file",
     "Pengaturan": "Settings", "Semua gratis.": "Everything is free.", "Tidak ada pilihan yang dikunci versi Premium.": "Nothing is locked behind a Premium version.",
@@ -898,10 +1047,19 @@ html.app .screen, html.app .screen * { animation: none !important; }
   // cc = negara yang diputar, view = negara yang sedang dibuka, lc = negara di daftar channel, region = filter benua
   const S = { screen: "dash", cur: 0, cc: 0, view: 0, lc: 0, region: "Semua", from: "home", recent: [], muted: true,
     stack: [], last: {},
-    set: { buffer: 1, quality: 0, resume: 0, showOff: 0, subs: 0, failShow: 0, lang: 1, tz: 0 } };
+    set: { buffer: 1, quality: 0, resume: 0, showOff: 0, subs: 0, failShow: 0, lang: 1, tz: 0, tema: 0, aksen: 0, latar: 0 } };
   const OPTS = {
     lang: { label: "Bahasa / Language", help: "Indonesia atau English · aplikasi dimuat ulang", vals: ["Indonesia", "English"] },
     tz: { label: "Zona waktu", help: "Jam dan jadwal acara mengikuti zona ini", vals: ZONA.map((z) => z[0]) },
+    tema: { label: "Tema", help: "Tampilan Dashboard", vals: ["Default", "Konsol", "Streaming", "Bioskop", "Hemat"],
+      // Perkiraan RAM tambahan tiap tema (diganti angka hasil ukur di box nanti).
+      helps: ["Kartu grup dengan logo · terukur di box 2 GB: RAM tambahan ±10 MB", "Kotak grup + latar logo besar · terukur di box 2 GB: RAM tambahan ±15 MB",
+              "Banner + baris channel · terukur di box 2 GB: RAM tambahan ±15 MB", "Gaya aplikasi streaming: menu kiri, banner berganti, kotak grup, baris channel · terukur di box 2 GB: RAM tambahan ±25 MB",
+              "Tanpa logo & hiasan · paling ringan, dasar ukuran tema lain"] },
+    latar: { label: "Latar tema", help: "", vals: ["Gambar", "Siaran live"],
+      helps: ["Disarankan · untuk tema Konsol, Streaming & Bioskop · logo besar diam · RAM tambahan ±0 MB · kuota hampir 0",
+              "⚠ Berat · siaran channel yang disorot diputar di latar (maks. 360p kalau channel punya beberapa kualitas) · terukur: RAM tambahan ±70 MB (360p) sampai ±120 MB (channel yang hanya 1080p), box bisa tersendat · kuota ±150–250 MB per jam, channel 1080p ±1,4 GB per jam"] },
+    aksen: { label: "Warna aksen", help: "Warna sorotan remote & tanda aktif", vals: ["Emas", "Biru", "Hijau", "Ungu", "Merah"] },
     buffer: { label: "Ukuran buffer", help: "Lebih besar = lebih tahan macet, tapi ganti channel sedikit lebih lama", vals: ["Normal · 10 dtk", "Besar · 30 dtk", "Sangat besar · 60 dtk"], sec: [10, 30, 60] },
     quality: { label: "Kualitas", help: "Batasi kualitas supaya hemat kuota", vals: ["Otomatis", "720p", "480p", "360p"], h: [0, 720, 480, 360] },
     resume: { label: "Lanjutkan channel terakhir", help: "Saat membuka kelompok, mulai dari channel yang terakhir ditonton", vals: ["Aktif", "Mati"] },
@@ -963,7 +1121,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
       // Ping ≈ waktu sampai byte pertama playlist (diulang tiap beberapa detik untuk siaran live); diambil yang terkecil.
       const catatPing = (_, d) => { const l = d.stats && d.stats.loading; if (l && l.first > l.start) NET.ping = [...NET.ping, l.first - l.start].slice(-6); };
       hls.on(Hls.Events.MANIFEST_LOADED, catatPing); hls.on(Hls.Events.LEVEL_LOADED, catatPing);
-      // Kebutuhan sebenarnya = ukuran potongan video / durasinya (untuk playlist yang tidak mencantumkan bitrate, mis. Music Box Hits ±48 KB/s).
+      // Kebutuhan sebenarnya = ukuran potongan video / durasinya (untuk playlist yang tidak mencantumkan bitrate, mis. Music Box Hits ±400 KB/s).
       hls.on(Hls.Events.FRAG_LOADED, (_, d) => { const f = d.frag; if (f && f.stats && f.stats.loaded) UNDUH.video += f.stats.loaded;
         if (f && f.type === "main" && f.duration > 0 && f.stats && f.stats.loaded) NET.butuh = [...NET.butuh, f.stats.loaded / f.duration].slice(-5); });
       hls.on(Hls.Events.MANIFEST_PARSED, () => { capQuality(); if (S.screen !== "dash") video.play().catch(() => {}); });
@@ -1153,7 +1311,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
       w.terminate(); URL.revokeObjectURL(url);
       EPG = { at: now, data }; store.set("epg", EPG);
       log(`Jadwal TV diperbarui: ${Object.keys(data).length} channel`);
-      isiAcara(); if (S.screen === "list") detail();
+      isiAcara(); if (S.screen === "list") detail(); if (S.screen === "dash" && tema() !== "default") window.TVZT_LOGO();  // gambar ulang + kembalikan sorotan
     } catch (e) { log("Jadwal: " + e.message); } finally { epgJalan = false; }
   }
   /* Acara sekarang & berikutnya untuk channel Indonesia (null kalau tidak ada jadwal). */
@@ -1213,7 +1371,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
     return LOGO_NAMA.get(namaKunci(name)) || "";
   }
   function logoInfo(c, code) {
-    const L = window.LOGOS; if (!c) return null;
+    const L = window.LOGOS; if (!c || (S.set && TEMA[S.set.tema] === "hemat")) return null;  // tema Hemat: tanpa logo
     if (c.u && c.logo) return { url: c.logo, alas: false };
     let u = c.u ? logoNama(c.name) : L && L[`${c.cc0 || code}:${c.no0 ?? c.no}`]; if (!u) return null;
     const alas = u[0] === "#"; if (alas) u = u.slice(1);
@@ -1413,15 +1571,292 @@ html.app .screen, html.app .screen * { animation: none !important; }
     renderSet();
     detail();
   }
+  /* ---------- tema, warna aksen, nama TV ---------- */
+  const TEMA = ["default", "konsol", "streaming", "bioskop", "hemat"];
+  const AKSEN = ["#F4B740", "#4EA1FF", "#3DDC84", "#B388FF", "#FF6B6B"];
+  const tema = () => TEMA[S.set.tema || 0] || "default";
+  const tanpaBeranda = () => ["konsol", "streaming", "bioskop"].includes(tema());
+  function terapkanTema() {
+    document.documentElement.dataset.tema = tema();
+    document.documentElement.style.setProperty("--focus", AKSEN[S.set.aksen || 0] || AKSEN[0]);
+  }
+  // Nama TV: kata terakhir diberi warna aksen, seperti "TV ZT". Kosong = "TV ZT".
+  const namaTV = () => (store.get("nama", "") || "").trim().slice(0, 24) || "TV ZT";
+  function brandHtml(n = namaTV()) { const w = n.split(/\s+/); const akhir = w.pop(); return (w.length ? esc(w.join(" ")) + " " : "") + `<b>${esc(akhir)}</b>`; }
+  function terapkanNama() {
+    document.querySelectorAll(".tv .brandname, #splash .brandname").forEach((el) => { el.innerHTML = brandHtml(); });
+    if (window.Android && Android.setNama) Android.setNama(namaTV());  // layar pembuka bawaan Android ikut berganti saat dibuka lagi
+  }
+  function barisNama() {
+    return `<div class="setrow" data-f data-act="namatv"><div><div class="lbl">Nama TV</div><div class="help">Tampil di pojok kiri atas & layar pembuka · OK untuk mengetik, OK lagi untuk simpan</div></div>`
+      + `<div class="val"><input id="namaTv" maxlength="24" value="${esc(store.get("nama", "") || "")}" placeholder="TV ZT" style="width:300px;font:600 28px var(--f-body);background:var(--panel-2);color:var(--focus);border:2px solid var(--line);border-radius:12px;padding:6px 14px;text-align:right"></div></div>`;
+  }
+  function simpanNama() {
+    const el = $("#namaTv"); if (!el) return;
+    store.set("nama", el.value.trim().slice(0, 24)); terapkanNama(); log(`Nama TV: ${namaTV()}`);
+  }
+
+  /* Daftar grup untuk tema (urutan seperti navbar): Indonesia, Bola, kategori, playlist saya. */
+  function grupTema() {
+    const urut = (n) => n.code === "ID" ? 0 : n.code === "BOLA" ? 1 : n.kat ? 2 : n.user ? 3 : 9;
+    return NEGARA.map((n, ci) => [n, ci]).filter(([n]) => urut(n) < 9 && n.channels.length).sort((a, b) => urut(a[0]) - urut(b[0]) || a[1] - b[1]);
+  }
+  const namaGrup = (n) => LABEL[n.code] || n.name;
+  const descGrup = (n) => n.code === "ID" ? "Siaran nasional & daerah, lengkap dengan jadwal acara" : n.desc ? n.desc.replace(/^./, (x) => x.toUpperCase()) : "Playlist saya";
+  const hueAngka = (s) => { let h = 0; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) % 360; return h; };
+  const logoBesar = (c, code) => { const i = logoInfo(c, code); return i ? `<img class="${i.alas ? "alas" : ""}" src="${esc(i.url)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : ""; };
+  const logoKecil = (c, code) => { const i = logoInfo(c, code); return i ? `<img class="lg${i.alas ? " alas" : ""}" src="${esc(i.url)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ""; };
+
+  /* --- Jendela Ya/Tidak (remote: ◀▶ pilih, OK jalankan, Back = Tidak) --- */
+  const KONF = { buka: false, pilih: 1, ya: null, tidak: null };
+  function konfirm(judul, isi, labelYa, labelTidak, ya, tidak) {
+    Object.assign(KONF, { buka: true, pilih: 1, ya, tidak });  // bawaan menyorot "Tidak" supaya OK tanpa sengaja aman
+    $("#konfirm").innerHTML = `<div class="kotak"><div class="jd">${esc(judul)}</div><div class="isi">${isi}</div>`
+      + `<div class="tombol"><div class="kb" data-k="0">${esc(labelYa)}</div><div class="kb" data-k="1">${esc(labelTidak)}</div></div></div>`;
+    $("#konfirm").hidden = false; tandaiKonf();
+  }
+  const tandaiKonf = () => document.querySelectorAll("#konfirm .kb").forEach((b) => b.classList.toggle("on", +b.dataset.k === KONF.pilih));
+  function tutupKonf(jalankanYa) {
+    const f = jalankanYa ? KONF.ya : KONF.tidak; KONF.buka = false; $("#konfirm").hidden = true; $("#konfirm").innerHTML = "";
+    if (f) f();
+  }
+  function kunciKonf(k) {
+    if (k === "left" || k === "right") { KONF.pilih = KONF.pilih ? 0 : 1; tandaiKonf(); }
+    else if (k === "ok") tutupKonf(KONF.pilih === 0);
+    else if (k === "back" || k === "home") tutupKonf(false);
+  }
+  $("#konfirm").addEventListener("click", (e) => { const b = e.target.closest(".kb"); if (b) { e.stopPropagation(); tutupKonf(b.dataset.k === "0"); } });
+
+  /* --- Latar siaran live: diputar setelah sorotan diam ±1 dtk, kualitas terendah, buffer kecil --- */
+  const dvid = $("#dvid"); let dhls = null, dT = null, dUrl = "";
+  // Latar siaran live: bawaan Gambar; pengguna boleh memilih Siaran live setelah diberi tahu biaya RAM & kuotanya.
+  const LATAR_LIVE = true;
+  const latarLive = () => LATAR_LIVE && S.set.latar === 1 && ["konsol", "streaming", "bioskop"].includes(tema());
+  // Keterangan kecil kalau siaran latar tidak bisa diputar (latar kembali ke gambar), supaya jelas kenapa diam.
+  const infoLatar = (t) => { const el = $("#dvidInfo"); if (!el) return; el.hidden = !t; if (t) el.textContent = t; };
+  function stopLatar() {
+    infoLatar("");
+    clearTimeout(dT); if (dhls) { dhls.destroy(); dhls = null; }
+    dvid.pause(); dvid.removeAttribute("src"); dvid.load(); dUrl = ""; document.documentElement.dataset.dvid = "";
+  }
+  function putarLatar(c) {
+    clearTimeout(dT);
+    if (!latarLive() || S.screen !== "dash" || !c) { stopLatar(); return; }
+    if (c.url === dUrl) { if (!dvid.paused && dvid.readyState > 2) document.documentElement.dataset.dvid = "1"; return; }
+    document.documentElement.dataset.dvid = "";
+    // Di browser, channel yang butuh header khusus tidak bisa diputar; di box header dikirim lewat Android.
+    if (!window.Android && (c.referer || c.ua)) { if (dhls) { dhls.destroy(); dhls = null; } dUrl = "";
+      infoLatar(L2(`Siaran latar ${c.name}: butuh header khusus, hanya bisa di aplikasi TV`, `Background for ${c.name}: needs special headers, works only in the TV app`)); return; }
+    infoLatar("");
+    dT = setTimeout(() => {
+      if (!latarLive() || S.screen !== "dash") return;
+      if (dhls) { dhls.destroy(); dhls = null; }
+      dUrl = c.url;
+      if (window.Android) Android.setHeaders(c.referer || "", c.ua || "");
+      if (window.Hls && Hls.isSupported()) {
+        dhls = new Hls({ maxBufferLength: 6, maxMaxBufferLength: 10, backBufferLength: 0, startLevel: 0, capLevelToPlayerSize: false, enableWorker: true });
+        dhls.loadSource(c.url); dhls.attachMedia(dvid);
+        dhls.on(Hls.Events.MANIFEST_PARSED, () => {
+          let cap = 0; dhls.levels.forEach((l, i) => { if ((l.height || 0) <= 360) cap = i; }); dhls.autoLevelCapping = cap;  // maks. 360p
+          dvid.play().catch(() => {});
+        });
+        dhls.on(Hls.Events.ERROR, (_, d) => { if (d.fatal) { document.documentElement.dataset.dvid = ""; if (dhls) { dhls.destroy(); dhls = null; }
+          infoLatar(L2(`Siaran latar ${c.name} tidak bisa diputar · `, `Background for ${c.name} can't play · `) + sebabGagal(d.details || "", d.response && d.response.code)); } });
+      }
+    }, 1000);
+  }
+  /* Pantau saat latar live jalan: gambar video terlewat (>20%), tampilan tersendat (frame >120 ms), atau RAM box < 200 MB.
+     Dua kali berturut-turut berat → tawarkan kembali ke Gambar. "Tidak" = tidak ditanya lagi 5 menit. */
+  const PANTAU = { jeda: 0, lambat: 0, tAkhir: 0, drop0: 0, total0: 0, jangan: 0 };
+  // Pengukur frame hanya berjalan selama latar live tampil (supaya tidak membebani box saat tidak dipakai).
+  function rafPantau(t) {
+    if (document.documentElement.dataset.dvid !== "1" || S.screen !== "dash") { PANTAU.tAkhir = 0; PANTAU.raf = false; return; }
+    if (PANTAU.tAkhir && t - PANTAU.tAkhir > 120) PANTAU.lambat++;
+    PANTAU.tAkhir = t; requestAnimationFrame(rafPantau);
+  }
+  const mulaiPantau = () => { if (!PANTAU.raf) { PANTAU.raf = true; requestAnimationFrame(rafPantau); } };
+  setInterval(() => {
+    if (document.documentElement.dataset.dvid !== "1" || S.screen !== "dash" || KONF.buka || Date.now() < PANTAU.jangan) { PANTAU.jeda = 0; PANTAU.lambat = 0; return; }
+    const q = dvid.getVideoPlaybackQuality ? dvid.getVideoPlaybackQuality() : null;
+    const drop = q ? q.droppedVideoFrames - PANTAU.drop0 : 0, total = q ? q.totalVideoFrames - PANTAU.total0 : 0;
+    if (q) { PANTAU.drop0 = q.droppedVideoFrames; PANTAU.total0 = q.totalVideoFrames; }
+    let ram = 0; if (window.Android && Android.info) { try { const d = JSON.parse(Android.info()); ram = d.memAvail; } catch {} }
+    const berat = (total > 30 && drop / total > 0.2) || PANTAU.lambat >= 5 || (ram && ram < 200 * 1024 * 1024);
+    const alasan = ram && ram < 200 * 1024 * 1024 ? L2(`sisa RAM box tinggal ${fmtMB(ram)}`, `only ${fmtMB(ram)} of RAM left`)
+      : total > 30 && drop / total > 0.2 ? L2(`${Math.round(drop / total * 100)}% gambar video terlewat`, `${Math.round(drop / total * 100)}% of video frames dropped`)
+      : L2("tampilan tersendat", "the screen is stuttering");
+    PANTAU.lambat = 0;
+    PANTAU.jeda = berat ? PANTAU.jeda + 1 : 0;
+    if (PANTAU.jeda >= 2) {
+      PANTAU.jeda = 0;
+      konfirm(L2("Box terasa berat", "The box is struggling"),
+        L2(`Latar Siaran live membuat box tersendat (<b>${esc(alasan)}</b>). Ganti latar ke <b>Gambar</b> supaya lancar lagi?`, `The live background is making the box stutter (<b>${esc(alasan)}</b>). Switch the background to <b>Image</b> so it runs smoothly again?`),
+        L2("Ya, ganti ke Gambar", "Yes, switch to Image"), L2("Tidak, biarkan", "No, keep it"),
+        () => { S.set.latar = 0; store.set("set", S.set); stopLatar(); renderDash(); log(L2("Latar diganti ke Gambar", "Background switched to Image")); },
+        () => { PANTAU.jangan = Date.now() + 5 * 60e3; });
+    }
+  }, 3000);
+  dvid.addEventListener("playing", () => { if (latarLive() && S.screen === "dash") { document.documentElement.dataset.dvid = "1"; infoLatar(""); mulaiPantau(); } });
+  dvid.addEventListener("loadstart", () => { const u = dUrl; setTimeout(() => { if (latarLive() && S.screen === "dash" && dUrl === u && u && document.documentElement.dataset.dvid !== "1")
+    infoLatar(L2("Siaran latar masih memuat · servernya lambat, latar tetap gambar dulu", "Background stream still loading · slow server, showing the image for now")); }, 8000); });
+
+  /* --- Konsol --- */
+  function renderKonsol() {
+    const gs = grupTema(), pakai = new Set();
+    const tiles = gs.map(([n, ci]) => { const h = hueAngka(n.code + n.name);
+      let lg = ""; for (const c of n.channels) { const i = logoInfo(c, n.code); if (i && !pakai.has(i.url)) { pakai.add(i.url); lg = `<img class="${i.alas ? "alas" : ""}" src="${esc(i.url)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">`; break; } }
+      return `<div class="kt" data-f data-act="tonton" data-cc="${ci}" style="--h1:hsl(${h} 62% 44%);--h2:hsl(${(h + 40) % 360} 70% 22%)">${lg || `<span class="kode">${esc(namaGrup(n).slice(0, 2).toUpperCase())}</span>`}</div>`; }).join("")
+      + `<div class="kt" data-f data-act="countries" style="--h1:hsl(205 60% 40%);--h2:hsl(245 60% 20%)"><span class="kode">🌐</span></div>`;
+    $("#dkonsol").innerHTML = `<div class="bg"><div class="art" id="kArt"></div></div><div class="tirai"></div><div class="krow" id="kRow">${tiles}</div>`
+      + `<div class="khero"><div class="kat" id="kKat"></div><h1 id="kNama"></h1><div class="desc" id="kDesc"></div><div class="meta" id="kMeta"></div>`
+      + `<div class="kaksi"><div class="kbtn utama" data-f data-act="tonton" id="kTonton">▶&nbsp; Tonton</div><div class="kbtn" data-f data-act="kdaftar" id="kDaftar">☰&nbsp; Daftar channel</div></div></div>`
+      + `<div class="kh" id="kH"></div><div class="kstrip" id="kStrip"></div>`;
+    const awal = $(`#kRow .kt[data-cc="${S.cc}"]`) || $("#kRow .kt"); konsolGrup(awal);
+  }
+  function konsolGrup(t) {
+    if (!t) return;
+    document.querySelectorAll("#kRow .kt").forEach((x) => x.classList.toggle("on", x === t));
+    const tiles = [...document.querySelectorAll("#kRow .kt")], i = tiles.indexOf(t);
+    $("#kRow").style.transform = `translateX(${-Math.max(0, i - 2) * 172}px)`;
+    const h = hueAngka(t.dataset.cc ? NEGARA[+t.dataset.cc].code + NEGARA[+t.dataset.cc].name : "luar");
+    $("#dkonsol .bg").style.background = `radial-gradient(ellipse 70% 80% at 72% 42%, hsl(${h} 60% 32%) 0%, hsl(${(h + 30) % 360} 65% 15%) 55%, var(--night) 100%)`;
+    if (!t.dataset.cc) {  // Luar negeri
+      const luar = NEGARA.filter((n) => n.code !== "ID" && !n.user && !n.kat);
+      $("#kKat").textContent = "Dunia"; $("#kNama").textContent = "Luar negeri"; $("#kDesc").textContent = "Ribuan channel gratis dari seluruh dunia, per negara";
+      $("#kMeta").innerHTML = `<b>${luar.length}</b> negara`; $("#kArt").innerHTML = `<span class="huruf">🌐</span>`;
+      $("#kTonton").dataset.act = "countries"; $("#kDaftar").dataset.act = "countries";
+      $("#kH").textContent = "Negara"; $("#kStrip").innerHTML = luar.slice(0, 20).map((n) => `<div class="kc" data-f data-act="country" data-cc="${NEGARA.indexOf(n)}"><span class="n">${esc(n.code)}</span><div class="t">${esc(n.name)}</div></div>`).join("");
+      return;
+    }
+    const ci = +t.dataset.cc, n = NEGARA[ci], c0 = n.channels.find((c) => logoInfo(c, n.code)) || n.channels[0];
+    $("#kKat").textContent = n.code === "ID" ? "Siaran Indonesia" : n.user ? "Playlist saya" : "Kategori";
+    $("#kNama").textContent = namaGrup(n); $("#kDesc").textContent = descGrup(n);
+    const t0 = namaTerakhir(n.code); $("#kMeta").innerHTML = `<b>${n.channels.length.toLocaleString(LOC)}</b> channel${t0 ? ` · Terakhir: <b>${esc(t0)}</b>` : ""}`;
+    $("#kArt").innerHTML = logoBesar(c0, n.code) || `<span class="huruf">${esc(namaGrup(n).slice(0, 2).toUpperCase())}</span>`;
+    $("#kTonton").dataset.act = "tonton"; $("#kTonton").dataset.cc = ci; $("#kDaftar").dataset.act = "kdaftar"; $("#kDaftar").dataset.cc = ci;
+    $("#kH").textContent = `Channel · ${namaGrup(n)}`;
+    $("#kStrip").innerHTML = n.channels.map((c, i) => [c, i]).filter(([c]) => !sembunyi(c)).slice(0, 24).map(([c, i]) =>
+      `<div class="kc" data-f data-act="play" data-cc="${ci}" data-i="${i}">${logoKecil(c, n.code) || `<span class="n">${c.no}</span>`}<div class="t">${esc(c.name)}</div></div>`).join("");
+    $("#kStrip").style.transform = "";
+    putarLatar(n.channels.find((c) => !sembunyi(c) && (window.Android || !(c.referer || c.ua))) || c0);
+  }
+  // Kartu channel disorot: latar, logo besar, judul & acara ikut channel itu (naik ke kotak grup = kembali ke info grup).
+  function konsolKartu(ci, i) {
+    const n = NEGARA[ci], c = n && n.channels[i]; if (!c) return;
+    const h = hueAngka(c.name), a = acara(c, n.code);
+    $("#dkonsol .bg").style.background = `radial-gradient(ellipse 70% 80% at 72% 42%, hsl(${h} 60% 32%) 0%, hsl(${(h + 30) % 360} 65% 15%) 55%, var(--night) 100%)`;
+    $("#kArt").innerHTML = logoBesar(c, n.code) || `<span class="huruf">${c.no}</span>`;
+    $("#kKat").textContent = namaGrup(n); $("#kNama").textContent = c.name;
+    $("#kDesc").innerHTML = a && a.now ? `Sekarang: <b>${esc(a.now[2])}</b> · ${jam(a.now[0])}–${jam(a.now[1])}` : "Siaran langsung";
+    $("#kMeta").innerHTML = `Channel <b>${c.no}</b>${a && a.next ? ` · Berikutnya: <b>${esc(a.next[2])}</b> ${jam(a.next[0])}` : ""}`;
+    putarLatar(c);
+  }
+  function konsolFokus(el) {
+    if (el.classList.contains("kt")) { konsolGrup(el); return; }
+    if (el.classList.contains("kc")) { const cs = [...document.querySelectorAll("#kStrip .kc")]; $("#kStrip").style.transform = `translateX(${-Math.max(0, cs.indexOf(el) - 3) * 282}px)`;
+      if (el.dataset.i) konsolKartu(+el.dataset.cc, +el.dataset.i); }
+  }
+
+  /* --- Streaming --- */
+  function renderStream() {
+    const secs = grupTema().map(([n, ci]) => {
+      const chs = n.channels.map((c, i) => [c, i]).filter(([c]) => !sembunyi(c)).slice(0, 14);
+      return `<div class="ssec"><h3>${esc(namaGrup(n))}<span>${n.channels.length.toLocaleString(LOC)} channel</span></h3><div class="srow">`
+        + chs.map(([c, i]) => `<div class="sc" data-f data-act="play" data-cc="${ci}" data-i="${i}" style="--hue:hsl(${hueAngka(c.name)} 60% 45%)">${logoKecil(c, n.code) || `<span class="n">${c.no}</span>`}<div><div class="t">${esc(c.name)}</div><div class="k">${esc(kini(c, n.code) || "siaran langsung")}</div></div></div>`).join("")
+        + `<div class="sc semua" data-f data-act="kdaftar" data-cc="${ci}">Semua ›</div></div></div>`; }).join("");
+    $("#dstream").innerHTML = `<div class="sban" id="sBan"><div class="art" id="sArt"></div></div><div class="sinfo"><div class="grp" id="sGrp"></div><h1 id="sNama"></h1><div class="now" id="sNow"></div><div class="hint">OK untuk menonton · ▲▼ pindah baris · ◀▶ pilih channel</div></div>`
+      + `<div class="srows" id="sRows">${secs}</div>`;
+    streamBanner($(`#sRows .sc[data-cc="${S.cc}"][data-i="${S.cur}"]`) || $("#sRows .sc"));
+  }
+  function streamBanner(el) {
+    if (!el || !el.dataset.cc) return;
+    const n = NEGARA[+el.dataset.cc];
+    if (el.classList.contains("semua")) { $("#sGrp").textContent = namaGrup(n); $("#sNama").textContent = "Semua channel"; $("#sNow").innerHTML = `${n.channels.length.toLocaleString(LOC)} channel di ${esc(namaGrup(n))}`; return; }
+    const c = n.channels[+el.dataset.i], h = hueAngka(c.name), a = acara(c, n.code);
+    $("#sBan").style.background = `radial-gradient(ellipse 60% 90% at 70% 40%, hsl(${h} 55% 30%) 0%, hsl(${(h + 30) % 360} 60% 14%) 55%, var(--night) 100%)`;
+    $("#sArt").innerHTML = logoBesar(c, n.code) || `<span class="huruf">${c.no}</span>`;
+    $("#sGrp").textContent = namaGrup(n); $("#sNama").textContent = c.name;
+    putarLatar(c);
+    $("#sNow").innerHTML = a && a.now ? `Sekarang: ${esc(a.now[2])} <span>· ${jam(a.now[0])}–${jam(a.now[1])}${a.next ? ` · lalu ${esc(a.next[2])}` : ""}</span>` : "Siaran langsung";
+  }
+  function streamFokus(el) {
+    const row = el.parentElement, sec = row.parentElement;
+    row.scrollTo({ left: Math.max(0, el.offsetLeft - 96 - 40), behavior: "smooth" });
+    $("#sRows").scrollTo({ top: sec.offsetTop, behavior: "smooth" });
+    streamBanner(el);
+  }
+
+  /* --- Bioskop (gaya aplikasi streaming): menu ikon kiri, banner berganti otomatis, kotak grup, baris channel --- */
+  let bioT = null, bioUnggulan = [], bioI = 0;
+  function renderBioskop() {
+    const gs = grupTema(), idCi = NEGARA.findIndex((n) => n.code === "ID");
+    // Unggulan untuk banner: channel Indonesia yang sedang ada acaranya, lalu channel pertama tiap grup.
+    bioUnggulan = [];
+    if (idCi >= 0) NEGARA[idCi].channels.forEach((c, i) => { const a = acara(c, "ID"); if (a && a.now && bioUnggulan.length < 4 && logoInfo(c, "ID")) bioUnggulan.push([idCi, i]); });
+    for (const [n, ci] of gs) { if (bioUnggulan.length >= 7) break; const i = n.channels.findIndex((c) => !sembunyi(c) && logoInfo(c, n.code)); if (i >= 0 && !bioUnggulan.some((u) => u[0] === ci)) bioUnggulan.push([ci, i]); }
+    const kartu = (ci, i) => { const n = NEGARA[ci], c = n.channels[i], a = acara(c, n.code);
+      return `<div class="bc" data-f data-act="play" data-cc="${ci}" data-i="${i}" style="--hue:hsl(${hueAngka(c.name)} 60% 45%)">${a && a.now ? `<span class="live">LIVE</span>` : ""}${logoKecil(c, n.code) || `<span class="n">${c.no}</span>`}<div><div class="t">${esc(c.name)}</div><div class="k">${esc((a && a.now && a.now[2]) || namaGrup(n))}</div></div></div>`; };
+    const pakai = new Set();
+    const grup = gs.map(([n, ci]) => { const h = hueAngka(n.code + n.name); let lg = "";
+      for (const c of n.channels) { const i = logoInfo(c, n.code); if (i && !pakai.has(i.url)) { pakai.add(i.url); lg = `<img class="${i.alas ? "alas" : ""}" src="${esc(i.url)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">`; break; } }
+      return `<div class="bg2" data-f data-act="tonton" data-cc="${ci}" style="--h1:hsl(${h} 60% 34%);--h2:hsl(${(h + 40) % 360} 65% 16%)">${lg}<div class="t">${esc(namaGrup(n))}</div></div>`; }).join("");
+    const baris = [];
+    if (idCi >= 0) { const tayang = NEGARA[idCi].channels.map((c, i) => [c, i]).filter(([c]) => !sembunyi(c) && acara(c, "ID") && acara(c, "ID").now).slice(0, 16);
+      if (tayang.length) baris.push(["Sedang tayang di Indonesia", tayang.map(([, i]) => kartu(idCi, i)).join("")]); }
+    const lanjut = S.recent.map((r) => { const ci = NEGARA.findIndex((n) => n.code === r.cc); const i = ci >= 0 ? NEGARA[ci].channels.findIndex((c) => c.no === r.no) : -1; return i >= 0 ? kartu(ci, i) : ""; }).join("");
+    if (lanjut) baris.push(["Lanjut menonton", lanjut]);
+    for (const [n, ci] of gs) baris.push([namaGrup(n), n.channels.map((c, i) => [c, i]).filter(([c]) => !sembunyi(c)).slice(0, 14).map(([, i]) => kartu(ci, i)).join("")]);
+    $("#dbioskop").innerHTML = `<div class="rail"><div class="ri" data-f data-act="bio-atas" title="Beranda">⌂</div><div class="ri" data-f data-act="countries" title="Grup">▦</div>`
+      + `<div class="ri" data-f data-act="playlists" title="Playlist saya">+</div><div class="ri" data-f data-act="settings" title="Pengaturan">⚙</div></div>`
+      + `<div class="hero" id="bHero"><div class="art" id="bArt"></div></div>`
+      + `<div class="hinfo"><div class="lbl" id="bLbl"></div><h1 id="bNama"></h1><div class="now" id="bNow"></div><div class="desc" id="bDesc"></div>`
+      + `<div class="haksi"><div class="hb utama" data-f data-act="play" id="bTonton">▶&nbsp; Tonton</div><div class="hb" data-f data-act="kdaftar" id="bDaftar">☰&nbsp; Daftar channel</div></div>`
+      + `<div class="dots" id="bDots">${bioUnggulan.map(() => "<i></i>").join("")}</div></div>`
+      + `<div class="brows" id="bRows"><div class="bsec"><h3>Grup</h3><div class="brow">${grup}</div></div>`
+      + baris.map(([j, isi]) => `<div class="bsec"><h3>${esc(j)}</h3><div class="brow">${isi}</div></div>`).join("") + `</div>`;
+    bioI = 0; bioBanner(...(bioUnggulan[0] || [idCi, 0])); bioPutar();
+  }
+  // Banner berganti tiap 8 dtk selama sorotan ada di banner/menu (seperti layar utama aplikasi streaming saat diam).
+  function bioPutar() {
+    clearInterval(bioT);
+    bioT = setInterval(() => {
+      if (S.screen !== "dash" || tema() !== "bioskop" || !bioUnggulan.length || latarLive()) return;
+      const f = $("#s-dash .focus"); if (f && f.closest("#bRows")) return;
+      bioI = (bioI + 1) % bioUnggulan.length; bioBanner(...bioUnggulan[bioI]);
+    }, 8000);
+  }
+  function bioBanner(ci, i, grupSaja) {
+    const n = NEGARA[ci]; if (!n) return;
+    const c = n.channels[i] || n.channels[0], a = acara(c, n.code), h = hueAngka(grupSaja ? n.code + n.name : c.name);
+    $("#bHero").style.background = `radial-gradient(ellipse 65% 95% at 70% 38%, hsl(${h} 55% 30%) 0%, hsl(${(h + 30) % 360} 60% 13%) 55%, var(--night) 100%)`;
+    $("#bArt").innerHTML = logoBesar(c, n.code) || `<span class="huruf">${esc(grupSaja ? namaGrup(n).slice(0, 2).toUpperCase() : String(c.no))}</span>`;
+    $("#bLbl").textContent = grupSaja ? "Grup" : a && a.now ? `Sedang tayang · ${namaGrup(n)}` : namaGrup(n);
+    $("#bNama").textContent = grupSaja ? namaGrup(n) : c.name;
+    $("#bNow").innerHTML = grupSaja ? `${n.channels.length.toLocaleString(LOC)} channel` : a && a.now ? `${esc(a.now[2])} <span>· ${jam(a.now[0])}–${jam(a.now[1])}${a.next ? ` · lalu ${esc(a.next[2])}` : ""}</span>` : "Siaran langsung";
+    $("#bDesc").textContent = grupSaja ? descGrup(n) : "";
+    Object.assign($("#bTonton").dataset, { act: grupSaja ? "tonton" : "play", cc: ci, i: grupSaja ? "" : n.channels.indexOf(c) });
+    Object.assign($("#bDaftar").dataset, { cc: ci });
+    document.querySelectorAll("#bDots i").forEach((d, k) => d.classList.toggle("on", k === bioI && !grupSaja));
+    putarLatar(c);
+  }
+  function bioFokus(el) {
+    if (el.closest("#bRows")) {
+      const row = el.parentElement, sec = row.parentElement;
+      row.scrollTo({ left: Math.max(0, el.offsetLeft - 170 - 40), behavior: "smooth" });
+      $("#bRows").scrollTo({ top: sec.offsetTop, behavior: "smooth" });
+      if (el.dataset.act === "tonton") bioBanner(+el.dataset.cc, 0, true); else bioBanner(+el.dataset.cc, +el.dataset.i);
+    } else if (el.closest(".hinfo") || el.closest(".rail")) $("#bRows").scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   /* Pengaturan dikelompokkan jadi tab (Tampilan / Pemutaran / Channel); RAM & cache di panel kanan. */
-  const SET_TAB = [["tampilan", "Tampilan", ["lang", "tz"]], ["pemutaran", "Pemutaran", ["buffer", "quality", "resume", "subs"]], ["channel", "Channel", ["failShow", "showOff"]]];
+  const SET_TAB = [["tampilan", "Tampilan", ["nama", "tema", "latar", "aksen", "lang", "tz"]], ["pemutaran", "Pemutaran", ["buffer", "quality", "resume", "subs"]], ["channel", "Channel", ["failShow", "showOff"]]];
   function renderSet() {
     if (!SET_TAB.some((t) => t[0] === S.setTab)) S.setTab = SET_TAB[0][0];
     const fokus = $("#s-settings .focus"), kunciF = fokus && (fokus.dataset.k || fokus.dataset.t || fokus.dataset.act);
     $("#settabs").innerHTML = SET_TAB.map(([id, nama]) => `<div class="stab${id === S.setTab ? " on" : ""}" data-f data-act="settab" data-t="${id}">${nama}</div>`).join("");
     const tab = SET_TAB.find((t) => t[0] === S.setTab);
-    $("#setwrap").innerHTML = tab[2].map((k) => { const o = OPTS[k];
-      return `<div class="setrow" data-f data-act="opt" data-k="${k}"><div><div class="lbl">${o.label}</div><div class="help">${o.help}</div></div><div class="val"><span class="arr">◀</span>${o.vals[S.set[k]]}<span class="arr">▶</span></div></div>`; }).join("")
+    $("#setwrap").innerHTML = tab[2].map((k) => { if (k === "nama") return barisNama(); const o = OPTS[k];
+      return `<div class="setrow" data-f data-act="opt" data-k="${k}"><div><div class="lbl">${o.label}</div><div class="help">${o.helps ? o.helps[S.set[k]] : o.help}</div></div><div class="val"><span class="arr">◀</span>${o.vals[S.set[k]]}<span class="arr">▶</span></div></div>`; }).join("")
       + (S.setTab !== "channel" ? "" :
         `<div class="setrow" data-f data-act="sinyal"><div><div class="lbl">Cari sinyal channel</div><div class="help">Pilih kelompok (Indonesia, luar negeri, kategori) lalu cek ulang · yang mati disembunyikan, yang hidup lagi dimunculkan</div></div><div class="val">Pilih ▶</div></div>`
         + `<div class="setrow" data-f data-act="playlists"><div><div class="lbl">Playlist saya</div><div class="help">Tambah playlist .m3u dari link atau file, jadi kartu baru atau digabung ke negara</div></div><div class="val">${PL.length} playlist<span class="arr">▶</span></div></div>`
@@ -1529,6 +1964,14 @@ html.app .screen, html.app .screen * { animation: none !important; }
     return out.length ? `<div class="logos">${out.join("")}</div>` : "";
   }
   function renderDash() {
+    terapkanTema();  // pengaturan tersimpan bisa terbaca setelah baris awal dijalankan
+    const tm = tema();
+    if (tm === "konsol" || tm === "streaming" || tm === "bioskop") {
+      ({ konsol: renderKonsol, streaming: renderStream, bioskop: renderBioskop })[tm]();
+      const total = BASE.reduce((a, n) => a + n.channels.length, 0);
+      $("#dashCount").textContent = `${NEGARA.length} kelompok · ${total.toLocaleString(LOC)} channel`;
+      return;
+    }
     const idx = NEGARA.findIndex((n) => n.code === "ID");
     const luar = NEGARA.filter((n) => n.code !== "ID" && !n.user && !n.kat);
     const luarCh = luar.reduce((s, n) => s + n.channels.length, 0);
@@ -1561,6 +2004,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
     nav("home");
   }
   function nav(screen) {
+    if (screen === "home" && tanpaBeranda()) screen = "dash";  // supaya riwayat Back tidak berisi "dash" palsu
     if (S.screen !== screen && S.screen !== "list") S.stack.push(S.screen);
     if (S.stack.length > 20) S.stack.shift();
     go(screen);
@@ -1715,6 +2159,9 @@ html.app .screen, html.app .screen * { animation: none !important; }
 
   /* ---------- navigasi remote ---------- */
   function go(screen) {
+    // Tema Konsol/Streaming/Bioskop tidak memakai Beranda: Dashboard-nya sudah langsung ke layar menonton.
+    if (screen === "home" && tanpaBeranda()) screen = "dash";
+    if (screen !== "dash") stopLatar();
     S.screen = screen; tv.dataset.screen = screen;
     document.querySelectorAll("#tabs button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.go === screen));
     render();
@@ -1725,7 +2172,9 @@ html.app .screen, html.app .screen * { animation: none !important; }
     if (screen === "list") { renderList(); f = $("#chlist .playing") || $("#chlist [data-f]"); }
     if (screen === "playlists") { renderPlaylists(); f = $("#s-playlists [data-f]"); }
     if (screen === "home") f = $("#hero");
-    if (screen === "dash") { renderDash(); berhenti(); f = $("#dgrid .dtile"); }
+    if (screen === "dash") { renderDash(); berhenti();
+      f = { konsol: () => $("#kRow .kt.on") || $("#kRow .kt"), streaming: () => $(`#sRows .sc[data-cc="${S.cc}"][data-i="${S.cur}"]`) || $("#sRows .sc"),
+            bioskop: () => $("#bTonton") }[tema()]?.() || $("#dgrid .dtile"); }
     // Lanjutkan video setelah animasi layar selesai, supaya dekoder video tidak berebut tenaga dengan animasi.
     else if (video.paused && live.length) setTimeout(() => { if (S.screen !== "dash" && video.paused) video.play().catch(() => {}); }, 380);
     if (screen === "settings") f = $("#settabs .on") || $("#setwrap [data-f]");
@@ -1746,6 +2195,9 @@ html.app .screen, html.app .screen * { animation: none !important; }
     if (!el) return;
     el.classList.add("focus");
     if (el.dataset.act === "settab" && el.dataset.t !== S.setTab) { pilihTab(el.dataset.t); return; }
+    if (el.closest("#dkonsol")) konsolFokus(el);
+    else if (el.closest("#dstream")) { streamFokus(el); return; }
+    else if (el.closest("#dbioskop")) { bioFokus(el); return; }
     const box = el.closest(".strip, .chlist, .cgrid, .chgrid, .rtabs, .setwrap, .dgrid, .navbar");  // navbar: geser kalau playlist saya membuatnya lebih lebar dari layar
     if (box) {
       dekatUjung(box, el);
@@ -1825,21 +2277,41 @@ html.app .screen, html.app .screen * { animation: none !important; }
     else if (a === "opt") changeOpt(el.dataset.k, 1);
     else if (a === "sinyal") { bukaPilihSinyal(); }
     else if (a === "clearcache") bersihkanCache();
+    else if (a === "kdaftar") { S.view = +el.dataset.cc; nav("country"); }
+    else if (a === "tonton") {  // tema Konsol/Streaming/Bioskop: langsung layar penuh, tanpa lewat Beranda
+      const ci = +el.dataset.cc, n = NEGARA[ci]; if (!n || !n.channels.length) return;
+      const i = Math.max(0, n.channels.findIndex((x) => x.no === S.last[n.code]));
+      if (!(S.cc === ci && S.cur === i) || !hls) play(i, ci); nav("watch");
+    }
+    else if (a === "bio-atas") { focus($("#bTonton")); }
+    else if (a === "namatv") { const i = $("#namaTv"); if (i) { i.focus(); i.select(); } }
     else if (a === "settab") { focus($("#setwrap [data-f]")); }
     else if (a === "unhide") { for (const u in GAGAL) delete GAGAL[u]; store.set("gagal", GAGAL); log("Channel tersembunyi ditampilkan lagi"); render(); focus($('#setwrap [data-k="failShow"]')); }
   }
   function changeOpt(k, d) {
-    const o = OPTS[k]; S.set[k] = (S.set[k] + d + o.vals.length) % o.vals.length;
+    const o = OPTS[k], baru = (S.set[k] + d + o.vals.length) % o.vals.length;
+    if (k === "latar" && baru === 1) {  // Siaran live: tanya dulu, berat untuk box 2 GB
+      konfirm(L2("Pakai latar Siaran live?", "Use the live broadcast background?"),
+        L2(`Channel yang disorot akan diputar di latar Dashboard. <b>RAM tambahan ±70–120 MB</b> dan <b>kuota ±150–250 MB per jam</b> (channel 1080p bisa ±1,4 GB per jam). Di box dengan RAM kecil, tampilan bisa <b>patah-patah</b>. Kalau itu terjadi, TV ZT akan menawarkan kembali ke Gambar.`,
+           `The highlighted channel will play behind the Dashboard. <b>Extra RAM ±70–120 MB</b> and <b>data ±150–250 MB per hour</b> (1080p channels up to ±1.4 GB per hour). On boxes with little RAM the screen may <b>stutter</b>. If that happens, TV ZT will offer to switch back to Image.`),
+        L2("Ya, pakai Siaran live", "Yes, use live"), L2("Tidak, tetap Gambar", "No, keep Image"),
+        () => { S.set.latar = 1; store.set("set", S.set); stopLatar(); terapkanTema(); renderDash(); render(); focus($('#setwrap [data-k="latar"]')); },
+        () => focus($('#setwrap [data-k="latar"]')));
+      return;
+    }
+    S.set[k] = baru;
     store.set("set", S.set);
     if (k === "buffer") start(chan());
     if (k === "quality") capQuality();
     if (k === "subs") terapkanSub();
     if (k === "lang") { setTimeout(() => location.reload(), 300); }
     if (k === "tz") { tick(); isiAcara(); }
+    if (k === "tema" || k === "aksen" || k === "latar") { stopLatar(); terapkanTema(); renderDash(); }
     const keep = k; render(); focus($(`#setwrap [data-k="${keep}"]`));
   }
   /* Mengembalikan false hanya untuk Back di Dashboard, supaya aplikasi Android boleh menutup diri. */
   function key(k) {
+    if (KONF.buka) { kunciKonf(k); return true; }
     if (!$("#scan").hidden) {  // panel Cari sinyal: Back = berhenti / tutup, OK = tutup setelah selesai
       if (SCAN.mode === "pilih") { tombolPilih(k); return true; }
       if (k === "back" || k === "home" || k === "ok") { if (SCAN.jalan) SCAN.batal = true; else tutupScan(); }
@@ -1863,6 +2335,12 @@ html.app .screen, html.app .screen * { animation: none !important; }
       return true;
     }
     if (scr === "settings" && f && f.dataset.act === "opt" && (k === "left" || k === "right")) { changeOpt(f.dataset.k, k === "left" ? -1 : 1); return true; }
+    // Konsol: ▲▼ berpindah lapis (kotak grup ↔ tombol ↔ kartu) tanpa melompat ke grup lain.
+    if (scr === "dash" && tema() === "konsol" && f) {
+      if (k === "up" && f.closest(".kaksi")) { focus($("#kRow .kt.on")); return true; }
+      if (k === "up" && f.classList.contains("kc")) { focus($("#kTonton")); return true; }
+      if (k === "down" && f.classList.contains("kt")) { focus($("#kTonton")); return true; }
+    }
     // ▶ dari tab terakhir: ke panel kanan (Bersihkan cache), bukan turun ke baris pertama.
     if (scr === "settings" && f && f.dataset.act === "settab" && k === "right" && !f.nextElementSibling) { focus($('#s-settings [data-act="clearcache"]')); return true; }
     if (scr === "playlists") {
@@ -1901,6 +2379,10 @@ html.app .screen, html.app .screen * { animation: none !important; }
   function unmute() { if (unmuted) return; unmuted = true; video.muted = false; S.muted = false; video.play().catch(() => {}); }
 
   document.addEventListener("keydown", (e) => {
+    if (e.target.id === "namaTv") {
+      if (!["ArrowUp", "ArrowDown", "Enter", "Escape"].includes(e.key)) return;
+      e.preventDefault(); simpanNama(); e.target.blur(); return;
+    }
     if (e.target.matches && e.target.matches("input, textarea")) {
       if (!["ArrowUp", "ArrowDown", "Enter", "Escape"].includes(e.key)) return;
       if (S.form) S.form[e.target.id === "plUrl" ? "url" : "name"] = e.target.value;
@@ -1939,6 +2421,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
   /* ---------- jam WIB & skala layar ---------- */
   const fmtJam = () => new Intl.DateTimeFormat(LOC, { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: zonaIANA() });
   const tick = () => { const t = fmtJam().format(new Date()).replace(".", ":"), zl = labelZona(); $("#clock1").innerHTML = `${t}<small>${zl}</small>`; $("#clock2").innerHTML = `${t}<small>${zl}</small>`; $("#clock3").innerHTML = `${t}<small>${zl}</small>`; };
+  terapkanTema(); terapkanNama();
   tick(); setInterval(tick, 15000);
   setInterval(isiAcara, 60000);
   setTimeout(() => muatJadwal(), 4000); setInterval(() => muatJadwal(), 3600e3);

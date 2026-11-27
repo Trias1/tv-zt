@@ -1,7 +1,7 @@
 """Server lokal untuk membuka mockup TV ZT di browser laptop, plus /api/ram (RAM laptop asli).
 
 Pemakaian (dari folder proyek):  python -I tools/mockup-server.py [port]
-Lalu buka http://localhost:8765/tv-zt.html atau tv-zt-tema.html.
+Lalu buka http://localhost:8765/tv-zt.html.
 
 Hanya mendengarkan 127.0.0.1 (tidak bisa dibuka dari perangkat lain). Panel RAM di Pengaturan mockup
 memakai /api/ram kalau ada; dengan server statis biasa panel itu kembali ke angka contoh.
