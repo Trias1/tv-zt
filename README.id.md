@@ -44,16 +44,16 @@ Pilih tema di **Pengaturan → Tampilan** (mulai v1.4). Angka RAM diukur di ZTE 
 
 ## Cara pasang (tanpa root, tanpa laptop)
 
-Unduh **[TV-ZT-v1.4.apk](https://github.com/Trias1/tv-zt/releases/latest)** dari halaman Releases. Bisa dipasang di TV/STB Android 7 ke atas.
+Unduh **[TV-ZT-v1.4.1.apk](https://github.com/Trias1/tv-zt/releases/latest)** dari halaman Releases. Bisa dipasang di TV/STB Android 7 ke atas.
 
 1. Di TV/STB, pasang **File Manager+** dan **Send Files to TV** dari Play Store. Di HP, pasang juga **Send Files to TV**.
-2. Unduh `TV-ZT-v1.4.apk` di HP.
+2. Unduh `TV-ZT-v1.4.1.apk` di HP.
 3. Kirim ke TV: di TV buka *Send Files to TV* → **Receive**; di HP *Send Files to TV* → **Send** → pilih APK → pilih TV. (Atau pakai flashdisk.)
 4. Izinkan pemasangan: **Setelan → Aplikasi → Akses aplikasi khusus → Instal aplikasi tidak dikenal → File Manager+ → Izinkan**.
 5. Buka **File Manager+** → folder *Download* → pilih APK → **Instal** (kalau Play Protect memperingatkan, pilih **Tetap instal**).
 6. Buka **TV ZT** dari daftar aplikasi. TV harus tersambung ke internet.
 
-Lewat laptop: `adb connect <ip-tv>:5555` lalu `adb install -r TV-ZT-v1.4.apk`.
+Lewat laptop: `adb connect <ip-tv>:5555` lalu `adb install -r TV-ZT-v1.4.1.apk`.
 
 ## Cara pakai
 

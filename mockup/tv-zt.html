@@ -2212,7 +2212,8 @@ html.app .screen, html.app .screen * { animation: none !important; }
   }
   function move(dir) {
     const scr = $("#s-" + S.screen), cur = scr.querySelector(".focus");
-    const items = [...scr.querySelectorAll("[data-f]")];
+    // Hanya yang terlihat: tombol yang disembunyikan tema berukuran 0 di pojok kiri atas & bisa "menangkap" sorotan.
+    const items = [...scr.querySelectorAll("[data-f]")].filter((el) => el.offsetWidth > 0 || el.offsetHeight > 0);
     if (!cur) { focus(items[0]); return; }
     const r0 = cur.getBoundingClientRect(), c0 = { x: r0.left + r0.width / 2, y: r0.top + r0.height / 2 };
     let best = null, bestScore = Infinity;
@@ -2340,6 +2341,9 @@ html.app .screen, html.app .screen * { animation: none !important; }
       if (k === "up" && f.closest(".kaksi")) { focus($("#kRow .kt.on")); return true; }
       if (k === "up" && f.classList.contains("kc")) { focus($("#kTonton")); return true; }
       if (k === "down" && f.classList.contains("kt")) { focus($("#kTonton")); return true; }
+      // ▲ dari kotak grup → tombol atas (Playlist saya · Pengaturan); ▼ dari tombol atas → kotak grup yang aktif.
+      if (k === "up" && f.classList.contains("kt")) { const t = $("#s-dash .topbar [data-f]"); if (t) { focus(t); return true; } }
+      if (k === "down" && f.closest("#s-dash .topbar")) { focus($("#kRow .kt.on") || $("#kRow .kt")); return true; }
     }
     // ▶ dari tab terakhir: ke panel kanan (Bersihkan cache), bukan turun ke baris pertama.
     if (scr === "settings" && f && f.dataset.act === "settab" && k === "right" && !f.nextElementSibling) { focus($('#s-settings [data-act="clearcache"]')); return true; }
