@@ -19,9 +19,28 @@ A weekend project that turns a second-hand IndiHome **ZTE B860H V5** set-top box
 - Your own .m3u playlists (from a URL or file), as a new card or merged into a country — with **logos detected automatically** (`tvg-logo`, or matched by channel name) and a place in the **navbar**
 - **Bola (football)**: football channels gathered from your own playlists into one navbar group — no women's football, other sports, past matches or duplicates; live matches on top
 - **Ping & speed** in the info bar (e.g. *Ping 53 ms · 5.2 MB/s*, red when too slow), and a **"server is slow"** notice when a channel is stuck buffering for 15 s
+- **Tells you why** a channel is slow or fails, with a tip: far-away server on a busy international route, single-quality channel, slow home network, or the server refusing (403), gone (404), limiting viewers (429) or erroring (5xx) *(next release)*
+- **Settings in tabs** (Display · Playback · Channels) with a **RAM ring** (built-in RAM, TV ZT, other apps, free), data used by TV ZT, and **Clear cache** *(next release)*
 - **Language: English or Indonesian** (Settings → *Bahasa / Language*); English by default
 - **Time zone**: clock and programme guide follow your zone — Auto (device), WIB/WITA/WIT, Singapore, Tokyo, Makkah, Dubai, London, Berlin, New York, Los Angeles, Sydney or UTC
 - Tuned for a 2 GB box: lazy-loaded long lists, heavy animations disabled on-device, playback fully stopped on the dashboard
+
+## Themes (preview)
+
+A preview of the upcoming theme picker lives in [`mockup/tv-zt-tema.html`](mockup/tv-zt-tema.html) — open it in a browser and go to **Settings → Display**. It is not in the APK yet; it ships after it has been measured on a real 2 GB box.
+
+| Theme | Look | Estimated extra RAM |
+|---|---|---|
+| **Default** | Group cards with logos (as today) | ±5–10 MB |
+| **Konsol** | Console-style: a row of group tiles on top, a big background, channel cards below | ±10–15 MB |
+| **Streaming** | A large banner for the highlighted channel + scrollable channel rows | ±15–25 MB |
+| **Bioskop** | Streaming-app style: side menu, rotating banner, group tiles, channel rows | ±20–30 MB |
+| **Hemat** | No logos or decoration — the lightest | ±1–2 MB |
+
+- **Accent colour**: gold, blue, green, purple or red.
+- **TV name**: replace "TV ZT" in the top-left corner and on the splash screen with your own name.
+- **Theme background**: **Image** (default, ±0 MB) or **Live broadcast** — the highlighted channel plays behind the dashboard at max 360p (**±60–120 MB extra RAM, ±150–250 MB of data per hour**). Turning it on asks Yes/No first, and if the box starts stuttering (dropped frames, slow screen, or under 200 MB RAM free) TV ZT offers to switch back to Image; "No" waits 5 minutes before asking again.
+- In Konsol, Streaming and Bioskop, picking a group or channel goes **straight to full screen**; Back returns to the dashboard.
 
 ## Install (no root, no computer)
 
@@ -77,7 +96,7 @@ Open **[Issues → New issue](https://github.com/Trias1/tv-zt/issues/new/choose)
 | Folder | Contents |
 |---|---|
 | `tvzt/` | Android project (`MainActivity.java`: WebView, per-channel Referer/User-Agent, remote keys, native splash, signal checker) |
-| `mockup/` | TV ZT UI (`tv-zt.html`, opens in any browser) and data builders (`build_channels.py`, `categories.py`, `logo.py`) |
+| `mockup/` | TV ZT UI (`tv-zt.html`, opens in any browser; `tv-zt-tema.html` = theme preview) and data builders (`build_channels.py`, `categories.py`, `logo.py`) |
 | `iptv/` | Data scripts: `build_all.py` (all countries), `build_national.py` (Indonesian national TV), `audit.py` (deep check), `check_subtitles.py` (subtitles), `check_logos.py`, `update-playlist.ps1` |
 | `launcher-theme/` | cleanyourtv launcher theme `config.json` (the wallpaper photo is not included) |
 | `wallpaper/` | Script that builds a wallpaper from your own photo |
