@@ -353,6 +353,71 @@ public class MainActivity extends Activity {
             referer = ref == null ? "" : ref;
             userAgent = ua == null ? "" : ua;
         }
+
+        /* RAM, kuota & cache untuk Pengaturan → panel RAM (semua dalam byte).
+           appPss = proses aplikasi TV ZT (Debug.getPss, tanpa batas frekuensi). Proses render WebView berjalan
+           terpisah & terisolasi, jadi tidak bisa dibaca aplikasi; bagiannya ikut terhitung di "aplikasi lain & sistem". */
+        @JavascriptInterface
+        public String info() {
+            android.app.ActivityManager am = (android.app.ActivityManager) getSystemService(ACTIVITY_SERVICE);
+            android.app.ActivityManager.MemoryInfo mi = new android.app.ActivityManager.MemoryInfo();
+            am.getMemoryInfo(mi);
+            int uid = android.os.Process.myUid();
+            long rx = Math.max(0, android.net.TrafficStats.getUidRxBytes(uid));
+            long tx = Math.max(0, android.net.TrafficStats.getUidTxBytes(uid));
+            hitungCache(false);
+            return "{\"memTotal\":" + mi.totalMem + ",\"memAvail\":" + mi.availMem
+                    + ",\"appPss\":" + android.os.Debug.getPss() * 1024L
+                    + ",\"rx\":" + rx + ",\"tx\":" + tx + ",\"cache\":" + ukuranCache + "}";
+        }
+
+        /* Hapus cache HTTP WebView (logo, potongan playlist) + isi folder cache aplikasi, di latar belakang.
+           localStorage (pengaturan, playlist saya) ada di folder lain dan tidak disentuh.
+           Mengembalikan ukuran sebelum dibersihkan; angka baru dibaca JS lewat info() beberapa detik kemudian. */
+        @JavascriptInterface
+        public String bersihkanCache() {
+            long sebelum = ukuranCache;
+            runOnUiThread(() -> web.clearCache(true));
+            pemeriksa.execute(() -> {
+                File[] isi = getCacheDir().listFiles();
+                if (isi != null) for (File f : isi) if (!f.getName().equals("WebView")) hapus(f);  // folder WebView dibersihkan clearCache
+                try { Thread.sleep(1500); } catch (InterruptedException ignored) { }  // beri waktu clearCache selesai
+                hitungCache(true);
+            });
+            return String.valueOf(Math.max(0, sebelum));
+        }
+    }
+
+    /* Ukuran folder cache bisa ribuan file (logo): dihitung di thread lain & disimpan, paling sering tiap 30 dtk,
+       supaya info() (dipanggil tiap 3 dtk di Pengaturan) tidak menahan tampilan. -1 = belum dihitung. */
+    private volatile long ukuranCache = -1;
+    private volatile long cacheDihitung = 0;
+    private volatile boolean cacheJalan = false;
+
+    private void hitungCache(boolean paksa) {
+        long kini = System.currentTimeMillis();
+        if (cacheJalan || (!paksa && kini - cacheDihitung < 30000)) return;
+        cacheJalan = true;
+        pemeriksa.execute(() -> {
+            try { ukuranCache = ukuran(getCacheDir()); cacheDihitung = System.currentTimeMillis(); }
+            finally { cacheJalan = false; }
+        });
+    }
+
+    private static long ukuran(File f) {
+        if (f == null || !f.exists()) return 0;
+        if (f.isFile()) return f.length();
+        long n = 0;
+        File[] isi = f.listFiles();
+        if (isi != null) for (File c : isi) n += ukuran(c);
+        return n;
+    }
+
+    private static void hapus(File f) {
+        File[] isi = f.listFiles();
+        if (isi != null) for (File c : isi) hapus(c);
+        //noinspection ResultOfMethodCallIgnored
+        f.delete();
     }
 
     /* ---------------- siklus hidup ---------------- */

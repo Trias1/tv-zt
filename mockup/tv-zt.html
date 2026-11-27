@@ -149,7 +149,11 @@ body {
 .detail .cta kbd { font: 600 18px var(--f-mono); border: 1px solid var(--line); border-radius: 6px; padding: 2px 10px; color: var(--ink); }
 
 /* Pengaturan */
-.setwrap { position: absolute; left: 96px; top: 176px; bottom: 40px; width: 1072px; display: flex; flex-direction: column; gap: 12px;
+.settabs { position: absolute; left: 96px; top: 176px; width: 1072px; display: flex; gap: 12px; }
+.stab { padding: 12px 30px; border-radius: 999px; font: 600 26px var(--f-body); color: var(--ink-2); background: var(--panel); }
+.stab.on { background: var(--panel-2); color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); }
+.stab.on::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--focus); margin-right: 12px; vertical-align: middle; }
+.setwrap { position: absolute; left: 96px; top: 262px; bottom: 40px; width: 1072px; display: flex; flex-direction: column; gap: 12px;
   overflow: hidden; padding: 10px; margin: -10px; scroll-behavior: smooth; }
 .setwrap > * { flex: 0 0 auto; }
 .setrow { display: flex; align-items: center; gap: 24px; padding: 20px 32px; border-radius: 16px; background: var(--panel); }
@@ -159,7 +163,23 @@ body {
 .setrow .val .arr { color: var(--ink-3); font-weight: 400; }
 .setrow.focus .val .arr { color: var(--focus); }
 .setrow.ro .val { color: var(--ink-2); font: 500 22px var(--f-mono); }
-.setnote { position: absolute; left: 1240px; top: 530px; width: 584px; font-size: 22px; color: var(--ink-2); display: flex; flex-direction: column; gap: 10px; }
+/* RAM: lingkaran (donat) + keterangan */
+.ram .atas { display: flex; align-items: center; gap: 26px; }
+.ram .ring { position: relative; flex: 0 0 auto; width: 176px; height: 176px; }
+.ram .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ram .ring .pct { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.05; }
+.ram .ring .pct b { font: 700 42px var(--f-body); }
+.ram .ring .pct small { font: 500 18px var(--f-body); color: var(--ink-3); }
+.ram .lbl { font: 600 30px var(--f-body); }
+.ram .help { font-size: 19px; color: var(--ink-3); }
+.ram .leg { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; font: 500 21px var(--f-body); color: var(--ink-2); }
+.ram .leg span { display: flex; align-items: center; } .ram .leg b { margin-left: auto; }
+.ram .kuota { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 20px; color: var(--ink-2); }
+.ram .leg i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; margin-right: 8px; vertical-align: middle; }
+.ram .leg b { color: var(--ink); font-weight: 600; }
+.setside { position: absolute; left: 1240px; top: 176px; bottom: 40px; width: 584px; display: flex; flex-direction: column; gap: 16px; }
+.setram { padding: 26px 30px; border-radius: 18px; background: var(--panel); }
+.setnote { margin-top: auto; font-size: 20px; color: var(--ink-3); display: flex; flex-direction: column; gap: 8px; }
 .setnote b { color: var(--ink); }
 
 /* Remote virtual */
@@ -313,6 +333,8 @@ html.app [data-f] { cursor: none; }
 #bufLogo .lambat { max-width: 960px; text-align: center; background: rgba(10,18,32,.82); border: 2px solid var(--focus); border-radius: 18px; padding: 22px 34px; }
 #bufLogo .lambat .h { font: 700 32px var(--f-body); color: var(--focus); margin-bottom: 10px; }
 #bufLogo .lambat .p { font: 400 26px/1.45 var(--f-body); color: var(--ink); }
+#bufLogo .lambat .sebab { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.14); font-size: 24px; color: var(--ink); }
+#bufLogo .lambat .sebab b { color: var(--focus); }
 #bufLogo .lambat .netline { margin-top: 10px; font-family: var(--f-mono, monospace); font-size: 24px; color: var(--ink-2, #b8c2d6); }
 .net.ok, #lSpeed.ok { color: #3ddc84; } .net.pelan, #lSpeed.pelan { color: #ff6b6b; }
 .tv.buffer[data-screen="watch"] .toast.load { display: none !important; }
@@ -494,7 +516,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
 
   <div class="tvframe"><div class="stage" id="stage"><div class="tv" id="tv" data-screen="home">
     <video id="video" playsinline muted poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
-    <div id="bufLogo" aria-hidden="true"><img id="bufImg" alt=""><div class="ring"></div><div class="bn" id="bufName"></div><div class="lambat" id="bufLambat" hidden><div class="h">Server channel ini sedang lambat</div><div class="p"><span>Video belum masuk setelah</span> <b id="bufDetik">15</b> <span>detik.</span> <span>Biasanya hanya sementara: coba lagi nanti, atau tekan</span> <kbd>▲</kbd><kbd>▼</kbd> <span>untuk ganti channel.</span></div><div class="p netline"><span>Ping</span> <b id="lPing">—</b> · <span>kecepatan</span> <b id="lSpeed">—</b><span id="lNeedW" hidden>, video ini butuh</span> <b id="lNeed"></b></div></div></div>
+    <div id="bufLogo" aria-hidden="true"><img id="bufImg" alt=""><div class="ring"></div><div class="bn" id="bufName"></div><div class="lambat" id="bufLambat" hidden><div class="h">Server channel ini sedang lambat</div><div class="p"><span>Video belum masuk setelah</span> <b id="bufDetik">15</b> <span>detik.</span> <span>Biasanya hanya sementara: coba lagi nanti, atau tekan</span> <kbd>▲</kbd><kbd>▼</kbd> <span>untuk ganti channel.</span></div><div class="p netline"><span>Ping</span> <b id="lPing">—</b> · <span>kecepatan</span> <b id="lSpeed">—</b><span id="lNeedW" hidden>, video ini butuh</span> <b id="lNeed"></b></div><div class="p sebab" id="bufSebab"></div></div></div>
     <div id="subs" aria-live="polite"></div>
     <div id="scan" role="status" hidden></div>
 
@@ -595,10 +617,15 @@ html.app .screen, html.app .screen * { animation: none !important; }
     <!-- 4. Pengaturan -->
     <section class="screen" id="s-settings" aria-label="Pengaturan">
       <div class="topbar"><div class="logo">Pengaturan</div><div class="clock" id="clock2"></div></div>
+      <div class="settabs" id="settabs"></div>
       <div class="setwrap" id="setwrap"></div>
-      <div class="setnote">
-        <div><b>Semua gratis.</b> Tidak ada pilihan yang dikunci versi Premium.</div>
-        <div>Kiri/kanan mengganti nilai. Back kembali ke beranda.</div>
+      <div class="setside">
+        <div class="setram ram" id="ramRow"></div>
+        <div class="setrow" data-f data-act="clearcache"><div><div class="lbl">Bersihkan cache</div><div class="help">Logo &amp; data sementara · tidak menambah sisa RAM</div></div><div class="val" id="cacheVal"></div></div>
+        <div class="setnote">
+          <div><b>Semua gratis.</b> Tidak ada pilihan yang dikunci versi Premium.</div>
+          <div>Kiri/kanan mengganti nilai. Back kembali ke beranda.</div>
+        </div>
       </div>
     </section>
   </div></div></div>
@@ -704,7 +731,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
   const LOC = BAHASA === "en" ? "en-US" : "id-ID";
   document.documentElement.lang = BAHASA;
   const EN_PAS = {
-    "Memuat channel…": "Loading channels…", "Bola": "Football", "satu kualitas": "single quality", "sepak bola dari playlist saya": "football from my playlists", "memuat playlist…": "loading playlist…", "Muat file .m3u lain": "Load another .m3u file", "Server channel ini sedang lambat": "This channel's server is slow right now", "Video belum masuk setelah": "No video has arrived after", "detik.": "seconds.", "kecepatan": "speed", ", video ini butuh": ", this video needs", "Biasanya hanya sementara: coba lagi nanti, atau tekan": "It's usually temporary: try again later, or press", "untuk ganti channel.": "to change channel.",
+    "Memuat channel…": "Loading channels…", "Bola": "Football", "Tampilan": "Display", "Pemutaran": "Playback", "Logo & data sementara · tidak menambah sisa RAM": "Logos & temporary data · does not free RAM", "Bersihkan cache": "Clear cache", "Hapus logo & data sementara yang tersimpan · berguna kalau logo atau tampilan error · tidak menambah sisa RAM": "Delete saved logos & temporary data · useful when logos or screens look broken · does not free RAM", "satu kualitas": "single quality", "sepak bola dari playlist saya": "football from my playlists", "memuat playlist…": "loading playlist…", "Muat file .m3u lain": "Load another .m3u file", "Server channel ini sedang lambat": "This channel's server is slow right now", "Video belum masuk setelah": "No video has arrived after", "detik.": "seconds.", "kecepatan": "speed", ", video ini butuh": ", this video needs", "Biasanya hanya sementara: coba lagi nanti, atau tekan": "It's usually temporary: try again later, or press", "untuk ganti channel.": "to change channel.",
     "Terakhir ditonton": "Recently watched", "Channel": "Channels", "Kualitas": "Quality", "daftar channel": "channel list",
     "Semua negara": "All countries", "Playlist saya": "My playlists", "+ Tambah dari link": "+ Add from link", "+ Tambah dari file": "+ Add from file",
     "Pengaturan": "Settings", "Semua gratis.": "Everything is free.", "Tidak ada pilihan yang dikunci versi Premium.": "Nothing is locked behind a Premium version.",
@@ -969,8 +996,8 @@ html.app .screen, html.app .screen * { animation: none !important; }
   }
   function fail(c, why, code) {
     const ref = window.Android ? "" : c.referer ? "Channel ini butuh header Referer/User-Agent khusus yang tidak bisa dikirim browser. Di aplikasi TV nanti header ini dikirim." : "";
-    const net = window.Android ? "Server channel ini sedang menolak atau mati. Coba lagi nanti, atau perbarui playlist."
-      : !ref ? "Kemungkinan server menolak browser (CORS) atau koneksi lewat VPN/IP luar negeri. Di box TV bisa berbeda." : "";
+    const net = window.Android ? sebabGagal(why, code)
+      : !ref ? sebabGagal(why, code) + " · " + L2("di browser bisa juga karena CORS; di box TV bisa berbeda", "in a browser it can also be CORS; on the TV box it may differ") : "";
     setState("gagal");
     showToast("err", c, `${why}${code ? " · HTTP " + code : ""}`, ref || net);
     log(`[${c.no} ${c.name}] ${why}${code ? " HTTP " + code : ""} — ${c.url}`);
@@ -1029,7 +1056,32 @@ html.app .screen, html.app .screen * { animation: none !important; }
     if (!$("#bufLambat").hidden) {
       $("#lPing").textContent = ping; $("#lSpeed").textContent = cepat || "—"; $("#lSpeed").className = kelas;
       $("#lNeedW").hidden = !butuh; $("#lNeed").textContent = butuh ? "±" + fmtKB(butuh) : "";
+      const [sebab, saran] = sebabLambat(butuh), h = `<b>${esc(sebab)}</b> · ${esc(saran)}`;
+      if ($("#bufSebab").dataset.h !== h) { $("#bufSebab").innerHTML = h; $("#bufSebab").dataset.h = h; }
     }
+  }
+  /* Penyebab channel lambat, ditebak dari ping (jarak server), kecepatan & kebutuhan video. Teks langsung per bahasa. */
+  const L2 = (id, en) => (BAHASA === "en" ? en : id);
+  function sebabLambat(butuh) {
+    const ping = NET.ping.length ? Math.min(...NET.ping) : 0, kbs = NET.ukur ? NET.kbs : 0, perlu = butuh || 100 * 1024;
+    const satu = hls && hls.levels && hls.levels.length === 1;
+    if (!ping && !NET.ukur) return [L2("Server channel belum menjawab", "The channel's server isn't answering"), L2("link mungkin sedang mati · coba channel lain atau Cari sinyal", "the link may be down · try another channel or Scan channel signals")];
+    if (NET.ukur && kbs < 1024) return [L2("Server tidak mengirim video sama sekali", "The server isn't sending any video"), L2("biasanya server sedang penuh atau bermasalah · coba lagi nanti", "it's usually overloaded or broken · try again later")];
+    if (ping >= 170 && kbs < perlu) return [L2(`Servernya jauh (ping ${Math.round(ping)} ms, kemungkinan Eropa/Amerika) & jalur internet ke luar negeri sedang padat`, `The server is far away (ping ${Math.round(ping)} ms, likely Europe/America) and the international route is congested`),
+      L2("paling padat jam 19.00–23.00 · biasanya lancar lagi pagi–sore", "busiest 7–11 pm · usually smooth again in the morning/afternoon")];
+    if (satu && perlu >= 250 * 1024 && kbs < perlu) return [L2(`Channel ini hanya punya 1 kualitas (butuh ±${fmtKB(perlu)})`, `This channel has only one quality (needs ±${fmtKB(perlu)})`), L2("kualitas tidak bisa diturunkan · tunggu sebentar atau ganti channel", "quality can't be lowered · wait a bit or change channel")];
+    if (ping && ping < 80 && kbs < perlu) return [L2("Server dekat, tapi kiriman videonya lambat", "The server is close, but video arrives slowly"), L2("cek WiFi/internet rumah, atau servernya sedang penuh", "check the home Wi-Fi/internet, or the server is busy")];
+    return [L2("Kiriman video dari server lebih lambat dari kebutuhan", "Video arrives slower than the channel needs"), L2("biasanya hanya sementara · coba lagi nanti atau ganti channel", "usually temporary · try again later or change channel")];
+  }
+  /* Penyebab channel gagal diputar, dari jenis error & kode HTTP. */
+  function sebabGagal(why, code) {
+    if (code === 401 || code === 403) return L2("Server menolak akses · biasanya channel dikunci untuk negara tertentu, butuh izin, atau linknya sudah kedaluwarsa", "The server refuses access · usually locked to certain countries, needs permission, or the link expired");
+    if (code === 404 || code === 410) return L2("Link channel sudah tidak ada · coba Cari sinyal channel atau perbarui playlist", "The channel link no longer exists · try Scan channel signals or update the playlist");
+    if (code === 429) return L2("Server membatasi penonton (terlalu banyak permintaan) · coba lagi beberapa menit lagi", "The server is limiting viewers (too many requests) · try again in a few minutes");
+    if (code >= 500) return L2("Server channel sedang error · coba lagi nanti", "The channel's server has an error · try again later");
+    if (/parsing/i.test(why)) return L2("Link ini bukan siaran video yang bisa diputar", "This link isn't a playable video stream");
+    if (/timeout|TimeOut/i.test(why)) return L2("Server terlalu lama menjawab · mungkin mati, penuh, atau jauh sekali", "The server took too long to answer · it may be down, busy or very far away");
+    return L2("Server tidak bisa dihubungi · mati, diblokir jaringan, atau pindah alamat", "The server can't be reached · down, blocked by the network, or moved");
   }
   /* Server lambat: kalau video belum jalan 15 detik sejak mulai menyambung/buffering, beri tahu penyebabnya
      (mis. Music Box Hits: daftar video terbuka, tapi potongan videonya hanya terkirim beberapa KB/detik). */
@@ -1358,14 +1410,75 @@ html.app .screen, html.app .screen * { animation: none !important; }
       `<div class="ccard${i === S.cur ? " playing" : ""}" data-f data-act="play" data-cc="${S.cc}" data-i="${i}" style="--hue:${hue(x.name)}"><span class="n">${x.no}</span>${subTag(x, grp.code)}${logoTag(x, grp.code)}<div class="t">${esc(x.name)}</div><div class="s">${i === S.cur ? "● sedang diputar" : x.part ? "tidak 24 jam" : esc(kini(x, grp.code)) || "siaran langsung"}</div></div>`).join("")
       + `<div class="kcard all" data-f data-act="chgrid"><span class="code">${grp.channels.length}</span><div class="t">Semua channel</div><div class="s">${esc(grp.name)}</div></div>`;
     if (S.screen === "list") renderList();
-    $("#setwrap").innerHTML = Object.entries(OPTS).map(([k, o]) =>
-      `<div class="setrow" data-f data-act="opt" data-k="${k}"><div><div class="lbl">${o.label}</div><div class="help">${o.help}</div></div><div class="val"><span class="arr">◀</span>${o.vals[S.set[k]]}<span class="arr">▶</span></div></div>`).join("")
-      + `<div class="setrow" data-f data-act="sinyal"><div><div class="lbl">Cari sinyal channel</div><div class="help">Pilih kelompok (Indonesia, luar negeri, kategori) lalu cek ulang · yang mati disembunyikan, yang hidup lagi dimunculkan</div></div><div class="val">Pilih ▶</div></div>`
-      + `<div class="setrow" data-f data-act="playlists"><div><div class="lbl">Playlist saya</div><div class="help">Tambah playlist .m3u dari link atau file, jadi kartu baru atau digabung ke negara</div></div><div class="val">${PL.length} playlist<span class="arr">▶</span></div></div>`
-      + (Object.keys(GAGAL).length ? `<div class="setrow" data-f data-act="unhide"><div><div class="lbl">Pulihkan channel tersembunyi</div><div class="help">Tampilkan lagi channel yang tadi gagal diputar</div></div><div class="val">${Object.keys(GAGAL).length} channel</div></div>` : "")
-      ;  // baris info "Playlist · id-national.m3u" disembunyikan (permintaan)
+    renderSet();
     detail();
   }
+  /* Pengaturan dikelompokkan jadi tab (Tampilan / Pemutaran / Channel); RAM & cache di panel kanan. */
+  const SET_TAB = [["tampilan", "Tampilan", ["lang", "tz"]], ["pemutaran", "Pemutaran", ["buffer", "quality", "resume", "subs"]], ["channel", "Channel", ["failShow", "showOff"]]];
+  function renderSet() {
+    if (!SET_TAB.some((t) => t[0] === S.setTab)) S.setTab = SET_TAB[0][0];
+    const fokus = $("#s-settings .focus"), kunciF = fokus && (fokus.dataset.k || fokus.dataset.t || fokus.dataset.act);
+    $("#settabs").innerHTML = SET_TAB.map(([id, nama]) => `<div class="stab${id === S.setTab ? " on" : ""}" data-f data-act="settab" data-t="${id}">${nama}</div>`).join("");
+    const tab = SET_TAB.find((t) => t[0] === S.setTab);
+    $("#setwrap").innerHTML = tab[2].map((k) => { const o = OPTS[k];
+      return `<div class="setrow" data-f data-act="opt" data-k="${k}"><div><div class="lbl">${o.label}</div><div class="help">${o.help}</div></div><div class="val"><span class="arr">◀</span>${o.vals[S.set[k]]}<span class="arr">▶</span></div></div>`; }).join("")
+      + (S.setTab !== "channel" ? "" :
+        `<div class="setrow" data-f data-act="sinyal"><div><div class="lbl">Cari sinyal channel</div><div class="help">Pilih kelompok (Indonesia, luar negeri, kategori) lalu cek ulang · yang mati disembunyikan, yang hidup lagi dimunculkan</div></div><div class="val">Pilih ▶</div></div>`
+        + `<div class="setrow" data-f data-act="playlists"><div><div class="lbl">Playlist saya</div><div class="help">Tambah playlist .m3u dari link atau file, jadi kartu baru atau digabung ke negara</div></div><div class="val">${PL.length} playlist<span class="arr">▶</span></div></div>`
+        + (Object.keys(GAGAL).length ? `<div class="setrow" data-f data-act="unhide"><div><div class="lbl">Pulihkan channel tersembunyi</div><div class="help">Tampilkan lagi channel yang tadi gagal diputar</div></div><div class="val">${Object.keys(GAGAL).length} channel</div></div>` : ""));
+    if (S.screen === "settings") perbaruiRam();  // render() juga jalan saat ganti channel: jangan baca RAM di luar Pengaturan
+    // render() bisa terpanggil saat Pengaturan terbuka: kembalikan sorotan ke tombol/baris yang sama.
+    if (S.screen === "settings" && kunciF && !$("#s-settings .focus"))
+      focus($(`#s-settings [data-k="${kunciF}"], #s-settings [data-t="${kunciF}"], #s-settings [data-act="${kunciF}"]`));
+  }
+  // Pindah tab cukup dengan menyorotnya (seperti Pengaturan Android TV); daftar di bawahnya langsung berganti.
+  function pilihTab(t) { if (S.setTab === t) return; S.setTab = t; renderSet(); focus($(`#settabs [data-t="${t}"]`)); }
+
+  /* RAM & kuota (Pengaturan): dari Android lewat Android.info() → {memTotal, memAvail, appPss, rx, tx, cache} dalam byte.
+     Di browser tidak ada datanya, jadi dipakai angka contoh supaya tampilannya bisa dilihat. */
+  const fmtMB = (b) => b >= 1024 ** 3 ? (b / 1024 ** 3).toLocaleString(LOC, { maximumFractionDigits: 1 }) + " GB" : Math.round(b / 1024 ** 2).toLocaleString(LOC) + " MB";
+  function infoData() {
+    if (window.Android && Android.info) { try { return { ...JSON.parse(Android.info()), contoh: false }; } catch { return null; } }
+    if (window.Android) return { lama: true };
+    return { memTotal: 1.9 * 1024 ** 3, memAvail: 620 * 1024 ** 2, appPss: 182 * 1024 ** 2, rx: 1.3 * 1024 ** 3, tx: 42 * 1024 ** 2, cache: 48 * 1024 ** 2, contoh: true };
+  }
+  // Kapasitas bawaan = ukuran RAM standar terdekat di atas yang terbaca (Android menyisihkan sebagian untuk sistem: 1,9 GB → 2 GB).
+  const ramBawaan = (b) => { const gb = b / 1024 ** 3; return [0.5, 1, 1.5, 2, 3, 4, 6, 8, 12, 16, 24, 32].find((x) => x >= gb - 0.01) || Math.ceil(gb); };
+  function ramHtml(d) {
+    const en = BAHASA === "en";
+    if (!d || d.lama) return `<div><div class="lbl">${en ? "RAM & data" : "RAM &amp; kuota"}</div><div class="help">${d ? (en ? "This app version can't read RAM yet · update TV ZT" : "Versi aplikasi ini belum bisa membaca RAM · perbarui TV ZT") : (en ? "Couldn't read device info" : "Gagal membaca info perangkat")}</div></div>`;
+    const pakai = d.memTotal - d.memAvail, app = Math.min(d.appPss, pakai), lain = pakai - app;
+    const R = 52, K = 2 * Math.PI * R, pct = Math.round(pakai / d.memTotal * 100);
+    const seg = (n, off, warna) => `<circle cx="66" cy="66" r="${R}" fill="none" stroke="${warna}" stroke-width="16" stroke-dasharray="${(n / d.memTotal * K).toFixed(1)} ${K.toFixed(1)}" stroke-dashoffset="${(-off / d.memTotal * K).toFixed(1)}"/>`;
+    const ring = `<div class="ring"><svg viewBox="0 0 132 132"><circle cx="66" cy="66" r="${R}" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="16"/>${seg(lain, 0, "#5b8def")}${seg(app, lain, "var(--focus)")}</svg>`
+      + `<div class="pct"><b>${pct}%</b><small>${en ? "used" : "terpakai"}</small></div></div>`;
+    const t = en
+      ? { lbl: `RAM · ${ramBawaan(d.memTotal)} GB built in`, sub: `Android sees ${fmtMB(d.memTotal)}`, a: "TV ZT", b: "Other apps & system", c: "Free", k: `TV ZT data since the box was turned on: <b>${fmtMB(d.rx + d.tx)}</b>`, x: " · example, real numbers on the box only" }
+      : { lbl: `RAM · bawaan ${ramBawaan(d.memTotal).toLocaleString(LOC)} GB`, sub: `terbaca Android ${fmtMB(d.memTotal)}`, a: "TV ZT", b: "Aplikasi lain & sistem", c: "Sisa", k: `Kuota TV ZT sejak box menyala: <b>${fmtMB(d.rx + d.tx)}</b>`, x: " · contoh, angka asli hanya di box" };
+    return `<div class="atas">${ring}<div><div class="lbl">${t.lbl}</div><div class="help">${t.sub}${d.contoh ? t.x : ""}</div></div></div>`
+      + `<div class="leg"><span><i style="background:var(--focus)"></i>${t.a} <b>${fmtMB(app)}</b></span><span><i style="background:#5b8def"></i>${t.b} <b>${fmtMB(lain)}</b></span><span><i style="background:rgba(255,255,255,.25)"></i>${t.c} <b>${fmtMB(d.memAvail)}</b></span></div>`
+      + `<div class="kuota">${t.k}</div>`;
+  }
+  const cacheTeks = (d) => d && d.cache != null && d.cache >= 0 ? fmtMB(d.cache) : "—";
+  // Satu kali baca Android.info() untuk lingkaran RAM & ukuran cache (dulu dua kali per putaran).
+  function perbaruiRam() {
+    if (!$("#ramRow")) return;
+    const d = infoData(), h = ramHtml(d);
+    if ($("#ramRow").dataset.h !== h) { $("#ramRow").innerHTML = h; $("#ramRow").dataset.h = h; }  // browser menormalkan innerHTML, jadi bandingkan dengan teks asal
+    const c = cacheTeks(d); if ($("#cacheVal").textContent !== c) $("#cacheVal").textContent = c;
+  }
+  function bersihkanCache() {
+    if (window.Android && Android.bersihkanCache) {
+      // Pembersihan berjalan di latar Java; angka baru dibaca lagi setelah selesai.
+      const sebelum = +Android.bersihkanCache() || 0;
+      log(`Membersihkan cache ±${fmtMB(sebelum)}…`); $("#cacheVal").textContent = "…";
+      setTimeout(() => { perbaruiRam(); log(`Cache dibersihkan · sekarang ${$("#cacheVal").textContent}`); }, 2500);
+    } else log(window.Android ? "Versi aplikasi ini belum bisa membersihkan cache · perbarui TV ZT" : "Di box: cache TV ZT akan dibersihkan (di browser hanya contoh)");
+  }
+  // Diperbarui tiap 3 detik selama layar Pengaturan terbuka (isi baris diganti, baris & fokus remote tetap).
+  // Teks langsung per bahasa (bukan lewat lapisan terjemahan) karena angkanya berubah terus.
+  setInterval(() => { if (S.screen === "settings") perbaruiRam(); }, 3000);
+
   /* Navbar beranda: Indonesia + kategori + Luar negeri; yang aktif = kelompok yang sedang diputar. */
   const LABEL = { ID: "Indonesia", IV: "Pilihan", ISLAM: "Islam", SUB: "Sub Indo", ANIME: "Anime", ANAK: "Anak", FILM: "Film", BERITA: "Berita", MUSIK: "Musik", SANTAI: "Lofi" };
   function renderNav() {
@@ -1597,7 +1710,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
     if (screen === "dash") { renderDash(); berhenti(); f = $("#dgrid .dtile"); }
     // Lanjutkan video setelah animasi layar selesai, supaya dekoder video tidak berebut tenaga dengan animasi.
     else if (video.paused && live.length) setTimeout(() => { if (S.screen !== "dash" && video.paused) video.play().catch(() => {}); }, 380);
-    if (screen === "settings") f = $("#setwrap [data-f]");
+    if (screen === "settings") f = $("#settabs .on") || $("#setwrap [data-f]");
     focus(f || scr.querySelector("[data-f]"));
     if (screen === "watch") showOsd();
   }
@@ -1614,6 +1727,7 @@ html.app .screen, html.app .screen * { animation: none !important; }
     document.querySelectorAll(".tv .focus").forEach((x) => x.classList.remove("focus"));
     if (!el) return;
     el.classList.add("focus");
+    if (el.dataset.act === "settab" && el.dataset.t !== S.setTab) { pilihTab(el.dataset.t); return; }
     const box = el.closest(".strip, .chlist, .cgrid, .chgrid, .rtabs, .setwrap, .dgrid, .navbar");  // navbar: geser kalau playlist saya membuatnya lebih lebar dari layar
     if (box) {
       dekatUjung(box, el);
@@ -1692,6 +1806,8 @@ html.app .screen, html.app .screen * { animation: none !important; }
     else if (a === "off") log("Channel ini sedang tidak tersedia di playlist.");
     else if (a === "opt") changeOpt(el.dataset.k, 1);
     else if (a === "sinyal") { bukaPilihSinyal(); }
+    else if (a === "clearcache") bersihkanCache();
+    else if (a === "settab") { focus($("#setwrap [data-f]")); }
     else if (a === "unhide") { for (const u in GAGAL) delete GAGAL[u]; store.set("gagal", GAGAL); log("Channel tersembunyi ditampilkan lagi"); render(); focus($('#setwrap [data-k="failShow"]')); }
   }
   function changeOpt(k, d) {
@@ -1729,6 +1845,8 @@ html.app .screen, html.app .screen * { animation: none !important; }
       return true;
     }
     if (scr === "settings" && f && f.dataset.act === "opt" && (k === "left" || k === "right")) { changeOpt(f.dataset.k, k === "left" ? -1 : 1); return true; }
+    // ▶ dari tab terakhir: ke panel kanan (Bersihkan cache), bukan turun ke baris pertama.
+    if (scr === "settings" && f && f.dataset.act === "settab" && k === "right" && !f.nextElementSibling) { focus($('#s-settings [data-act="clearcache"]')); return true; }
     if (scr === "playlists") {
       const fe = $("#s-playlists .focus");
       if (document.activeElement && document.activeElement.tagName === "INPUT" && (k === "ok" || k === "back")) {
