@@ -1122,8 +1122,8 @@ html.app .screen, html.app .screen * { animation: none !important; }
       const catatPing = (_, d) => { const l = d.stats && d.stats.loading; if (l && l.first > l.start) NET.ping = [...NET.ping, l.first - l.start].slice(-6); };
       hls.on(Hls.Events.MANIFEST_LOADED, catatPing); hls.on(Hls.Events.LEVEL_LOADED, catatPing);
       // Kebutuhan sebenarnya = ukuran potongan video / durasinya (untuk playlist yang tidak mencantumkan bitrate, mis. Music Box Hits ±48 KB/s).
-      hls.on(Hls.Events.FRAG_LOADED, (_, d) => { const f = d.frag; if (f && f.type === "main" && f.duration > 0 && f.stats && f.stats.loaded)
-        NET.butuh = [...NET.butuh, f.stats.loaded / f.duration].slice(-5); });
+      hls.on(Hls.Events.FRAG_LOADED, (_, d) => { const f = d.frag; if (f && f.stats && f.stats.loaded) UNDUH.video += f.stats.loaded;
+        if (f && f.type === "main" && f.duration > 0 && f.stats && f.stats.loaded) NET.butuh = [...NET.butuh, f.stats.loaded / f.duration].slice(-5); });
       hls.on(Hls.Events.MANIFEST_PARSED, () => { capQuality(); if (S.screen !== "dash") video.play().catch(() => {}); });
       hls.on(Hls.Events.ERROR, (_, d) => {
         if (!d.fatal) { if (d.details === "bufferStalledError") setState("buffering…"); return; }
@@ -1872,9 +1872,24 @@ html.app .screen, html.app .screen * { animation: none !important; }
   /* RAM & kuota (Pengaturan): dari Android lewat Android.info() → {memTotal, memAvail, appPss, rx, tx, cache} dalam byte.
      Di browser tidak ada datanya, jadi dipakai angka contoh supaya tampilannya bisa dilihat. */
   const fmtMB = (b) => b >= 1024 ** 3 ? (b / 1024 ** 3).toLocaleString(LOC, { maximumFractionDigits: 1 }) + " GB" : Math.round(b / 1024 ** 2).toLocaleString(LOC) + " MB";
+  /* Di browser laptop: RAM laptop asli dari tools/mockup-server.py (/api/ram), memori JS halaman ini,
+     data yang diunduh halaman (termasuk potongan video) & penyimpanan situs. Tanpa server itu: angka contoh. */
+  var UNDUH = { video: 0 };  // var: dipakai hls sebelum baris ini mungkin dijalankan
+  const LAPTOP = { ram: null, cache: -1 };
+  function bacaLaptop() {
+    if (window.Android) return;
+    fetch("api/ram", { cache: "no-store" }).then((r) => (r.ok ? r.json() : null)).then((j) => { LAPTOP.ram = j && j.memTotal ? j : null; }).catch(() => { LAPTOP.ram = null; });
+    if (navigator.storage && navigator.storage.estimate) navigator.storage.estimate().then((e) => { LAPTOP.cache = e.usage || 0; }).catch(() => {});
+  }
+  bacaLaptop(); setInterval(() => { if (S.screen === "settings") bacaLaptop(); }, 3000);
   function infoData() {
     if (window.Android && Android.info) { try { return { ...JSON.parse(Android.info()), contoh: false }; } catch { return null; } }
     if (window.Android) return { lama: true };
+    if (LAPTOP.ram) {
+      const halaman = performance.getEntriesByType("navigation").concat(performance.getEntriesByType("resource")).reduce((a, e) => a + (e.transferSize || 0), 0);
+      return { memTotal: LAPTOP.ram.memTotal, memAvail: LAPTOP.ram.memAvail, appPss: performance.memory ? performance.memory.usedJSHeapSize : 0,
+        rx: halaman + UNDUH.video, tx: 0, cache: LAPTOP.cache, laptop: true };
+    }
     return { memTotal: 1.9 * 1024 ** 3, memAvail: 620 * 1024 ** 2, appPss: 182 * 1024 ** 2, rx: 1.3 * 1024 ** 3, tx: 42 * 1024 ** 2, cache: 48 * 1024 ** 2, contoh: true };
   }
   // Kapasitas bawaan = ukuran RAM standar terdekat di atas yang terbaca (Android menyisihkan sebagian untuk sistem: 1,9 GB → 2 GB).
@@ -1887,7 +1902,10 @@ html.app .screen, html.app .screen * { animation: none !important; }
     const seg = (n, off, warna) => `<circle cx="66" cy="66" r="${R}" fill="none" stroke="${warna}" stroke-width="16" stroke-dasharray="${(n / d.memTotal * K).toFixed(1)} ${K.toFixed(1)}" stroke-dashoffset="${(-off / d.memTotal * K).toFixed(1)}"/>`;
     const ring = `<div class="ring"><svg viewBox="0 0 132 132"><circle cx="66" cy="66" r="${R}" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="16"/>${seg(lain, 0, "#5b8def")}${seg(app, lain, "var(--focus)")}</svg>`
       + `<div class="pct"><b>${pct}%</b><small>${en ? "used" : "terpakai"}</small></div></div>`;
-    const t = en
+    const t = d.laptop ? (en
+      ? { lbl: `Laptop RAM · ${ramBawaan(d.memTotal)} GB`, sub: `Read from this laptop via the mockup server · on the box: the box's RAM`, a: "TV ZT (this page)", b: "Other apps & system", c: "Free", k: `Data downloaded by this page since it opened: <b>${fmtMB(d.rx + d.tx)}</b>`, x: "" }
+      : { lbl: `RAM laptop · ${ramBawaan(d.memTotal).toLocaleString(LOC)} GB`, sub: `dibaca dari laptop lewat server mockup · di box: RAM box`, a: "TV ZT (halaman ini)", b: "Aplikasi lain & sistem", c: "Sisa", k: `Data diunduh halaman ini sejak dibuka: <b>${fmtMB(d.rx + d.tx)}</b>`, x: "" })
+      : en
       ? { lbl: `RAM · ${ramBawaan(d.memTotal)} GB built in`, sub: `Android sees ${fmtMB(d.memTotal)}`, a: "TV ZT", b: "Other apps & system", c: "Free", k: `TV ZT data since the box was turned on: <b>${fmtMB(d.rx + d.tx)}</b>`, x: " · example, real numbers on the box only" }
       : { lbl: `RAM · bawaan ${ramBawaan(d.memTotal).toLocaleString(LOC)} GB`, sub: `terbaca Android ${fmtMB(d.memTotal)}`, a: "TV ZT", b: "Aplikasi lain & sistem", c: "Sisa", k: `Kuota TV ZT sejak box menyala: <b>${fmtMB(d.rx + d.tx)}</b>`, x: " · contoh, angka asli hanya di box" };
     return `<div class="atas">${ring}<div><div class="lbl">${t.lbl}</div><div class="help">${t.sub}${d.contoh ? t.x : ""}</div></div></div>`
